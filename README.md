@@ -1,59 +1,168 @@
-# Frontend
+# SimpleCRM Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.0.
+**SimpleCRM Frontend** es la **aplicación web** del ecosistema **SimpleCRM**, construida con **Angular 20** y **Tailwind CSS 4**, que consume los microservicios a través del **SimpleCRM Gateway**.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Funcionalidades principales
 
-```bash
-ng serve
+- UI SPA con **Angular 20** (standalone, signals-ready).
+- Estilos con **Tailwind CSS v4** (sin PostCSS manual).
+- Gestión de clientes, contactos, oportunidades (módulos CRM).
+- Integración con **Microsoft Entra ID** (via Gateway).
+- Configuración por **ambientes** (`environment.ts` / variables).
+- Preparado para **Docker** y despliegues en contenedor.
+
+---
+
+## 📂 Estructura del proyecto
+
+```text
+simplecrm-frontend/
+├─ src/
+│  ├─ app/
+│  │  ├─ features/        # páginas/modulos (CRM, etc.)
+│  │  ├─ shared/          # componentes/servicios compartidos
+│  │  └─ core/            # http, interceptores, auth guards
+│  ├─ assets/
+│  ├─ environments/
+│  │  ├─ environment.ts
+│  │  └─ environment.development.ts
+│  └─ styles.css          # punto de entrada Tailwind
+├─ angular.json
+├─ package.json
+├─ Dockerfile
+└─ README.md
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## ⚙️ Requisitos previos
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Node.js 20+ (recomendado LTS)
+- npm 10+
+- Angular CLI global: npm i -g @angular/cli
+- Backend accesible vía SimpleCRM Gateway (URLs en variables de entorno)
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## ▶️ Ejecución en desarrollo
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### 1. Clona este repositorio
 
 ```bash
-ng build
+git clone git@github.com:JonathanNavarroV/simplecrm-frontend.git
+cd simplecrm-frontend
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### 2. Instala dependencias
 
 ```bash
-ng test
+npm install
 ```
 
-## Running end-to-end tests
+### 3. Configura los ambientes
 
-For end-to-end (e2e) testing, run:
+Edita `src/environments/environment.development.ts` y `src/environments/environment.ts`:
+
+```ts
+// src/environments/environment.development.ts
+export const environment = {
+  production: false,
+  gatewayBaseUrl: 'http://localhost:5000', // URL del SimpleCRM Gateway (dev)
+  crmApiBase: '/crm', // prefijo en el gateway para CRM
+  authApiBase: '/auth', // prefijo en el gateway para Auth
+  // Opcional: scopes/audience si el front los necesita
+  // audience: 'api://simplecrm-gateway',
+};
+```
+
+```ts
+// src/environments/environment.ts
+export const environment = {
+  production: true,
+  gatewayBaseUrl: 'https://<tu-dominio-gateway>', // URL en prod
+  crmApiBase: '/crm',
+  authApiBase: '/auth',
+  // audience: 'api://simplecrm-gateway',
+};
+```
+
+> Si el gateway requiere token, asegúrate de que el front lo obtenga (por ejemplo, usando MSAL a través del gateway o un flujo manejado por el backend).
+
+### 4. Ejecuta en modo desarrollo
 
 ```bash
-ng e2e
+npm run start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+La app quedará disponible (por defecto) en http://localhost:4200/.
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🎨 Tailwind CSS 4
+
+El proyecto usa Tailwind 4 (gestión automática). El punto de entrada está en src/styles.css:
+
+```css
+@import 'tailwindcss';
+```
+
+Clases utilitarias disponibles en componentes y templates HTML.
+
+> Si el diseño no aparece, verifica que styles.css esté referenciado en angular.json y que no existan configuraciones previas de PostCSS que interfieran.
+
+---
+
+## 🔐 Autenticación (Entra ID via Gateway)
+
+La validación de tokens se realiza en el Gateway. Este frontend:
+
+- Adjunta credenciales (por ejemplo, `Authorization: Bearer ...`) cuando corresponda.
+- Consume APIs a través de `gatewayBaseUrl + crmApiBase` / `authApiBase`.
+
+  > Implementación concreta (MSAL/interceptor) depende de tu flujo; se documentará en una sección propia cuando lo integremos.
+
+---
+
+## 🐳 Ejecución con Docker
+
+Construir y ejecutar la imagen
+
+```bash
+docker build -t simplecrm-frontend .
+docker run -p 4200:80 \
+  -e NG_ENV_GATEWAY_BASE_URL=http://host.docker.internal:5000 \
+  -e NG_ENV_CRM_API_BASE=/crm \
+  -e NG_ENV_AUTH_API_BASE=/auth \
+  simplecrm-frontend
+```
+
+> El Dockerfile está preparado para un build de producción y un Nginx minimal. Las variables `NG_ENV_*` pueden inyectarse en tiempo de arranque (entrypoint sobrescribe `environment.*` o expone un `config.json`). Ajustaremos esto según tu preferencia (config JSON vs. variables).
+
+---
+
+## 🔗 Repositorios relacionados
+
+- [simplecrm-gateway](https://github.com/JonathanNavarroV/simplecrm-gateway)
+- [simplecrm-auth-service](https://github.com/JonathanNavarroV/simplecrm-auth-service)
+- [simplecrm-crm-service](https://github.com/JonathanNavarroV/simplecrm-crm-service)
+
+---
+
+## 🧪 Scripts útiles
+
+```bash
+npm run start       # ng serve
+npm run build       # build producción
+npm run lint        # lint
+npm run test        # unit tests
+```
+
+> Ver `package.json` para el listado completo.
+
+---
+
+## ✨ Autor
+
+[Jonathan Navarro](https://github.com/JonathanNavarroV)
