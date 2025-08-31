@@ -28,7 +28,7 @@ import {
   LogLevel,
   PublicClientApplication,
 } from '@azure/msal-browser';
-import { environment } from '../environment/environment';
+import { environment } from '../environments/environment';
 import { routes } from './app.routes';
 
 /** Callback opcional de logging para MSAL. */
