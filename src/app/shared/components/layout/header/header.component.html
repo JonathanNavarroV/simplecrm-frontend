@@ -1,0 +1,33 @@
+<header class="h-16 w-full border-b border-gray-200 bg-white/80 backdrop-blur-md">
+  <div class="mx-auto flex h-full max-w-7xl items-center justify-between px-4">
+    <!-- Izquerda -->
+    <div class="flex items-center gap-3">
+      <button
+        class="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 hover:bg-gray-100"
+      >
+        <app-icon name="bars" class="size-6" />
+      </button>
+      <div class="hidden lg:block font-semibold tracking-tight">Panel</div>
+      <nav class="hidden md:block text-sm text-gray-500 capitalize">
+        <ol class="flex items-center gap-1">
+          @for (c of breadcrumbService.items$ | async; track $index; let last = $last) { @if (
+          c.route) {
+          <a
+            class="hover:underline"
+            [routerLink]="c.route"
+            [ngClass]="last ? 'text-gray-800 font-medium' : ''"
+            >{{ c.label }}</a
+          >
+          } @else {
+          <span [ngClass]="last ? 'text-gray-800 font-medium' : ''">{{ c.label }}</span>
+          } @if (!last) {
+          <span>/</span>
+          } }
+        </ol>
+      </nav>
+    </div>
+
+    <!-- Derecha -->
+    <div></div>
+  </div>
+</header>

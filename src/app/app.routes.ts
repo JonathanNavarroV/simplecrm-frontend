@@ -1,21 +1,34 @@
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
-import { MsalGuard, MsalRedirectComponent } from '@azure/msal-angular';
-import { ClaimsComponent } from './claims.component';
-import { ProtectedComponent } from './protected.component';
-import { PublicComponent } from './public.component';
 
 export const routes: Routes = [
-  { path: 'login-callback', component: MsalRedirectComponent },
-
   // Página pública con botón "Iniciar sesión"
-  { path: '', component: PublicComponent },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./shared/components/layout/main-layout/main-layout.component').then(
+        (m) => m.MainLayoutComponent
+      ),
+    children: [
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/dashboard/pages/dashboard/dashboard.component').then(
+            (m) => m.DashboardComponent
+          ),
+      },
+    ],
+  },
 
-  // Vista simple para ver claims del usuario (requiere login para tener data útil)
-  { path: 'claims', component: ClaimsComponent },
-
-  // Ruta protegida por guard (si no hay sesión, MSAL redirige a Microsoft)
-  { path: 'protected', component: ProtectedComponent, canActivate: [MsalGuard] },
+  {
+    path: 'example',
+    loadComponent: () => import('./example/example.component').then((m) => m.ExampleComponent),
+  },
 
   { path: '**', redirectTo: '' },
 ];

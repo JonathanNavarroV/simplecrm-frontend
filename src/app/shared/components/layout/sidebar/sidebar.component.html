@@ -1,0 +1,39 @@
+<aside
+  class="hidden lg:flex h-full w-72 shrink-0 border-r border-gray-200 bg-white/80 backdrop-blur-md"
+>
+  <div class="flex h-full w-full flex-col">
+    <!-- Marca de la aplicación -->
+    <div class="flex items-center gap-2 px-5 h-16 border-b border-gray-200/70">
+      <div class="h-8 w-8 rounded-xl bg-primary-400"></div>
+      <div class="font-semibold tracking-tight">SimpleCRM</div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex-1 overflow-y-auto py-4">
+      <ul class="px-3 space-y-1">
+        @for (sidebarItem of sidebarItems; track sidebarItem.id; let i = $index) {
+        <li>
+          <a
+            [routerLink]="sidebarItem.route"
+            class="flex items-center gap-3 rounded-xl px-3 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+          >
+            <app-icon [name]="sidebarItem.icon" [class]="'size-6'" />
+            <span> {{ sidebarItem.label }} </span>
+          </a>
+        </li>
+        }
+      </ul>
+    </nav>
+
+    <!-- Usuario -->
+    <div class="border-t border-gray-200/70 px-4 py-3">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-full bg-gray-200"></div>
+        <div class="min-w-0">
+          <div class="text-sm font-medium text-gray-900">Jonathan Navarro</div>
+          <div class="text-xs text-gray-500">Ejecutivo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
