@@ -6,9 +6,9 @@
     "frontend": {
       "projectType": "application",
       "schematics": {
-        "@schematics/angular:component": { "type": "component" },
+        "@schematics/angular:component": { "type": "component", "skipTests": true },
         "@schematics/angular:directive": { "type": "directive" },
-        "@schematics/angular:service": { "type": "service" },
+        "@schematics/angular:service": { "type": "service", "skipTests": true },
 
         "@schematics/angular:pipe": { "typeSeparator": "." },
         "@schematics/angular:guard": { "typeSeparator": "." },
