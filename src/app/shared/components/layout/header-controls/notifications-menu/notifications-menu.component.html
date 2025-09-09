@@ -1,0 +1,40 @@
+<div class="relative" [appCloseOnInteract]="open" (requestClose)="open = false">
+  <button
+    class="relative inline-flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 hover:bg-gray-100"
+    (click)="open = !open"
+    aria-label="Notificaciones"
+  >
+    <app-icon name="bell" class="size-5"></app-icon>
+    <span
+      class="absolute -bottom-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white"
+      >3</span
+    >
+  </button>
+
+  <!-- Dropdown -->
+  @if (open) {
+  <div
+    class="absolute right-0 mt-1 w-64 rounded-xl border border-gray-200 bg-white shadow-lg p-2 z-50"
+  >
+    <p class="text-sm text-gray-700">No tienes notificaciones nuevas</p>
+    <div class="p-2 border-b text-sm font-medium text-gray-700">Notificaciones</div>
+    <ul class="max-h-64 overflow-auto divide-y text-sm">
+      <li class="px-4 py-3 hover:bg-gray-50 cursor-pointer">
+        <p class="font-medium text-gray-800">Nueva oportunidad creada</p>
+        <p class="text-gray-500 text-xs">Hace 5 min</p>
+      </li>
+      <li class="px-4 py-3 hover:bg-gray-50 cursor-pointer">
+        <p class="font-medium text-gray-800">Cliente ACME actualizado</p>
+        <p class="text-gray-500 text-xs">Hace 30 min</p>
+      </li>
+      <li class="px-4 py-3 hover:bg-gray-50 cursor-pointer">
+        <p class="font-medium text-gray-800">Tienes una reunión a las 15:00</p>
+        <p class="text-gray-500 text-xs">Hoy</p>
+      </li>
+    </ul>
+    <div class="p-2 border-t text-center">
+      <a routerLink="/notifications" class="text-blue-600 text-sm hover:underline">Ver todas</a>
+    </div>
+  </div>
+  }
+</div>

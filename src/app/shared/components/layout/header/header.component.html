@@ -8,26 +8,19 @@
         <app-icon name="bars" class="size-6" />
       </button>
       <div class="hidden lg:block font-semibold tracking-tight">Panel</div>
-      <nav class="hidden md:block text-sm text-gray-500 capitalize">
-        <ol class="flex items-center gap-1">
-          @for (c of breadcrumbService.items$ | async; track $index; let last = $last) { @if (
-          c.route) {
-          <a
-            class="hover:underline"
-            [routerLink]="c.route"
-            [ngClass]="last ? 'text-gray-800 font-medium' : ''"
-            >{{ c.label }}</a
-          >
-          } @else {
-          <span [ngClass]="last ? 'text-gray-800 font-medium' : ''">{{ c.label }}</span>
-          } @if (!last) {
-          <span>/</span>
-          } }
-        </ol>
+      <nav class="hidden md:block">
+        <!-- Breadcrumbs -->
+        <app-breadcrumbs />
       </nav>
     </div>
 
     <!-- Derecha -->
-    <div></div>
+    <div class="flex items-center gap-2 relative">
+      <!-- Notificaciones -->
+      <app-notifications-menu />
+
+      <!-- Perfil -->
+      <app-profile-menu />
+    </div>
   </div>
 </header>

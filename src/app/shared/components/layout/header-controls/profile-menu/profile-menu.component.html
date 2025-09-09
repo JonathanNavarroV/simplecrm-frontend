@@ -1,0 +1,21 @@
+<div class="relative" [appCloseOnInteract]="open" (requestClose)="open = false">
+  <button
+    class="inline-flex h-10 items-center gap-2 rounded-xl border border-gray-200 px-3 hover:bg-gray-100"
+    (click)="open = !open"
+  >
+    <div class="h-6 w-6 rounded-full bg-gray-200"></div>
+    <span class="hidden sm:inline text-sm">Jonathan Navarro</span>
+    <app-icon name="chevron-down" class="size-4"></app-icon>
+  </button>
+
+  <!-- Dropdown -->
+  @if (open) {
+  <div class="absolute right-0 mt-1 w-48 rounded-xl border border-gray-200 bg-white shadow-lg z-50">
+    <a class="block px-4 py-2 text-sm hover:bg-gray-100" routerLink="/profile">Perfil</a>
+    <a class="block px-4 py-2 text-sm hover:bg-gray-100" routerLink="/settings">Configuración</a>
+    <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100" (click)="logout()">
+      Cerrar sesión
+    </button>
+  </div>
+  }
+</div>

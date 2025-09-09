@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
-import { BreadcrumbService } from './core/services/breadcrumb.service';
+import { BreadcrumbService } from './core/layout/breadcrumb.service';
 import { BreadcrumbItem } from './shared/interfaces/breadcrumb-item.interface';
 
 @Component({
@@ -60,8 +60,18 @@ export class AppComponent {
     // Si no hay data pero existen segmentos, se usan como texto
     else if (segs.length) label = segs.join(' ');
 
-    // Si se obitne un label válido, se agrega un nuevo item al acumulador
-    if (label) acc = [...acc, { label, route: nextUrl || '/' }];
+    // Es true si la ruta no tiene hijo
+    const isLeaf = !child.firstChild;
+
+    // Si se obtiene un label válido, se agrega un nuevo item al acumulador
+    if (label)
+      acc = [
+        ...acc,
+        {
+          label,
+          ...(isLeaf ? {} : { route: nextUrl || '/' }), // Si es la última, no se asigna 'route'
+        },
+      ];
 
     // Se llama recursivamente para seguir bajando por el árbol de rutas
     return this.build(child, nextUrl, acc);
