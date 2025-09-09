@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { BreadcrumbItem } from '../../shared/interfaces/breadcrumb-item.interface';
+import { BreadcrumbItem } from '../../shared/components/layout/header-controls/breadcrumbs/breadcrumb-item.interface';
 
 @Injectable({
   providedIn: 'root',

@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { BreadcrumbService } from './core/layout/breadcrumb.service';
-import { BreadcrumbItem } from './shared/interfaces/breadcrumb-item.interface';
+import { BreadcrumbItem } from './shared/components/layout/header-controls/breadcrumbs/breadcrumb-item.interface';
 
 @Component({
   selector: 'app-root',

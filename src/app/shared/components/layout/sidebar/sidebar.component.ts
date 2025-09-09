@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { SidebarItem } from '../../../interfaces/sidebar-item.interface';
+import { SidebarItem } from './sidebar-item.interface';
 import { IconComponent } from '../../ui/icon/icon.component';
 
 @Component({

@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { CloseOnInteractDirective } from '../../../../directives/close-on-interact.directive';
 import { IconComponent } from '../../../ui/icon/icon.component';
-import { CloseOnInteractDirective } from "../../../../directives/close-on-interact.directive";
+import { ProfileMenuItem } from './profile-menu-item.interface';
 
 @Component({
   selector: 'app-profile-menu',
-  imports: [IconComponent, CloseOnInteractDirective],
+  imports: [IconComponent, CloseOnInteractDirective, RouterLink],
   templateUrl: './profile-menu.component.html',
   styleUrl: './profile-menu.component.css',
 })
 export class ProfileMenuComponent {
-  open = false;
+  @Input() items: ProfileMenuItem[] = [];
 
-  logout() {
-    // lógica de logout
-  }
+  open = false;
 }
