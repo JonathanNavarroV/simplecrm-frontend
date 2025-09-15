@@ -6,6 +6,8 @@ import {
 } from '@angular/common/http';
 import {
   ApplicationConfig,
+  inject,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
@@ -43,7 +45,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       clientId: environment.azure.spaClientId, // ID de la SPA registrada en Entra
       authority: environment.azure.authority, // URL del tenant
       redirectUri: environment.azure.redirectUri, // A dónde volver después de login
-      postLogoutRedirectUri: '/', // A dónde volver después de logout
+      postLogoutRedirectUri: environment.azure.postLogoutRedirectUri, // A dónde volver después de logout
     },
     cache: {
       cacheLocation: BrowserCacheLocation.SessionStorage, // Dónde guardar tokens
@@ -97,6 +99,12 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
+
+    // Inicializar MSAL antes de usarlo
+    provideAppInitializer(() => {
+      const instance = inject<IPublicClientApplication>(MSAL_INSTANCE);
+      return instance.initialize();
+    }),
 
     // HttpClient con soporte de interceptores (incluye MsalInterceptor)
     provideHttpClient(withInterceptorsFromDi(), withFetch()),

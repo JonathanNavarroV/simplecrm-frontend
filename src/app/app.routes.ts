@@ -30,5 +30,20 @@ export const routes: Routes = [
     loadComponent: () => import('./example/example.component').then((m) => m.ExampleComponent),
   },
 
+  {
+    path: 'login-callback',
+    loadComponent: () =>
+      import('./features/auth/login-callback/login-callback.component').then(
+        (m) => m.LoginCallbackComponent
+      ),
+  },
+  {
+    path: 'login-failed',
+    loadComponent: () =>
+      import('./features/auth/login-failed/login-failed.component').then(
+        (m) => m.LoginFailedComponent
+      ),
+  },
+
   { path: '**', redirectTo: '' },
 ];
