@@ -1,5 +1,6 @@
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
+import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   // Página pública con botón "Iniciar sesión"
@@ -17,6 +18,7 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard',
+        canActivate: [AuthGuard],
         loadComponent: () =>
           import('./features/dashboard/pages/dashboard/dashboard.component').then(
             (m) => m.DashboardComponent
@@ -30,13 +32,6 @@ export const routes: Routes = [
     loadComponent: () => import('./example/example.component').then((m) => m.ExampleComponent),
   },
 
-  {
-    path: 'login-callback',
-    loadComponent: () =>
-      import('./features/auth/login-callback/login-callback.component').then(
-        (m) => m.LoginCallbackComponent
-      ),
-  },
   {
     path: 'login-failed',
     loadComponent: () =>
