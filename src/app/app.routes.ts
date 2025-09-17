@@ -32,13 +32,5 @@ export const routes: Routes = [
     loadComponent: () => import('./example/example.component').then((m) => m.ExampleComponent),
   },
 
-  {
-    path: 'login-failed',
-    loadComponent: () =>
-      import('./features/auth/login-failed/login-failed.component').then(
-        (m) => m.LoginFailedComponent
-      ),
-  },
-
   { path: '**', redirectTo: '' },
 ];

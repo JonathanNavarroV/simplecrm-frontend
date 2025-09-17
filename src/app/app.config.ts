@@ -11,15 +11,13 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import {
-  MSAL_GUARD_CONFIG,
   MSAL_INSTANCE,
   MSAL_INTERCEPTOR_CONFIG,
   MsalBroadcastService,
   MsalGuard,
-  MsalGuardConfiguration,
   MsalInterceptor,
   MsalInterceptorConfiguration,
-  MsalService,
+  MsalService
 } from '@azure/msal-angular';
 import {
   BrowserCacheLocation,
@@ -75,22 +73,6 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   };
 }
 
-/**
- * Configuración del Guard de MSAL.
- *
- * Se usa para proteger rutas en Angular (con canActivate: [MsakGuard]).
- */
-export function MSALGuardConfigFactory(): MsalGuardConfiguration {
-  return {
-    interactionType: InteractionType.Redirect,
-    authRequest: {
-      // Scopes que se piden al hacer login
-      scopes: [...environment.azure.apis.crm.scopes],
-    },
-    loginFailedRoute: '/login-failed',
-  };
-}
-
 /** Configuración global de Angular. */
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -110,7 +92,6 @@ export const appConfig: ApplicationConfig = {
 
     // Inyección de configuraciones de MSAL
     { provide: MSAL_INSTANCE, useFactory: MSALInstanceFactory },
-    { provide: MSAL_GUARD_CONFIG, useFactory: MSALGuardConfigFactory },
     { provide: MSAL_INTERCEPTOR_CONFIG, useFactory: MSALInterceptorConfigFactory },
 
     // Servicios principales de MSAL
