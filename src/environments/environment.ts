@@ -6,11 +6,9 @@ export const environment = {
     redirectUri: 'http://localhost:4200/',
     postLogoutRedirectUri: 'http://localhost:4200/',
     authority: 'https://login.microsoftonline.com/38dc443b-4fc6-443e-bc67-2c4a90f59d12/v2.0',
-    apis: {
-      crm: {
-        baseUrl: 'http://localhost:5000/api/crm',
-        scopes: ['api://23632f49-90b8-4102-8496-e07ff10bdcb6/crm.readwrite'],
-      },
+    api: {
+      baseUrl: 'http://localhost:5000/api',
+      scopes: ['api://23632f49-90b8-4102-8496-e07ff10bdcb6/crm.readwrite'],
     },
   },
 };

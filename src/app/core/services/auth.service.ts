@@ -67,7 +67,7 @@ export class AuthService {
 
         // Lanza redirect (redirectUri ya está configurado en la instancia '/')
         this.msalService.instance.loginRedirect({
-          scopes: [...environment.azure.apis.crm.scopes],
+          scopes: [...environment.azure.api.scopes],
           prompt: 'select_account',
         });
       })

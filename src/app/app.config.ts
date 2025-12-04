@@ -65,7 +65,7 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
 
   // CRM API (gateway -> backend)
-  protectedResourceMap.set(environment.azure.apis.crm.baseUrl, environment.azure.apis.crm.scopes);
+  protectedResourceMap.set(environment.azure.api.baseUrl, environment.azure.api.scopes);
 
   return {
     interactionType: InteractionType.Redirect, // Tipo de login usado (Redirect o Popup)
