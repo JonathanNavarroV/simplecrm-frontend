@@ -26,10 +26,18 @@ export const routes: Routes = [
       },
     ],
   },
-
+  // Ruta de error de autenticación
   {
-    path: 'example',
-    loadComponent: () => import('./example/example.component').then((m) => m.ExampleComponent),
+    path: 'auth',
+    children: [
+      {
+        path: 'error',
+        loadComponent: () =>
+          import('./features/auth/pages/error/error.component').then(
+            (m) => m.ErrorComponent
+          ),
+      },
+    ],
   },
 
   { path: '**', redirectTo: '' },
