@@ -4,6 +4,8 @@ import { CanActivate } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { AuthenticationResult } from '@azure/msal-browser';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +13,8 @@ import { AuthService } from '../services/auth.service';
 export class AuthGuard implements CanActivate {
   private readonly authService = inject(AuthService);
   private readonly msalService = inject(MsalService);
+  private readonly router = inject(Router);
+  private readonly userService = inject(UserService);
 
   private isBrowser: boolean;
 
@@ -43,8 +47,16 @@ export class AuthGuard implements CanActivate {
     return this.msalService.instance
       .initialize()
       .then(async () => {
-        // Si ya hay cuentas en caché (usuario logeado), deja pasar
-        if (this.authService.isLoggedIn()) return true;
+        // Si ya hay cuentas en caché (usuario logeado), validar que exista en DB
+        if (this.authService.isLoggedIn()) {
+          const user = await this.userService.loadProfile();
+          if (!user) {
+            // Usuario no existe en DB -> redirigir a página de error
+            this.router.navigate(['/auth/error']);
+            return false;
+          }
+          return true;
+        }
 
         // Si MSAL dejó m,arcado que hay un redirect en progreso
         const inProgress = sessionStorage.getItem('msal.interaction.status');
@@ -59,12 +71,19 @@ export class AuthGuard implements CanActivate {
               this.msalService.instance.setActiveAccount(result.account);
             }
 
-            // Ahora si se tiene una cuenta caché, entonces se deja pasar
+            // Ahora si se tiene una cuenta caché, entonces validamos existencia en DB
             const hasAccount = !!(
               this.msalService.instance.getActiveAccount() ??
               this.msalService.instance.getAllAccounts()[0]
             );
-            if (hasAccount) return true;
+            if (hasAccount) {
+              const user = await this.userService.loadProfile();
+              if (!user) {
+                this.router.navigate(['/auth/error']);
+                return false;
+              }
+              return true;
+            }
 
             // Si aún no hay cuenta, relanzar el login
             this.authService.login();

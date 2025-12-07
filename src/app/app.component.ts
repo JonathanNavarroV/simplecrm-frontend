@@ -3,6 +3,8 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { BreadcrumbService } from './core/layout/breadcrumb.service';
+import { AuthService } from './core/services/auth.service';
+import { UserService } from './core/services/user.service';
 import { BreadcrumbItem } from './shared/components/layout/header-controls/breadcrumbs/breadcrumb-item.interface';
 
 @Component({
@@ -15,6 +17,8 @@ export class AppComponent {
   private readonly router = inject(Router);
   private readonly activaterRoute = inject(ActivatedRoute);
   private readonly breadcrumbService = inject(BreadcrumbService);
+  private readonly authService = inject(AuthService);
+  private readonly userService = inject(UserService);
 
   constructor() {
     this.router.events
@@ -30,13 +34,48 @@ export class AppComponent {
         // Se llama al servicio para actualizar con los nuevos items y se indica que no fue un cambio manual
         this.breadcrumbService.set(items, false);
       });
+
+    // Comprobación post-login: si ya hay sesión, rehidratamos perfil y mostramos
+    // un console.log temporal para ver el usuario en memoria (verificación).
+    // Si MSAL aún no ha procesado el redirect, hacemos un pequeño polling
+    // temporal hasta que la sesión aparezca (máx. ~10s). Esto es solo para
+    // verificación manual; idealmente usar eventos de MSAL/MsalBroadcastService.
+    const tryLoadProfile = async () => {
+      // Llamar directamente al endpoint /me para validar existencia
+      const user = await this.userService.loadProfile();
+      console.log('Usuario cargado (verificación):', user);
+      // Si no existe en la base de datos, finalizar login y redirigir a página de error
+      if (!user) {
+        // Navegar a la página de error de autenticación
+        this.router.navigate(['/auth/error']);
+      }
+    };
+
+    if (this.authService.isLoggedIn()) {
+      tryLoadProfile();
+    } else {
+      // Polling: comprobar isLoggedIn cada 500ms hasta 20 intentos (10s)
+      let attempts = 0;
+      const maxAttempts = 20;
+      const interval = setInterval(() => {
+        attempts += 1;
+        if (this.authService.isLoggedIn()) {
+          clearInterval(interval);
+          tryLoadProfile();
+          return;
+        }
+        if (attempts >= maxAttempts) {
+          clearInterval(interval);
+        }
+      }, 500);
+    }
   }
 
   /** Se construye recursivamente el breadcrumb a partir del árbol de rutas */
   private build(
     route: ActivatedRoute,
     url = '', // URL acumulada hasta ese punto
-    acc: BreadcrumbItem[] = [] // Items acumulados
+    acc: BreadcrumbItem[] = [], // Items acumulados
   ): BreadcrumbItem[] {
     // Se obtiene el primer hijo de la ruta actual
     const child = route.firstChild;

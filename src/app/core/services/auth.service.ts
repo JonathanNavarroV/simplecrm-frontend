@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 import { environment } from '../../../environments/environment';
+// HttpClient no es necesario aquí; exchange lo maneja el gateway.
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +12,6 @@ export class AuthService {
 
   // Flag para saber si estamos en navegador
   private isBrowser = true;
-
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object // Token de Angular que indica dónde corre la app (browser o server)
-  ) {
-    this.isBrowser = isPlatformBrowser(this.platformId);
-  }
 
   /**
    * Verifica si hay alguna sesión activa en la caché de MSAL.
