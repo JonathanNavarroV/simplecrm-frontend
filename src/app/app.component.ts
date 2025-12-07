@@ -9,6 +9,7 @@ import { BreadcrumbItem } from './shared/components/layout/header-controls/bread
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -17,8 +18,6 @@ export class AppComponent {
   private readonly router = inject(Router);
   private readonly activaterRoute = inject(ActivatedRoute);
   private readonly breadcrumbService = inject(BreadcrumbService);
-  private readonly authService = inject(AuthService);
-  private readonly userService = inject(UserService);
 
   constructor() {
     this.router.events
@@ -35,40 +34,9 @@ export class AppComponent {
         this.breadcrumbService.set(items, false);
       });
 
-    // Comprobación post-login: si ya hay sesión, rehidratamos perfil y mostramos
-    // un console.log temporal para ver el usuario en memoria (verificación).
-    // Si MSAL aún no ha procesado el redirect, hacemos un pequeño polling
-    // temporal hasta que la sesión aparezca (máx. ~10s). Esto es solo para
-    // verificación manual; idealmente usar eventos de MSAL/MsalBroadcastService.
-    const tryLoadProfile = async () => {
-      // Llamar directamente al endpoint /me para validar existencia
-      const user = await this.userService.loadProfile();
-      console.log('Usuario cargado (verificación):', user);
-      // Si no existe en la base de datos, finalizar login y redirigir a página de error
-      if (!user) {
-        // Navegar a la página de error de autenticación
-        this.router.navigate(['/auth/error']);
-      }
-    };
-
-    if (this.authService.isLoggedIn()) {
-      tryLoadProfile();
-    } else {
-      // Polling: comprobar isLoggedIn cada 500ms hasta 20 intentos (10s)
-      let attempts = 0;
-      const maxAttempts = 20;
-      const interval = setInterval(() => {
-        attempts += 1;
-        if (this.authService.isLoggedIn()) {
-          clearInterval(interval);
-          tryLoadProfile();
-          return;
-        }
-        if (attempts >= maxAttempts) {
-          clearInterval(interval);
-        }
-      }, 500);
-    }
+    // El perfil se carga desde los guards en la navegación (AuthGuard).
+    // Evitamos hacer polling o llamadas adicionales a `loadProfile()` desde
+    // AppComponent para no duplicar peticiones al backend.
   }
 
   /** Se construye recursivamente el breadcrumb a partir del árbol de rutas */

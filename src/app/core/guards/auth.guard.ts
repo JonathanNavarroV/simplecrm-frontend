@@ -49,6 +49,9 @@ export class AuthGuard implements CanActivate {
       .then(async () => {
         // Si ya hay cuentas en caché (usuario logeado), validar que exista en DB
         if (this.authService.isLoggedIn()) {
+          // Si ya lo tenemos en memoria, no necesitamos llamar al endpoint
+          if (this.userService.currentUser) return true;
+
           const user = await this.userService.loadProfile();
           if (!user) {
             // Usuario no existe en DB -> redirigir a página de error
@@ -77,6 +80,8 @@ export class AuthGuard implements CanActivate {
               this.msalService.instance.getAllAccounts()[0]
             );
             if (hasAccount) {
+              if (this.userService.currentUser) return true;
+
               const user = await this.userService.loadProfile();
               if (!user) {
                 this.router.navigate(['/auth/error']);

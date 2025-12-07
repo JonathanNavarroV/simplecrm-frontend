@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom, of } from 'rxjs';
 import { ApiPaths } from '../config/api-paths';
-
+import { catchError, tap, finalize, shareReplay } from 'rxjs/operators';
 export interface User {
   run: number;
   dv?: string;
@@ -27,6 +27,9 @@ export class UserService {
   private userSubject = new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable();
 
+  // Observable en vuelo para /me. Cuando existe, consumidores comparten la misma petición.
+  private inFlightProfile$: Observable<User | null> | null = null;
+
   /** Getter síncrono del usuario actual (valor en memoria). */
   public get currentUser(): User | null {
     return this.userSubject.value;
@@ -49,18 +52,42 @@ export class UserService {
   }
 
   /**
+   * Devuelve un observable compartido con el perfil actual. Si ya está cargado
+   * en memoria devuelve `of(current)`. Si hay una petición en vuelo, devuelve
+   * el observable en vuelo para coalescer llamadas.
+   */
+  public getProfile(): Observable<User | null> {
+    const url = `${this.usersBase}/me`;
+
+    if (this.userSubject.value) return of(this.userSubject.value);
+
+    if (!this.inFlightProfile$) {
+      this.inFlightProfile$ = this.http.get<User>(url).pipe(
+        tap((u) => this.userSubject.next(u)),
+        catchError((_) => {
+          this.userSubject.next(null);
+          return of(null as User | null);
+        }),
+        finalize(() => {
+          this.inFlightProfile$ = null;
+        }),
+        shareReplay(1),
+      );
+    }
+
+    return this.inFlightProfile$;
+  }
+
+  /**
    * Carga el perfil del usuario autenticado desde el endpoint /auth/users/me
    * y lo guarda en memoria (userSubject). Devuelve el usuario o null si no
    * está autenticado o ocurre un error.
    */
   public async loadProfile(): Promise<User | null> {
-    const url = `${this.usersBase}/me`;
     try {
-      const user = await firstValueFrom(this.http.get<User>(url));
-      this.userSubject.next(user);
+      const user = await firstValueFrom(this.getProfile());
       return user;
     } catch (err) {
-      // En caso de error (401, 404, etc.) dejamos el estado en null
       this.userSubject.next(null);
       return null;
     }
