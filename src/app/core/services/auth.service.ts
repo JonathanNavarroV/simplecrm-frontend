@@ -1,5 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Inject, inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 import { environment } from '../../../environments/environment';
 // HttpClient no es necesario aquí; exchange lo maneja el gateway.

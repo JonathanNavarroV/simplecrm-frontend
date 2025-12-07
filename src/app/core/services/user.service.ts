@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, BehaviorSubject, firstValueFrom } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
+import { ApiPaths } from '../config/api-paths';
 
 export interface User {
   run: number;
@@ -19,10 +19,9 @@ export interface User {
 export class UserService {
   private readonly http = inject(HttpClient);
 
-  // Base URL del API configurado en `environment.azure.api.baseUrl`.
-  // El gateway gestiona los prefixes (p. ej. `/crm`) y reenvía la petición
-  // al servicio correspondiente. `api.baseUrl` apunta a `http://localhost:5000/api`.
-  private readonly apiBase = environment.azure.api.baseUrl.replace(/\/$/, '');
+  // Rutas centralizadas para APIs (definidas en `ApiPaths`).
+  // `ApiPaths.apiBase` apunta a `http://localhost:5000/api` y `ApiPaths.users` a `.../auth/users`.
+  private readonly usersBase = ApiPaths.users;
 
   // Subject en memoria que guarda el perfil del usuario actual (o null si no hay sesión)
   private userSubject = new BehaviorSubject<User | null>(null);
@@ -45,7 +44,7 @@ export class UserService {
 
   /** Obtiene un usuario por RUN. Autenticación: gestionada por MSAL + gateway. */
   getUserByRun(run: number): Observable<User> {
-    const url = `${this.apiBase}/auth/users/${run}`;
+    const url = `${this.usersBase}/${run}`;
     return this.http.get<User>(url);
   }
 
@@ -55,7 +54,7 @@ export class UserService {
    * está autenticado o ocurre un error.
    */
   public async loadProfile(): Promise<User | null> {
-    const url = `${this.apiBase}/auth/users/me`;
+    const url = `${this.usersBase}/me`;
     try {
       const user = await firstValueFrom(this.http.get<User>(url));
       this.userSubject.next(user);
