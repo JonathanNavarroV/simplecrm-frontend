@@ -1,4 +1,4 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# Ver https://docs.github.com/get-started/getting-started-with-git/ignoring-files para más información sobre cómo ignorar archivos.
 
 # Compiled output
 /dist
@@ -26,6 +26,7 @@ yarn-error.log
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/copilot-instructions.md
 .history/*
 
 # Miscellaneous
