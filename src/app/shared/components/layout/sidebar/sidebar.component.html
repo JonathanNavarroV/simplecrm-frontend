@@ -11,13 +11,13 @@
     <!-- Nav -->
     <nav class="flex-1 overflow-y-auto py-4">
       <ul class="px-3 space-y-1">
-        @for (section of sidebarItems; track section.id; let si = $index) {
+        @for (module of sidebarItems; track module.id; let si = $index) {
           <li>
             <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              {{ section.label }}
+              {{ module.label }}
             </div>
             <ul class="pl-2 space-y-1">
-              @for (item of section.items; track item.id; let i = $index) {
+              @for (item of module.items; track item.id; let i = $index) {
                 <li>
                   <a
                     [routerLink]="item.route"

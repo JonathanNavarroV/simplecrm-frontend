@@ -9,7 +9,7 @@ interface SidebarItem {
   route: string;
 }
 
-interface SidebarSection {
+interface SidebarModule {
   id: string;
   label: string;
   items: SidebarItem[];
@@ -22,10 +22,10 @@ interface SidebarSection {
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
-  // Estructura: lista de secciones, cada una con su lista de items.
-  sidebarItems: SidebarSection[] = [
+  // Estructura: lista de módulos, cada uno con su lista de items.
+  sidebarItems: SidebarModule[] = [
     {
-      id: 'main-section',
+      id: 'main-module',
       label: 'Principal',
       items: [
         {
@@ -37,7 +37,7 @@ export class SidebarComponent {
       ],
     },
     {
-      id: 'crm-section',
+      id: 'crm-module',
       label: 'CRM',
       items: [
         {
@@ -61,7 +61,7 @@ export class SidebarComponent {
       ],
     },
     {
-      id: 'users-section',
+      id: 'users-module',
       label: 'Usuarios',
       items: [
         {
