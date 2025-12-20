@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, firstValueFrom, of } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
+import { Observable, firstValueFrom, of } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { ApiPaths } from '../config/api-paths';
 import { catchError, tap, finalize, shareReplay } from 'rxjs/operators';
 export interface User {
@@ -23,26 +24,27 @@ export class UserService {
   // `ApiPaths.apiBase` apunta a `http://localhost:5000/api` y `ApiPaths.users` a `.../auth/users`.
   private readonly usersBase = ApiPaths.users;
 
-  // Subject en memoria que guarda el perfil del usuario actual (o null si no hay sesión)
-  private userSubject = new BehaviorSubject<User | null>(null);
-  public user$ = this.userSubject.asObservable();
+  // Signal en memoria que guarda el perfil del usuario actual (o null si no hay sesión)
+  private userSignal = signal<User | null>(null);
+  // Se expone un Observable para compatibilidad con consumidores que esperan streams
+  public user$: Observable<User | null> = toObservable(this.userSignal);
 
   // Observable en vuelo para /me. Cuando existe, consumidores comparten la misma petición.
   private inFlightProfile$: Observable<User | null> | null = null;
 
   /** Getter síncrono del usuario actual (valor en memoria). */
   public get currentUser(): User | null {
-    return this.userSubject.value;
+    return this.userSignal();
   }
 
   /** Establece manualmente el usuario en memoria (útil si el login devuelve el perfil). */
   public setUser(user: User | null) {
-    this.userSubject.next(user);
+    this.userSignal.set(user);
   }
 
   /** Limpia el usuario en memoria (logout local). */
   public clear() {
-    this.userSubject.next(null);
+    this.userSignal.set(null);
   }
 
   /** Obtiene un usuario por RUN. Autenticación: gestionada por MSAL + gateway. */
@@ -59,13 +61,13 @@ export class UserService {
   public getProfile(): Observable<User | null> {
     const url = `${this.usersBase}/me`;
 
-    if (this.userSubject.value) return of(this.userSubject.value);
+    if (this.userSignal()) return of(this.userSignal());
 
     if (!this.inFlightProfile$) {
       this.inFlightProfile$ = this.http.get<User>(url).pipe(
-        tap((u) => this.userSubject.next(u)),
+        tap((u) => this.userSignal.set(u)),
         catchError((_) => {
-          this.userSubject.next(null);
+          this.userSignal.set(null);
           return of(null as User | null);
         }),
         finalize(() => {
@@ -88,7 +90,7 @@ export class UserService {
       const user = await firstValueFrom(this.getProfile());
       return user;
     } catch (err) {
-      this.userSubject.next(null);
+      this.userSignal.set(null);
       return null;
     }
   }
