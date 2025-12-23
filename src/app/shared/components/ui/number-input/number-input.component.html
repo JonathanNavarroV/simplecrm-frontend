@@ -1,7 +1,7 @@
 <div class="number-input">
   <label *ngIf="label" class="text-xs text-gray-600 mb-1 block">{{ label }}</label>
   <input
-    type="number"
+    type="text"
     [attr.aria-invalid]="!!displayError"
     [class.border-red-500]="!!displayError"
     [class.focus:ring-red-200]="!!displayError"
@@ -9,7 +9,9 @@
     [placeholder]="placeholder"
     [value]="value"
     [disabled]="disabled"
+    (keydown)="onKeyDown($event)"
     (input)="onInput($event)"
+    (paste)="onPaste($event)"
     (blur)="onTouched()"
   />
 
