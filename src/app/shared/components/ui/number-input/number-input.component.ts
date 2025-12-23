@@ -37,20 +37,21 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
     private cdr: ChangeDetectorRef,
   ) {}
 
-  private _value: number | string = '';
+  // Valor interno como string para mostrar en el input
+  private _value: string = '';
 
   @Input()
   set value(v: number | string) {
     this.writeValue(v);
   }
-  get value(): number | string {
+  get value(): string {
     return this._value;
   }
   disabled = false;
 
-  @Output() valueChange = new EventEmitter<number | string>();
+  @Output() valueChange = new EventEmitter<number | null>();
 
-  private onChange: (v: any) => void = () => {};
+  private onChange: (v: number | null) => void = () => {};
   onTouched: () => void = () => {};
 
   onInput(e: Event) {
@@ -72,8 +73,9 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
     // Actualizar valor solo si cambió para evitar bucles
     if (filtered !== this._value) {
       this._value = filtered;
-      this.valueChange.emit(filtered);
-      this.onChange(filtered);
+      const num = this.convertToNumber(filtered);
+      this.valueChange.emit(num);
+      this.onChange(num);
       // actualizar el input mostrado
       try {
         (e.target as HTMLInputElement).value = filtered;
@@ -102,8 +104,9 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
       else finalClean = finalClean.replace(/-/g, '');
     }
     this._value = finalClean;
-    this.valueChange.emit(finalClean);
-    this.onChange(finalClean);
+    const num = this.convertToNumber(finalClean);
+    this.valueChange.emit(num);
+    this.onChange(num);
     try {
       input.value = finalClean;
       const pos =
@@ -112,6 +115,13 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
           : start + filtered.length;
       input.setSelectionRange(pos, pos);
     } catch {}
+  }
+
+  private convertToNumber(s: string): number | null {
+    if (s == null || s === '') return null;
+    if (s === '-') return 0;
+    const n = parseInt(s, 10);
+    return Number.isNaN(n) ? 0 : n;
   }
 
   onKeyDown(e: KeyboardEvent) {
@@ -149,7 +159,9 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
   }
 
   writeValue(obj: any): void {
-    this._value = obj ?? '';
+    if (typeof obj === 'number') this._value = String(obj);
+    else if (obj === null) this._value = '';
+    else this._value = obj ?? '';
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;
