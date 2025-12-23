@@ -1,0 +1,25 @@
+<div class="p-6 max-w-md">
+  <h2 class="text-lg font-semibold mb-4">Formulario simple — FormBuilder</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <app-text-input
+      formControlName="name"
+      label="Nombre"
+      placeholder="Ingrese nombre"
+    ></app-text-input>
+
+    <div class="mt-4 flex gap-2">
+      <button type="submit" class="px-3 py-1 rounded bg-primary-600 text-white cursor-pointer">
+        Enviar
+      </button>
+      <button type="button" (click)="reset()" class="px-3 py-1 rounded border cursor-pointer">
+        Limpiar
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="submittedValue" class="mt-4 text-sm text-gray-700">
+    <div class="font-medium">Enviado:</div>
+    <pre class="mt-2 bg-gray-50 p-2 rounded text-xs">{{ submittedValue | json }}</pre>
+  </div>
+</div>

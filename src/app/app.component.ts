@@ -69,6 +69,8 @@ export class AppComponent {
 
     // Es true si la ruta no tiene hijo
     const isLeaf = !child.firstChild;
+    // Si en la data se indica breadcrumbLink = false, se omite el enlace para este breadcrumb
+    const breadcrumbLinkDisabled = child.snapshot.data['breadcrumbLink'] === false;
 
     // Si se obtiene un label válido, se agrega un nuevo item al acumulador
     if (label)
@@ -76,7 +78,8 @@ export class AppComponent {
         ...acc,
         {
           label,
-          ...(isLeaf ? {} : { route: nextUrl || '/' }), // Si es la última, no se asigna 'route'
+          // Si es la última o explícitamente se deshabilitó el link, no se asigna 'route'
+          ...(isLeaf || breadcrumbLinkDisabled ? {} : { route: nextUrl || '/' }),
         },
       ];
 

@@ -1,6 +1,7 @@
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
+import { environment } from '../environments/environment';
 
 export const routes: Routes = [
   // Página pública con botón "Iniciar sesión"
@@ -8,7 +9,7 @@ export const routes: Routes = [
     path: '',
     loadComponent: () =>
       import('./shared/components/layout/main-layout/main-layout.component').then(
-        (m) => m.MainLayoutComponent
+        (m) => m.MainLayoutComponent,
       ),
     children: [
       {
@@ -16,12 +17,51 @@ export const routes: Routes = [
         redirectTo: 'dashboard',
         pathMatch: 'full',
       },
+      // Rutas de UI showcase (solo si está habilitado en environment)
+      ...(environment.uiShowcase
+        ? [
+            {
+              path: 'ui-showcase',
+              data: { breadcrumb: 'UI Showcase', breadcrumbLink: false },
+              children: [
+                {
+                  path: 'components',
+                  data: { breadcrumb: 'components', breadcrumbLink: false },
+                  children: [
+                    {
+                      path: 'text-input',
+                      data: { breadcrumb: 'text-input' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/components/text-input/text-input-demo.component').then(
+                          (m) => m.TextInputDemoComponent,
+                        ),
+                    },
+                  ],
+                },
+                {
+                  path: 'forms',
+                  data: { breadcrumb: 'forms', breadcrumbLink: false },
+                  children: [
+                    {
+                      path: 'simple',
+                      data: { breadcrumb: 'simple' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/forms/simple-form/simple-form.component').then(
+                          (m) => m.SimpleFormComponent,
+                        ),
+                    },
+                  ],
+                },
+              ],
+            },
+          ]
+        : []),
       {
         path: 'dashboard',
         canActivate: [AuthGuard],
         loadComponent: () =>
           import('./features/dashboard/pages/dashboard/dashboard.component').then(
-            (m) => m.DashboardComponent
+            (m) => m.DashboardComponent,
           ),
       },
     ],
@@ -33,9 +73,7 @@ export const routes: Routes = [
       {
         path: 'error',
         loadComponent: () =>
-          import('./features/auth/pages/error/error.component').then(
-            (m) => m.ErrorComponent
-          ),
+          import('./features/auth/pages/error/error.component').then((m) => m.ErrorComponent),
       },
     ],
   },
