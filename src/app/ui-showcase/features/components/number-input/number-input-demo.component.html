@@ -1,0 +1,25 @@
+<div class="p-6">
+  <h2 class="text-lg font-semibold mb-4">Number Input — Demo</h2>
+
+  <app-number-input
+    label="Cantidad"
+    placeholder="Ingrese un número"
+    [value]="value"
+    (valueChange)="value = $event"
+    [error]="error"
+  ></app-number-input>
+
+  <div class="mt-4 flex items-center gap-2">
+    <button
+      class="rounded bg-red-600 text-white px-3 py-1 text-sm cursor-pointer"
+      (click)="showError()"
+    >
+      Mostrar error
+    </button>
+    <button class="rounded border px-3 py-1 text-sm cursor-pointer" (click)="clear()">
+      Limpiar
+    </button>
+  </div>
+
+  <div class="mt-4 text-sm text-gray-600">Valor actual: {{ value || '(vacío)' }}</div>
+</div>

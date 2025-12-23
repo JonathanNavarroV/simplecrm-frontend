@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TextInputComponent } from '../../../shared/components/ui/text-input/text-input.component';
+import { TextInputComponent } from '../../../../shared/components/ui/text-input/text-input.component';
 
 @Component({
   selector: 'app-text-input-demo',

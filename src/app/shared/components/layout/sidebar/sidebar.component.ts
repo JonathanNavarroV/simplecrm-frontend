@@ -38,6 +38,12 @@ export class SidebarComponent {
                 icon: 'edit',
                 route: '/ui-showcase/components/text-input',
               },
+              {
+                id: 'ui-number-input',
+                label: 'Number Input',
+                icon: 'numbers',
+                route: '/ui-showcase/components/number-input',
+              },
               // aquí puedes añadir más componentes de muestra
             ],
           },

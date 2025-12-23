@@ -1,0 +1,17 @@
+<div class="number-input">
+  <label *ngIf="label" class="text-xs text-gray-600 mb-1 block">{{ label }}</label>
+  <input
+    type="number"
+    [attr.aria-invalid]="!!displayError"
+    [class.border-red-500]="!!displayError"
+    [class.focus:ring-red-200]="!!displayError"
+    class="w-full rounded border px-3 py-2 text-sm border-gray-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-200"
+    [placeholder]="placeholder"
+    [value]="value"
+    [disabled]="disabled"
+    (input)="onInput($event)"
+    (blur)="onTouched()"
+  />
+
+  <div *ngIf="displayError" class="error-message mt-1 text-xs text-red-600">{{ displayError }}</div>
+</div>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { TextInputComponent } from '../../../shared/components/ui/text-input/text-input.component';
+import { TextInputComponent } from '../../../../shared/components/ui/text-input/text-input.component';
 
 @Component({
   selector: 'app-simple-form',

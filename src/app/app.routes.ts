@@ -36,6 +36,14 @@ export const routes: Routes = [
                           (m) => m.TextInputDemoComponent,
                         ),
                     },
+                    {
+                      path: 'number-input',
+                      data: { breadcrumb: 'number-input' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/components/number-input/number-input-demo.component').then(
+                          (m) => m.NumberInputDemoComponent,
+                        ),
+                    },
                   ],
                 },
                 {
