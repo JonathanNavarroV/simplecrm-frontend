@@ -119,9 +119,9 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
 
   private convertToNumber(s: string): number | null {
     if (s == null || s === '') return null;
-    if (s === '-') return 0;
+    if (s === '-') return null;
     const n = parseInt(s, 10);
-    return Number.isNaN(n) ? 0 : n;
+    return Number.isNaN(n) ? null : n;
   }
 
   onKeyDown(e: KeyboardEvent) {
