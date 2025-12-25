@@ -29,6 +29,8 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
   @Input() label?: string;
   @Input() placeholder?: string = '';
   @Input() error?: string;
+  // Máximo de dígitos permitidos (por defecto 15 para evitar notación exponencial)
+  @Input() maxDigits = 15;
 
   public ngControl: NgControl | null = null;
 
@@ -41,7 +43,7 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
   private _value: string = '';
 
   @Input()
-  set value(v: number | string) {
+  set value(v: number | string | null) {
     this.writeValue(v);
   }
   get value(): string {
@@ -53,75 +55,76 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
 
   private onChange: (v: number | null) => void = () => {};
   onTouched: () => void = () => {};
+  // Flag para manejo de composición IME. Mientras se compone, no sanitizamos.
+  private isComposing = false;
 
   onInput(e: Event) {
+    if (this.isComposing) return;
     const raw = (e.target as HTMLInputElement).value;
-    // Permitir sólo dígitos y un '-' al inicio
-    let filtered = raw.replace(/[^0-9-]/g, '');
-    // Mantener sólo el primer '-' si está al inicio
-    if (filtered.includes('-')) {
-      // separar primer char si es '-'
-      if (filtered[0] === '-') {
-        // eliminar otros '-' del resto
-        filtered = '-' + filtered.slice(1).replace(/-/g, '');
-      } else {
-        // quitar todos los '-' si no están al inicio
-        filtered = filtered.replace(/-/g, '');
-      }
+    // Permitir sólo dígitos
+    let filtered = raw.replace(/\D/g, '');
+    // Truncar al máximo de dígitos configurado
+    if (this.maxDigits && filtered.length > this.maxDigits) {
+      filtered = filtered.slice(0, this.maxDigits);
     }
 
     // Actualizar valor solo si cambió para evitar bucles
     if (filtered !== this._value) {
       this._value = filtered;
-      const num = this.convertToNumber(filtered);
+      const num = filtered === '' ? null : Number(filtered);
       this.valueChange.emit(num);
       this.onChange(num);
-      // actualizar el input mostrado
+      // Forzar actualización del input de forma segura para eliminar caracteres no permitidos
       try {
-        (e.target as HTMLInputElement).value = filtered;
+        const input = e.target as HTMLInputElement;
+        setTimeout(() => {
+          try {
+            input.value = filtered;
+            const pos = filtered.length;
+            input.setSelectionRange(pos, pos);
+          } catch {}
+        }, 0);
       } catch {}
     }
   }
 
   onPaste(e: ClipboardEvent) {
     const paste = e.clipboardData?.getData('text') ?? '';
-    let filtered = paste.replace(/[^0-9-]/g, '');
-    if (filtered.includes('-')) {
-      if (filtered[0] === '-') filtered = '-' + filtered.slice(1).replace(/-/g, '');
-      else filtered = filtered.replace(/-/g, '');
-    }
-    // Prevent default paste and insert filtered text manually
+    const digits = paste.replace(/\D/g, '');
+    // Evitar pegado por defecto e insertar solo los dígitos filtrados
     e.preventDefault();
     const input = e.target as HTMLInputElement;
     const start = input.selectionStart ?? input.value.length;
     const end = input.selectionEnd ?? input.value.length;
-    const newValue = input.value.slice(0, start) + filtered + input.value.slice(end);
-    const final = newValue.replace(/[^0-9-]/g, '');
-    // cleanup '-' occurrences
-    let finalClean = final;
-    if (finalClean.includes('-')) {
-      if (finalClean[0] === '-') finalClean = '-' + finalClean.slice(1).replace(/-/g, '');
-      else finalClean = finalClean.replace(/-/g, '');
+    const newValue = input.value.slice(0, start) + digits + input.value.slice(end);
+    let finalClean = newValue.replace(/\D/g, '');
+    if (this.maxDigits && finalClean.length > this.maxDigits) {
+      finalClean = finalClean.slice(0, this.maxDigits);
     }
     this._value = finalClean;
-    const num = this.convertToNumber(finalClean);
+    const num = finalClean === '' ? null : Number(finalClean);
     this.valueChange.emit(num);
     this.onChange(num);
+    // Forzar actualización del input y mantener caret
     try {
-      input.value = finalClean;
-      const pos =
-        input.value.indexOf('-') === 0 && start > 0
-          ? start + filtered.length
-          : start + filtered.length;
-      input.setSelectionRange(pos, pos);
+      setTimeout(() => {
+        try {
+          input.value = finalClean;
+          const pos = start + digits.length;
+          input.setSelectionRange(pos, pos);
+        } catch {}
+      }, 0);
     } catch {}
   }
 
-  private convertToNumber(s: string): number | null {
-    if (s == null || s === '') return null;
-    if (s === '-') return null;
-    const n = parseInt(s, 10);
-    return Number.isNaN(n) ? null : n;
+  onCompositionStart(): void {
+    this.isComposing = true;
+  }
+
+  onCompositionEnd(e: CompositionEvent): void {
+    this.isComposing = false;
+    // Procesar el valor final tras composición
+    this.onInput(e as unknown as Event);
   }
 
   onKeyDown(e: KeyboardEvent) {
@@ -146,12 +149,7 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
     if (key.length === 1) {
       // dígitos permitidos
       if (/^[0-9]$/.test(key)) return;
-      // '-' sólo permitido si se escribe en la posición 0 y aún no existe
-      if (key === '-') {
-        const input = e.target as HTMLInputElement;
-        const start = input.selectionStart ?? 0;
-        if (start === 0 && !input.value.includes('-')) return;
-      }
+      // sólo dígitos permitidos
     }
 
     // cualquier otra tecla imprimible se bloquea

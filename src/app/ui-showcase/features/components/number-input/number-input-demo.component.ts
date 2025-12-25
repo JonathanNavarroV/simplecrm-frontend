@@ -10,7 +10,7 @@ import { NumberInputComponent } from '../../../../shared/components/ui/number-in
   styleUrls: ['./number-input-demo.component.css'],
 })
 export class NumberInputDemoComponent {
-  value: number | string = '';
+  value: number | null | string = '';
   error?: string;
 
   showError() {

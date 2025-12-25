@@ -8,10 +8,15 @@
     class="w-full rounded border px-3 py-2 text-sm border-gray-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-200"
     [placeholder]="placeholder"
     [value]="value"
+    [attr.maxlength]="maxDigits"
+    inputmode="numeric"
+    pattern="[0-9]*"
     [disabled]="disabled"
     (keydown)="onKeyDown($event)"
     (input)="onInput($event)"
     (paste)="onPaste($event)"
+    (compositionstart)="onCompositionStart()"
+    (compositionend)="onCompositionEnd($event)"
     (blur)="onTouched()"
   />
 
