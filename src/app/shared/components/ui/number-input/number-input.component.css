@@ -3,3 +3,75 @@
 
 .error-message {
 }
+
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.compound {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #d1d5db; /* border-gray-300 */
+  border-radius: 6px;
+  overflow: hidden;
+  background: white;
+}
+
+.compound.has-error {
+  border-color: #ef4444; /* red-500 */
+}
+
+.compound-input {
+  flex: 1;
+  height: 40px;
+  border: none;
+  padding: 0 1rem;
+  font-size: 0.9375rem;
+  background: transparent;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.compound:focus-within {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08); /* subtle blue ring */
+  border-color: #3b82f6;
+}
+
+.preview-panel {
+  /* Ancho automático según contenido, pero con límite razonable */
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6; /* gris claro */
+  border-left: 1px solid #e5e7eb;
+  padding: 0 0.75rem;
+  white-space: nowrap;
+  flex: 0 0 auto; /* no crecer, ocupar lo necesario */
+  max-width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.preview-content {
+  color: #374151; /* gris oscuro para texto */
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.preview-prefix,
+.preview-suffix {
+  color: #6b7280;
+  font-weight: 600;
+  margin: 0 0.25rem;
+  font-size: 0.85rem;
+}
+.preview-value {
+  color: #111827;
+}
+
+/* estilos del control de demo `maxLength` eliminados */

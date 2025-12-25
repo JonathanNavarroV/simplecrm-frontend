@@ -1,24 +1,29 @@
 <div class="number-input">
   <label *ngIf="label" class="text-xs text-gray-600 mb-1 block">{{ label }}</label>
-  <input
-    type="text"
-    [attr.aria-invalid]="!!displayError"
-    [class.border-red-500]="!!displayError"
-    [class.focus:ring-red-200]="!!displayError"
-    class="w-full rounded border px-3 py-2 text-sm border-gray-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-200"
-    [placeholder]="placeholder"
-    [value]="value"
-    [attr.maxlength]="maxDigits ? maxDigits + 1 : null"
-    inputmode="numeric"
-    pattern="[0-9]*"
-    [disabled]="disabled"
-    (keydown)="onKeyDown($event)"
-    (input)="onInput($event)"
-    (paste)="onPaste($event)"
-    (compositionstart)="onCompositionStart()"
-    (compositionend)="onCompositionEnd($event)"
-    (blur)="onTouched()"
-  />
+  <div class="input-row">
+    <div class="compound" [class.has-error]="!!displayError">
+      <input
+        type="text"
+        class="compound-input"
+        [placeholder]="placeholder"
+        [value]="value"
+        [disabled]="disabled"
+        (input)="onInput($event)"
+        (blur)="onTouched()"
+        [attr.aria-invalid]="!!displayError"
+      />
+
+      <!-- Panel de previsualización a la derecha: sección gris dentro del mismo borde -->
+      <div class="preview-panel" *ngIf="formattedPreview !== null" aria-hidden="true">
+        <div class="preview-content">
+          <span class="preview-prefix" *ngIf="previewPrefix">{{ previewPrefix }}</span>
+          <span class="preview-value">{{ formattedPreview }}</span>
+          <span class="preview-suffix" *ngIf="previewSuffix">{{ previewSuffix }}</span>
+        </div>
+      </div>
+      <!-- (Control de maxLength eliminado: solo queda @Input maxLength) -->
+    </div>
+  </div>
 
   <div *ngIf="displayError" class="error-message mt-1 text-xs text-red-600">{{ displayError }}</div>
 </div>

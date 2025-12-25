@@ -29,8 +29,6 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
   @Input() label?: string;
   @Input() placeholder?: string = '';
   @Input() error?: string;
-  // Máximo de dígitos permitidos (por defecto 15 para evitar notación exponencial)
-  @Input() maxDigits = 15;
 
   public ngControl: NgControl | null = null;
 
@@ -43,164 +41,120 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
   private _value: string = '';
 
   @Input()
-  set value(v: number | string | null) {
-    this.writeValue(v);
+  set value(v: string | number | null) {
+    // Aceptar cualquier tipo y convertir a string internamente
+    if (v === null || v === undefined) this._value = '';
+    else this._value = String(v);
   }
   get value(): string {
     return this._value;
   }
-  disabled = false;
+  @Output() valueChange = new EventEmitter<string | null>();
 
-  @Output() valueChange = new EventEmitter<number | null>();
-
-  private onChange: (v: number | null) => void = () => {};
+  /** Máxima longitud permitida para la entrada (número de caracteres). Por defecto 15 */
+  @Input() maxLength: number = 15;
+  private onChange: (v: string | null) => void = () => {};
   onTouched: () => void = () => {};
-  // Flag para manejo de composición IME. Mientras se compone, no sanitizamos.
-  private isComposing = false;
+  disabled: boolean = false;
+  // Indica si el contenido actual puede convertirse a `number` correctamente.
+  isNumberValid: boolean = false;
+  // Valor numérico convertido cuando corresponde, o null si no es convertible.
+  numericValue: number | null = null;
+  /** Separador de miles (por ejemplo ',' ó '.') usado en la previsualización */
+  @Input() thousandSeparator: string = '.';
+  /** Separador decimal (por ejemplo '.' ó ',') usado en la previsualización */
+  @Input() decimalSeparator: string = ',';
+  /** Texto a mostrar antes del número en la previsualización (ej. moneda) */
+  @Input() previewPrefix: string = '$';
+  /** Texto a mostrar después del número en la previsualización (ej. unidad) */
+  @Input() previewSuffix: string = 'CLP';
+  // Nota: no usamos `decimalPlaces`; mostramos tantos decimales como quepan dentro de `maxLength`.
 
+  // Manejo simple: aceptar cualquier entrada y emitir la cadena tal cual.
   onInput(e: Event) {
-    if (this.isComposing) return;
     const input = e.target as HTMLInputElement;
-    const raw = input.value;
-    const selStart = input.selectionStart ?? raw.length;
-    // Permitir sólo dígitos y un '-' al inicio
-    let filtered = raw.replace(/[^0-9-]/g, '');
-    // Mantener '-' sólo si está al inicio
-    if (filtered.includes('-')) {
-      if (filtered[0] === '-') {
-        filtered = '-' + filtered.slice(1).replace(/-/g, '');
+    let raw = input.value;
+    // Truncar si excede maxLength
+    if (this.maxLength && raw.length > this.maxLength) {
+      raw = raw.slice(0, this.maxLength);
+      // actualizar el elemento para reflejar truncamiento
+      input.value = raw;
+    }
+    this._value = raw;
+    const out = raw === '' ? null : raw;
+    // Validación localizada: convertir sólo si la cadena cumple el formato según los separadores configurados.
+    const trimmed = raw.trim();
+    if (trimmed === '') {
+      this.numericValue = null;
+      this.isNumberValid = false;
+    } else {
+      const num = this.parseLocalizedNumber(trimmed);
+      if (num === null) {
+        this.numericValue = null;
+        this.isNumberValid = false;
       } else {
-        filtered = filtered.replace(/-/g, '');
+        this.numericValue = num;
+        this.isNumberValid = true;
       }
     }
-    // Truncar al máximo de dígitos (excluyendo '-').
-    const digitsOnly = filtered.startsWith('-') ? filtered.slice(1) : filtered;
-    if (this.maxDigits && digitsOnly.length > this.maxDigits) {
-      const truncated = digitsOnly.slice(0, this.maxDigits);
-      filtered = filtered.startsWith('-') ? '-' + truncated : truncated;
-    }
-
-    // Actualizar valor solo si cambió para evitar bucles
-    if (filtered !== this._value) {
-      this._value = filtered;
-      const num = filtered === '' || filtered === '-' ? null : Number(filtered);
-      this.valueChange.emit(num);
-      this.onChange(num);
-      // Forzar actualización del input de forma segura y conservar caret
-      try {
-        const delta = filtered.length - raw.length;
-        let newPos = Math.max(0, Math.min(filtered.length, selStart + delta));
-        setTimeout(() => {
-          try {
-            input.value = filtered;
-            input.setSelectionRange(newPos, newPos);
-          } catch {}
-        }, 0);
-      } catch {}
-    }
+    this.valueChange.emit(out);
+    this.onChange(out);
   }
 
-  onPaste(e: ClipboardEvent) {
-    const paste = e.clipboardData?.getData('text') ?? '';
-    const digits = paste.replace(/[^0-9-]/g, '');
-    // Evitar pegado por defecto e insertar solo los dígitos filtrados
-    e.preventDefault();
-    const input = e.target as HTMLInputElement;
-    const start = input.selectionStart ?? input.value.length;
-    const end = input.selectionEnd ?? input.value.length;
-    const newValue = input.value.slice(0, start) + digits + input.value.slice(end);
-    // Filtrar '-' y dígitos como en onInput
-    let finalClean = newValue.replace(/[^0-9-]/g, '');
-    if (finalClean.includes('-')) {
-      if (finalClean[0] === '-') finalClean = '-' + finalClean.slice(1).replace(/-/g, '');
-      else finalClean = finalClean.replace(/-/g, '');
-    }
-    // Truncar dígitos excluyendo '-'
-    const finalDigits = finalClean.startsWith('-') ? finalClean.slice(1) : finalClean;
-    if (this.maxDigits && finalDigits.length > this.maxDigits) {
-      finalClean = finalClean.startsWith('-')
-        ? '-' + finalDigits.slice(0, this.maxDigits)
-        : finalDigits.slice(0, this.maxDigits);
-    }
-    this._value = finalClean;
-    const num = finalClean === '' || finalClean === '-' ? null : Number(finalClean);
-    this.valueChange.emit(num);
-    this.onChange(num);
-    // Forzar actualización del input y mantener caret
-    try {
-      setTimeout(() => {
-        try {
-          input.value = finalClean;
-          const tentative = start + digits.length;
-          const pos = Math.max(0, Math.min(finalClean.length, tentative));
-          input.setSelectionRange(pos, pos);
-        } catch {}
-      }, 0);
-    } catch {}
+  private escapeRegExp(s: string): string {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
-  onCompositionStart(): void {
-    this.isComposing = true;
-  }
-
-  onCompositionEnd(e: CompositionEvent): void {
-    this.isComposing = false;
-    // Procesar el valor final tras composición
-    this.onInput(e as unknown as Event);
-  }
-
-  onKeyDown(e: KeyboardEvent) {
-    // permitir combinaciones con ctrl/meta (copiar/pegar, etc.)
-    if (e.ctrlKey || e.metaKey) return;
-
-    const key = e.key;
-    // permitir teclas de control/navegación
-    const allowed = [
-      'Backspace',
-      'Delete',
-      'ArrowLeft',
-      'ArrowRight',
-      'Home',
-      'End',
-      'Tab',
-      'Enter',
-    ];
-    if (allowed.includes(key)) return;
-
-    // Si es un carácter imprimible de longitud 1
-    if (key.length === 1) {
-      // dígitos permitidos
-      if (/^[0-9]$/.test(key)) return;
-      // permitir '-' sólo si va a ser el primer carácter y no existe otro
-      if (key === '-') {
-        const input = e.target as HTMLInputElement;
-        const start = input.selectionStart ?? 0;
-        // Si se intenta insertar '-' en la posición 0, manejamos manualmente
-        // para reemplazar cualquier '-' existente y evitar acumulaciones.
-        if (start === 0) {
-          e.preventDefault();
-          // Construir nuevo valor con '-' solo al inicio y sin otros '-'
-          const current = input.value ?? '';
-          const digitsOnly = current.replace(/-/g, '');
-          // Truncar según maxDigits
-          const truncated = this.maxDigits ? digitsOnly.slice(0, this.maxDigits) : digitsOnly;
-          const newValue = '-' + truncated;
-          this._value = newValue;
-          const num = newValue === '-' || newValue === '' ? null : Number(newValue);
-          this.valueChange.emit(num);
-          this.onChange(num);
-          // Actualizar input y poner caret después del '-'
-          try {
-            input.value = newValue;
-            input.setSelectionRange(1, 1);
-          } catch {}
-          return;
-        }
-      }
+  /**
+   * Parsea un número de texto basado en los separadores configurados.
+   * Devuelve `number` o `null` si la cadena no corresponde al formato esperado.
+   */
+  private parseLocalizedNumber(text: string): number | null {
+    const ts = this.thousandSeparator;
+    const ds = this.decimalSeparator;
+    // Si separadores coinciden o son vacíos, caer al parser simple
+    if (!ts && !ds) {
+      const n = Number(text);
+      return Number.isFinite(n) ? n : null;
     }
 
-    // cualquier otra tecla imprimible se bloquea
-    e.preventDefault();
+    const dsEsc = this.escapeRegExp(ds);
+    const plain = new RegExp(`^-?\\d+(?:${dsEsc}\\d+)?$`);
+
+    // Rechazar explícitamente si el usuario ha introducido el separador de miles en el input.
+    // No permitimos que el usuario escriba separadores de miles; solo se acepta la forma "plana"
+    // con el separador decimal configurado.
+    if (ts && ts !== ds && text.indexOf(ts) !== -1) return null;
+
+    if (!plain.test(text)) return null;
+
+    // Normalizar: sustituir separador decimal configurado por '.' para parsear
+    const normalized = ds ? text.split(ds).join('.') : text;
+
+    const n = Number(normalized);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  private formatNumber(n: number): string {
+    const isNegative = n < 0;
+    const abs = Math.abs(n);
+    const parts = String(abs).split('.');
+    const intRaw = parts[0];
+    const fracRaw = parts[1] || '';
+
+    const intWithSep = intRaw.replace(/\B(?=(\d{3})+(?!\d))/g, this.thousandSeparator);
+    const sign = isNegative ? '-' : '';
+
+    // Mostrar la parte completa formateada; no limitar por `maxLength`.
+    if (fracRaw && fracRaw.length > 0) {
+      return sign + intWithSep + this.decimalSeparator + fracRaw;
+    }
+    return sign + intWithSep;
+  }
+
+  get formattedPreview(): string | null {
+    if (this.numericValue === null) return null;
+    return this.formatNumber(this.numericValue);
   }
 
   writeValue(obj: any): void {
