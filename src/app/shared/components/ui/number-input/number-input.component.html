@@ -8,7 +8,7 @@
     class="w-full rounded border px-3 py-2 text-sm border-gray-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-200"
     [placeholder]="placeholder"
     [value]="value"
-    [attr.maxlength]="maxDigits"
+    [attr.maxlength]="maxDigits ? maxDigits + 1 : null"
     inputmode="numeric"
     pattern="[0-9]*"
     [disabled]="disabled"

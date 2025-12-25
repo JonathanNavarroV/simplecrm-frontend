@@ -60,28 +60,40 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
 
   onInput(e: Event) {
     if (this.isComposing) return;
-    const raw = (e.target as HTMLInputElement).value;
-    // Permitir sólo dígitos
-    let filtered = raw.replace(/\D/g, '');
-    // Truncar al máximo de dígitos configurado
-    if (this.maxDigits && filtered.length > this.maxDigits) {
-      filtered = filtered.slice(0, this.maxDigits);
+    const input = e.target as HTMLInputElement;
+    const raw = input.value;
+    const selStart = input.selectionStart ?? raw.length;
+    // Permitir sólo dígitos y un '-' al inicio
+    let filtered = raw.replace(/[^0-9-]/g, '');
+    // Mantener '-' sólo si está al inicio
+    if (filtered.includes('-')) {
+      if (filtered[0] === '-') {
+        filtered = '-' + filtered.slice(1).replace(/-/g, '');
+      } else {
+        filtered = filtered.replace(/-/g, '');
+      }
+    }
+    // Truncar al máximo de dígitos (excluyendo '-').
+    const digitsOnly = filtered.startsWith('-') ? filtered.slice(1) : filtered;
+    if (this.maxDigits && digitsOnly.length > this.maxDigits) {
+      const truncated = digitsOnly.slice(0, this.maxDigits);
+      filtered = filtered.startsWith('-') ? '-' + truncated : truncated;
     }
 
     // Actualizar valor solo si cambió para evitar bucles
     if (filtered !== this._value) {
       this._value = filtered;
-      const num = filtered === '' ? null : Number(filtered);
+      const num = filtered === '' || filtered === '-' ? null : Number(filtered);
       this.valueChange.emit(num);
       this.onChange(num);
-      // Forzar actualización del input de forma segura para eliminar caracteres no permitidos
+      // Forzar actualización del input de forma segura y conservar caret
       try {
-        const input = e.target as HTMLInputElement;
+        const delta = filtered.length - raw.length;
+        let newPos = Math.max(0, Math.min(filtered.length, selStart + delta));
         setTimeout(() => {
           try {
             input.value = filtered;
-            const pos = filtered.length;
-            input.setSelectionRange(pos, pos);
+            input.setSelectionRange(newPos, newPos);
           } catch {}
         }, 0);
       } catch {}
@@ -90,19 +102,28 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
 
   onPaste(e: ClipboardEvent) {
     const paste = e.clipboardData?.getData('text') ?? '';
-    const digits = paste.replace(/\D/g, '');
+    const digits = paste.replace(/[^0-9-]/g, '');
     // Evitar pegado por defecto e insertar solo los dígitos filtrados
     e.preventDefault();
     const input = e.target as HTMLInputElement;
     const start = input.selectionStart ?? input.value.length;
     const end = input.selectionEnd ?? input.value.length;
     const newValue = input.value.slice(0, start) + digits + input.value.slice(end);
-    let finalClean = newValue.replace(/\D/g, '');
-    if (this.maxDigits && finalClean.length > this.maxDigits) {
-      finalClean = finalClean.slice(0, this.maxDigits);
+    // Filtrar '-' y dígitos como en onInput
+    let finalClean = newValue.replace(/[^0-9-]/g, '');
+    if (finalClean.includes('-')) {
+      if (finalClean[0] === '-') finalClean = '-' + finalClean.slice(1).replace(/-/g, '');
+      else finalClean = finalClean.replace(/-/g, '');
+    }
+    // Truncar dígitos excluyendo '-'
+    const finalDigits = finalClean.startsWith('-') ? finalClean.slice(1) : finalClean;
+    if (this.maxDigits && finalDigits.length > this.maxDigits) {
+      finalClean = finalClean.startsWith('-')
+        ? '-' + finalDigits.slice(0, this.maxDigits)
+        : finalDigits.slice(0, this.maxDigits);
     }
     this._value = finalClean;
-    const num = finalClean === '' ? null : Number(finalClean);
+    const num = finalClean === '' || finalClean === '-' ? null : Number(finalClean);
     this.valueChange.emit(num);
     this.onChange(num);
     // Forzar actualización del input y mantener caret
@@ -110,7 +131,8 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
       setTimeout(() => {
         try {
           input.value = finalClean;
-          const pos = start + digits.length;
+          const tentative = start + digits.length;
+          const pos = Math.max(0, Math.min(finalClean.length, tentative));
           input.setSelectionRange(pos, pos);
         } catch {}
       }, 0);
@@ -149,7 +171,32 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
     if (key.length === 1) {
       // dígitos permitidos
       if (/^[0-9]$/.test(key)) return;
-      // sólo dígitos permitidos
+      // permitir '-' sólo si va a ser el primer carácter y no existe otro
+      if (key === '-') {
+        const input = e.target as HTMLInputElement;
+        const start = input.selectionStart ?? 0;
+        // Si se intenta insertar '-' en la posición 0, manejamos manualmente
+        // para reemplazar cualquier '-' existente y evitar acumulaciones.
+        if (start === 0) {
+          e.preventDefault();
+          // Construir nuevo valor con '-' solo al inicio y sin otros '-'
+          const current = input.value ?? '';
+          const digitsOnly = current.replace(/-/g, '');
+          // Truncar según maxDigits
+          const truncated = this.maxDigits ? digitsOnly.slice(0, this.maxDigits) : digitsOnly;
+          const newValue = '-' + truncated;
+          this._value = newValue;
+          const num = newValue === '-' || newValue === '' ? null : Number(newValue);
+          this.valueChange.emit(num);
+          this.onChange(num);
+          // Actualizar input y poner caret después del '-'
+          try {
+            input.value = newValue;
+            input.setSelectionRange(1, 1);
+          } catch {}
+          return;
+        }
+      }
     }
 
     // cualquier otra tecla imprimible se bloquea
