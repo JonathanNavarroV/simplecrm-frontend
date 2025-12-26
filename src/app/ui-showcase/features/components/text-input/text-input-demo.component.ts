@@ -10,7 +10,7 @@ import { TextInputComponent } from '../../../../shared/components/ui/text-input/
   styleUrls: ['./text-input-demo.component.css'],
 })
 export class TextInputDemoComponent {
-  value = '';
+  value: string | null = null;
   error?: string;
 
   showError() {
@@ -18,7 +18,7 @@ export class TextInputDemoComponent {
   }
 
   clear() {
-    this.value = '';
+    this.value = null;
     this.error = undefined;
   }
 }

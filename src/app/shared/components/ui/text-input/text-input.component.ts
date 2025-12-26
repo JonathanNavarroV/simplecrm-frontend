@@ -40,7 +40,7 @@ export class TextInputComponent implements ControlValueAccessor, AfterViewInit {
   private _value: string = '';
 
   @Input()
-  set value(v: string) {
+  set value(v: string | null) {
     this.writeValue(v);
   }
   get value(): string {
@@ -48,20 +48,22 @@ export class TextInputComponent implements ControlValueAccessor, AfterViewInit {
   }
   disabled = false;
 
-  @Output() valueChange = new EventEmitter<string>();
+  @Output() valueChange = new EventEmitter<string | null>();
 
-  private onChange: (v: any) => void = () => {};
+  private onChange: (v: string | null) => void = () => {};
   onTouched: () => void = () => {};
 
   onInput(e: Event) {
     const v = (e.target as HTMLInputElement).value;
     this._value = v;
-    this.valueChange.emit(v);
-    this.onChange(v);
+    const out = v === '' ? null : v;
+    this.valueChange.emit(out);
+    this.onChange(out);
   }
 
   writeValue(obj: any): void {
-    this._value = obj ?? '';
+    if (obj === null || obj === undefined) this._value = '';
+    else this._value = String(obj);
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;
