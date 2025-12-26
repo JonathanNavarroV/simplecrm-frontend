@@ -17,7 +17,7 @@
   width: 100%;
   border: 1px solid #d1d5db; /* border-gray-300 */
   border-radius: 6px;
-  overflow: hidden;
+  overflow: visible; /* permitir que la previsualización desborde si es necesario */
   background: white;
 }
 
@@ -26,7 +26,8 @@
 }
 
 .compound-input {
-  flex: 1;
+  flex: 1 1 0%;
+  min-width: 0; /* importante para permitir que el input se encoja dentro de flex */
   height: 40px;
   border: none;
   padding: 0 1rem;
@@ -42,7 +43,7 @@
 }
 
 .preview-panel {
-  /* Ancho automático según contenido, pero con límite razonable */
+  /* Ancho automático según contenido; priorizamos que la previsualización se muestre completa */
   width: auto;
   display: inline-flex;
   align-items: center;
@@ -51,10 +52,9 @@
   border-left: 1px solid #e5e7eb;
   padding: 0 0.75rem;
   white-space: nowrap;
-  flex: 0 0 auto; /* no crecer, ocupar lo necesario */
-  max-width: 40%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  flex: 0 0 auto; /* no crecer; no se encoge: prioridad para mostrarse completa */
+  max-width: none;
+  overflow: visible;
 }
 
 .preview-content {

@@ -65,9 +65,9 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
   /** Separador decimal (por ejemplo '.' ó ',') usado en la previsualización */
   @Input() decimalSeparator: string = ',';
   /** Texto a mostrar antes del número en la previsualización (ej. moneda) */
-  @Input() previewPrefix: string = '$';
+  @Input() previewPrefix: string = '';
   /** Texto a mostrar después del número en la previsualización (ej. unidad) */
-  @Input() previewSuffix: string = 'CLP';
+  @Input() previewSuffix: string = '';
   // Nota: no usamos `decimalPlaces`; mostramos tantos decimales como quepan dentro de `maxLength`.
 
   // Manejo simple: aceptar cualquier entrada y emitir la cadena tal cual.
