@@ -1,14 +1,13 @@
 <nav class="flex items-center gap-1 text-sm text-gray-500 capitalize">
-  @for (c of breadcrumbService.items$ | async; track $index; let last = $last) { @if ( c.route) {
-  <a
-    class="hover:underline"
-    [routerLink]="c.route"
-    [ngClass]="last ? 'text-gray-800 font-medium' : ''"
-    >{{ c.label }}</a
-  >
-  } @else {
-  <span [ngClass]="last ? 'text-gray-800 font-medium' : ''">{{ c.label }}</span>
-  } @if (!last) {
-  <span>/</span>
-  } }
+  <ng-container *ngFor="let c of breadcrumbService.items$ | async; let last = last; let i = index">
+    <a
+      *ngIf="c.route"
+      class="hover:underline"
+      [routerLink]="c.route"
+      [ngClass]="last ? 'text-gray-800 font-medium' : ''"
+      >{{ c.label }}</a
+    >
+    <span *ngIf="!c.route" [ngClass]="last ? 'text-gray-800 font-medium' : ''">{{ c.label }}</span>
+    <span *ngIf="!last">/</span>
+  </ng-container>
 </nav>

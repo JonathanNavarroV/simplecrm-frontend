@@ -9,20 +9,24 @@
   </button>
 
   <!-- Dropdown -->
-  @if (open) {
-  <div class="absolute right-0 mt-1 w-48 rounded-xl border border-gray-200 bg-white shadow-lg z-50">
-    @for (item of items; track item) { @if (item.routerLink) {
-    <a class="block px-4 py-2 text-sm hover:bg-gray-100" [routerLink]="item.routerLink">{{
-      item.label
-    }}</a>
-    } @else if (item.action) {
-    <button
-      class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
-      (click)="item.action()"
-    >
-      {{ item.label }}
-    </button>
-    } }
+  <div
+    *ngIf="open"
+    class="absolute right-0 mt-1 w-48 rounded-xl border border-gray-200 bg-white shadow-lg z-50"
+  >
+    <ng-container *ngFor="let item of items">
+      <a
+        *ngIf="item.routerLink"
+        class="block px-4 py-2 text-sm hover:bg-gray-100"
+        [routerLink]="item.routerLink"
+        >{{ item.label }}</a
+      >
+      <button
+        *ngIf="!item.routerLink && item.action"
+        class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
+        (click)="item.action()"
+      >
+        {{ item.label }}
+      </button>
+    </ng-container>
   </div>
-  }
 </div>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IconComponent } from '../../ui/icon/icon.component';
 import { environment } from '../../../../../environments/environment';
@@ -18,7 +19,7 @@ interface SidebarModule {
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink, IconComponent],
+  imports: [CommonModule, RouterLink, IconComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
@@ -35,16 +36,15 @@ export class SidebarComponent {
               {
                 id: 'ui-text-input',
                 label: 'Text Input',
-                icon: 'edit',
+                icon: 'grid',
                 route: '/ui-showcase/components/text-input',
               },
               {
                 id: 'ui-number-input',
                 label: 'Number Input',
-                icon: 'numbers',
+                icon: 'grid',
                 route: '/ui-showcase/components/number-input',
               },
-              // aquí puedes añadir más componentes de muestra
             ],
           },
           {
@@ -54,7 +54,7 @@ export class SidebarComponent {
               {
                 id: 'ui-simple-form',
                 label: 'Formulario simple',
-                icon: 'sticky_note_2',
+                icon: 'toggle-header-column',
                 route: '/ui-showcase/forms/simple',
               },
             ],
@@ -80,7 +80,7 @@ export class SidebarComponent {
               {
                 id: 'crm-clients',
                 label: 'Clientes',
-                icon: 'person',
+                icon: 'user',
                 route: '/crm/clients',
               },
               {
@@ -104,7 +104,7 @@ export class SidebarComponent {
               {
                 id: 'users-list',
                 label: 'Usuarios',
-                icon: 'person',
+                icon: 'user',
                 route: '/users',
               },
               {

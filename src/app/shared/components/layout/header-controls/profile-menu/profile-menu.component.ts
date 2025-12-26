@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CloseOnInteractDirective } from '../../../../directives/close-on-interact.directive';
 import { IconComponent } from '../../../ui/icon/icon.component';
@@ -6,7 +7,7 @@ import { ProfileMenuItem } from './profile-menu-item.interface';
 
 @Component({
   selector: 'app-profile-menu',
-  imports: [IconComponent, CloseOnInteractDirective, RouterLink],
+  imports: [CommonModule, IconComponent, CloseOnInteractDirective, RouterLink],
   templateUrl: './profile-menu.component.html',
   styleUrl: './profile-menu.component.css',
 })
