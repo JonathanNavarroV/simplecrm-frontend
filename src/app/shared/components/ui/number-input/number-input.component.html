@@ -1,10 +1,14 @@
 <div class="number-input">
   <label *ngIf="label" class="text-xs text-gray-600 mb-1 block">{{ label }}</label>
-  <div class="input-row">
-    <div class="compound" [class.has-error]="!!displayError">
+
+  <div class="flex items-center gap-2">
+    <div
+      class="w-full rounded border border-gray-300 bg-white flex items-stretch overflow-hidden"
+      [class.border-red-500]="!!displayError"
+    >
       <input
         type="text"
-        class="compound-input"
+        class="flex-1 border-0 px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-1 focus:ring-primary-200 focus:border-primary-500"
         [placeholder]="placeholder"
         [value]="value"
         [disabled]="disabled"
@@ -13,15 +17,15 @@
         [attr.aria-invalid]="!!displayError"
       />
 
-      <!-- Panel de previsualización a la derecha: sección gris dentro del mismo borde -->
-      <div class="preview-panel" *ngIf="formattedPreview !== null" aria-hidden="true">
-        <div class="preview-content">
-          <span class="preview-prefix" *ngIf="previewPrefix">{{ previewPrefix }}</span>
-          <span class="preview-value">{{ formattedPreview }}</span>
-          <span class="preview-suffix" *ngIf="previewSuffix">{{ previewSuffix }}</span>
-        </div>
+      <div
+        *ngIf="formattedPreview !== null"
+        class="bg-gray-100 border-l border-gray-200 px-3 py-2 text-sm font-semibold text-gray-700 flex items-center"
+        aria-hidden="true"
+      >
+        <span class="text-gray-500 mr-1" *ngIf="previewPrefix">{{ previewPrefix }}</span>
+        <span>{{ formattedPreview }}</span>
+        <span class="text-gray-500 ml-1" *ngIf="previewSuffix">{{ previewSuffix }}</span>
       </div>
-      <!-- (Control de maxLength eliminado: solo queda @Input maxLength) -->
     </div>
   </div>
 
