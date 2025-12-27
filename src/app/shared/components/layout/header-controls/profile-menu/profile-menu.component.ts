@@ -3,7 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CloseOnInteractDirective } from '../../../../directives/close-on-interact.directive';
 import { IconComponent } from '../../../ui/icon/icon.component';
-import { ProfileMenuItem } from './profile-menu-item.interface';
+
+export interface ProfileMenuItem {
+  label: string;
+  routerLink?: string;
+  action?: () => void;
+}
 
 @Component({
   selector: 'app-profile-menu',
