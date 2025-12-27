@@ -10,7 +10,7 @@ import { IconComponent } from '../icon/icon.component';
   styleUrls: ['./button.component.css'],
 })
 export class ButtonComponent {
-  @Input() variant: 'primary' | 'secondary' | 'link' | 'danger' = 'primary';
+  @Input() variant: 'primary' | 'secondary' | 'danger' = 'primary';
   @Input() disabled = false;
   @Input() size: 'sm' | 'md' = 'md';
   @Input() iconPosition: 'left' | 'right' = 'left';
@@ -33,8 +33,7 @@ export class ButtonComponent {
         return `${base} ${dir} ${spacing} ${sizeCls} ${disabledCls} rounded border-gray-300 text-gray-700 bg-white`;
       case 'danger':
         return `${base} ${dir} ${spacing} ${sizeCls} ${disabledCls} rounded border-transparent bg-red-600 text-white`;
-      case 'link':
-        return `${base} ${dir} ${spacing} ${sizeCls} ${disabledCls} rounded border-transparent bg-transparent text-indigo-600 hover:underline`;
+      // 'link' variant removed: prefer using a plain <a href> for navigational links.
       case 'primary':
       default:
         return `${base} ${dir} ${spacing} ${sizeCls} ${disabledCls} rounded border-transparent bg-indigo-600 text-white`;
