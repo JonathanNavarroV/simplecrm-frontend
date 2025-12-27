@@ -1,46 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @theme {
-  /* Primario (azul sobrio con escala) */
-  --color-primary: #1d4ed8;
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-200: #c7d2fe;
-  --color-primary-300: #a5b4fc;
-  --color-primary-400: #818cf8;
-  --color-primary-500: #6366f1;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-800: #3730a3;
-  --color-primary-900: #312e81;
-
-  /* Secundario (azul grisáceo complementario) */
-  --color-secondary: #0ea5e9;
-  --color-secondary-100: #e0f2fe;
-  --color-secondary-500: #38bdf8;
-  --color-secondary-700: #0284c7;
-
-  /* Accent (teal suave, moderno) */
-  --color-accent: #14b8a6;
-  --color-accent-100: #ccfbf1;
-  --color-accent-500: #2dd4bf;
-  --color-accent-700: #0f766e;
-
-  /* Estados (tonos menos saturados, más serios) */
-  --color-success: #22c55e; /* Verde balanceado */
-  --color-error: #ef4444; /* Rojo más limpio */
-  --color-warning: #eab308; /* Amarillo dorado */
-
-  /* Neutros (escala gris profesional, ligera variación cálida) */
-  --color-gray-50: #f8fafc;
-  --color-gray-100: #f1f5f9;
-  --color-gray-200: #e2e8f0;
-  --color-gray-300: #cbd5e1;
-  --color-gray-400: #94a3b8;
-  --color-gray-500: #64748b;
-  --color-gray-600: #475569;
-  --color-gray-700: #334155;
-  --color-gray-800: #1e293b;
-  --color-gray-900: #0f172a;
 }
 
 @import 'tailwindcss';

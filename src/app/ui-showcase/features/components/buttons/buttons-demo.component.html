@@ -1,0 +1,39 @@
+<div class="p-6">
+  <h2 class="text-lg font-semibold mb-4">Buttons — Demo</h2>
+
+  <div class="space-y-4">
+    <div class="flex items-center gap-3">
+      <app-button variant="primary">Primary</app-button>
+      <app-button variant="secondary">Secondary</app-button>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <app-button variant="primary" [disabled]="true">Disabled</app-button>
+      <app-button variant="link">Link style</app-button>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-600">Ejemplo de acción destructiva (solo muestra):</p>
+      <div class="flex items-center gap-3 mt-2">
+        <app-button variant="secondary">Cancelar</app-button>
+        <app-button variant="danger">Eliminar</app-button>
+        <app-button variant="primary">Guardar</app-button>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-600">Botones con icono (muestra):</p>
+      <div class="flex items-center gap-3 mt-2">
+        <app-button variant="primary" size="md" icon="floppy-disk">
+          <span>Guardar</span>
+        </app-button>
+        <app-button variant="danger" size="md" icon="trash">
+          <span>Eliminar</span>
+        </app-button>
+        <app-button variant="secondary" size="md" icon="check" iconPosition="right">
+          <span>Después</span>
+        </app-button>
+      </div>
+    </div>
+  </div>
+</div>

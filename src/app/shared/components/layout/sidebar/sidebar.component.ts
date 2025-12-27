@@ -45,6 +45,12 @@ export class SidebarComponent {
                 icon: 'grid',
                 route: '/ui-showcase/components/number-input',
               },
+              {
+                id: 'ui-buttons',
+                label: 'Buttons',
+                icon: 'grid',
+                route: '/ui-showcase/components/buttons',
+              },
             ],
           },
           {

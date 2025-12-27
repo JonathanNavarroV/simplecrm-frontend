@@ -44,6 +44,14 @@ export const routes: Routes = [
                           (m) => m.NumberInputDemoComponent,
                         ),
                     },
+                    {
+                      path: 'buttons',
+                      data: { breadcrumb: 'buttons' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/components/buttons/buttons-demo.component').then(
+                          (m) => m.ButtonsDemoComponent,
+                        ),
+                    },
                   ],
                 },
                 {
