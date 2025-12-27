@@ -10,7 +10,7 @@
       <input
         type="text"
         [attr.aria-disabled]="disabled"
-        class="flex-1 border-0 px-3 py-2 text-sm bg-transparent placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-200 focus:border-indigo-500"
+        class="flex-1 min-w-0 border-0 px-3 py-2 text-sm bg-transparent placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-200 focus:border-indigo-500"
         [class.text-gray-500]="disabled"
         [placeholder]="placeholder"
         [value]="value"
@@ -22,7 +22,7 @@
 
       <div
         *ngIf="formattedPreview !== null"
-        class="bg-gray-100 border-l border-gray-200 px-3 py-2 text-sm font-semibold text-gray-700 flex items-center"
+        class="bg-gray-100 border-l border-gray-200 px-3 py-2 text-sm font-semibold text-gray-700 flex items-center flex-shrink-0"
         aria-hidden="true"
       >
         <span class="text-gray-500 mr-1" *ngIf="previewPrefix">{{ previewPrefix }}</span>
