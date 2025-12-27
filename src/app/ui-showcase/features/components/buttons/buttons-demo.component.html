@@ -7,6 +7,15 @@
       <app-button variant="secondary">Secondary</app-button>
     </div>
 
+    <div>
+      <p class="text-sm text-gray-600">Small (size="sm") — Ejemplos:</p>
+      <div class="flex items-center gap-3 mt-2">
+        <app-button variant="primary" size="sm">Primary</app-button>
+        <app-button variant="secondary" size="sm">Secondary</app-button>
+        <app-button variant="danger" size="sm">Eliminar</app-button>
+      </div>
+    </div>
+
     <div class="flex items-center gap-3">
       <app-button variant="primary" [disabled]="true">Disabled</app-button>
     </div>
@@ -32,6 +41,33 @@
         <app-button variant="secondary" size="md" icon="check" iconPosition="right">
           <span>Después</span>
         </app-button>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-600 mt-4">Small icon-only (size="sm") — Ejemplos:</p>
+      <div class="flex items-center gap-3 mt-2">
+        <app-button
+          variant="primary"
+          size="sm"
+          icon="floppy-disk"
+          iconPosition="center"
+          ariaLabel="Guardar"
+        ></app-button>
+        <app-button
+          variant="danger"
+          size="sm"
+          icon="trash"
+          iconPosition="center"
+          ariaLabel="Eliminar"
+        ></app-button>
+        <app-button
+          variant="secondary"
+          size="sm"
+          icon="check"
+          iconPosition="center"
+          ariaLabel="Confirmar"
+        ></app-button>
       </div>
     </div>
 
