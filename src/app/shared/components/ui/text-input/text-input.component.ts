@@ -46,7 +46,7 @@ export class TextInputComponent implements ControlValueAccessor, AfterViewInit {
   get value(): string {
     return this._value;
   }
-  disabled = false;
+  @Input() disabled = false;
 
   @Output() valueChange = new EventEmitter<string | null>();
 

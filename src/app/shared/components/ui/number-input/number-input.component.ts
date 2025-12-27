@@ -55,7 +55,7 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
   @Input() maxLength: number = 15;
   private onChange: (v: string | null) => void = () => {};
   onTouched: () => void = () => {};
-  disabled: boolean = false;
+  @Input() disabled: boolean = false;
   // Indica si el contenido actual puede convertirse a `number` correctamente.
   isNumberValid: boolean = false;
   // Valor numérico convertido cuando corresponde, o null si no es convertible.

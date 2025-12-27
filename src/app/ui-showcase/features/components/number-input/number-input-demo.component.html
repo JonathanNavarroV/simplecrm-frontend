@@ -8,13 +8,57 @@
     (valueChange)="value = $event"
     [error]="error"
   ></app-number-input>
-
-  <div class="mt-4 flex items-center gap-2">
-    <app-button variant="danger" (click)="showError()">Mostrar error</app-button>
-    <app-button variant="secondary" (click)="clear()">Limpiar</app-button>
-  </div>
-
   <div class="mt-4 text-sm text-gray-600">
     Valor actual: {{ value === null ? '(vacío)' : value }}
+  </div>
+
+  <div class="mt-6 space-y-4">
+    <div>
+      <p class="text-sm font-medium">Variantes</p>
+      <div class="grid grid-cols-3 gap-3 mt-2">
+        <div>
+          <app-number-input label="Default" [value]="'1234'"></app-number-input>
+        </div>
+
+        <div>
+          <app-number-input
+            label="Con pre/sufijo"
+            [value]="'2500'"
+            previewPrefix="$"
+            previewSuffix=" USD"
+          >
+          </app-number-input>
+        </div>
+
+        <div>
+          <app-number-input
+            label="Separadores (es)"
+            [value]="'12345,67'"
+            thousandSeparator="."
+            decimalSeparator=","
+          ></app-number-input>
+        </div>
+
+        <div>
+          <app-number-input
+            label="MaxLength=5"
+            [value]="'1234567'"
+            [maxLength]="5"
+          ></app-number-input>
+        </div>
+
+        <div>
+          <app-number-input label="Disabled" [value]="'42'" [disabled]="true"></app-number-input>
+        </div>
+
+        <div>
+          <app-number-input
+            label="Con error"
+            [value]="'abc'"
+            [error]="'No es un número válido'"
+          ></app-number-input>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

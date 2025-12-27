@@ -2,9 +2,12 @@
   <label *ngIf="label" class="text-xs text-gray-600 mb-1 block">{{ label }}</label>
   <input
     [attr.aria-invalid]="!!displayError"
+    [attr.aria-disabled]="disabled"
     [class.border-red-500]="!!displayError"
     [class.focus:ring-red-200]="!!displayError"
-    class="w-full rounded border px-3 py-2 text-sm border-gray-300 focus:border-primary-500 focus:ring-1 focus:ring-primary-200"
+    [class.bg-gray-100]="disabled"
+    [class.text-gray-500]="disabled"
+    class="w-full rounded border px-3 py-2 text-sm border-gray-300 placeholder-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-primary-200"
     [placeholder]="placeholder"
     [value]="value"
     [disabled]="disabled"

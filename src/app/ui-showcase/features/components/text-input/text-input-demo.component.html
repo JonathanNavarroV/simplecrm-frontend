@@ -8,13 +8,55 @@
     (valueChange)="value = $event"
     [error]="error"
   ></app-text-input>
-
-  <div class="mt-4 flex items-center gap-2">
-    <app-button variant="danger" (click)="showError()">Mostrar error</app-button>
-    <app-button variant="secondary" (click)="clear()">Limpiar</app-button>
-  </div>
-
   <div class="mt-4 text-sm text-gray-600">
     Valor actual: {{ value === null ? '(vacío)' : value }}
+  </div>
+
+  <div class="mt-6 space-y-4">
+    <div>
+      <p class="text-sm font-medium">Variantes</p>
+      <div class="grid grid-cols-3 gap-3 mt-2">
+        <div>
+          <app-text-input label="Default" [value]="'Hola'"> </app-text-input>
+        </div>
+
+        <div>
+          <app-text-input label="Con placeholder" placeholder="Escribe aquí..." [value]="null">
+          </app-text-input>
+        </div>
+
+        <div>
+          <app-text-input
+            label="Disabled"
+            [value]="'No editable'"
+            [disabled]="true"
+          ></app-text-input>
+        </div>
+
+        <div>
+          <app-text-input
+            label="Con error"
+            [value]="'Valor inválido'"
+            [error]="'Formato no válido'"
+          ></app-text-input>
+        </div>
+
+        <div>
+          <app-text-input
+            label="Largo"
+            [value]="'Texto muy largo de ejemplo para probar el layout'"
+          >
+          </app-text-input>
+        </div>
+
+        <div>
+          <app-text-input
+            label="Vacío (null)"
+            [value]="null"
+            placeholder="(vacío)"
+          ></app-text-input>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

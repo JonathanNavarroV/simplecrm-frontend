@@ -24,7 +24,9 @@ export class ButtonComponent {
     const spacingBase = this.size === 'sm' ? 'space-x-1' : 'space-x-2';
     const spacing = spacingBase + (dir === 'flex-row-reverse' ? ' space-x-reverse' : '');
     const sizeCls = this.size === 'sm' ? 'px-3 py-2 text-sm' : 'px-4 py-2 text-sm';
-    const disabledCls = this.disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer';
+    const disabledCls = this.disabled
+      ? 'opacity-60 cursor-not-allowed pointer-events-none'
+      : 'cursor-pointer';
 
     switch (this.variant) {
       case 'secondary':
