@@ -10,15 +10,8 @@
   ></app-number-input>
 
   <div class="mt-4 flex items-center gap-2">
-    <button
-      class="rounded bg-red-600 text-white px-3 py-1 text-sm cursor-pointer"
-      (click)="showError()"
-    >
-      Mostrar error
-    </button>
-    <button class="rounded border px-3 py-1 text-sm cursor-pointer" (click)="clear()">
-      Limpiar
-    </button>
+    <app-button variant="danger" (click)="showError()">Mostrar error</app-button>
+    <app-button variant="secondary" (click)="clear()">Limpiar</app-button>
   </div>
 
   <div class="mt-4 text-sm text-gray-600">

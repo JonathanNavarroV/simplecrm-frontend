@@ -16,6 +16,7 @@ export class ButtonComponent {
   @Input() iconPosition: 'left' | 'right' = 'left';
   @Input() icon?: string;
   @Input() iconClass = 'h-4 w-4';
+  @Input() type: 'button' | 'submit' | 'reset' = 'button';
 
   get classes(): string {
     const dir = this.iconPosition === 'right' ? 'flex-row-reverse' : 'flex-row';

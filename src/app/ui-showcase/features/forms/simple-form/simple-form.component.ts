@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { TextInputComponent } from '../../../../shared/components/ui/text-input/text-input.component';
+import { ButtonComponent } from '../../../../shared/components/ui/button/button.component';
 
 @Component({
   selector: 'app-simple-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TextInputComponent],
+  imports: [CommonModule, ReactiveFormsModule, TextInputComponent, ButtonComponent],
   templateUrl: './simple-form.component.html',
   styleUrls: ['./simple-form.component.css'],
 })

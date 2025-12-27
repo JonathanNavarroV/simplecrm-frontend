@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NumberInputComponent } from '../../../../shared/components/ui/number-input/number-input.component';
+import { ButtonComponent } from '../../../../shared/components/ui/button/button.component';
 
 @Component({
   selector: 'app-number-input-demo',
   standalone: true,
-  imports: [CommonModule, NumberInputComponent],
+  imports: [CommonModule, NumberInputComponent, ButtonComponent],
   templateUrl: './number-input-demo.component.html',
   styleUrls: ['./number-input-demo.component.css'],
 })
