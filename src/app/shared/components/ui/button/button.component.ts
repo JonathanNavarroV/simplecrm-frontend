@@ -13,16 +13,20 @@ export class ButtonComponent {
   @Input() variant: 'primary' | 'secondary' | 'danger' = 'primary';
   @Input() disabled = false;
   @Input() size: 'sm' | 'md' = 'md';
-  @Input() iconPosition: 'left' | 'right' = 'left';
+  @Input() iconPosition: 'left' | 'right' | 'center' = 'left';
   @Input() icon?: string;
   @Input() iconClass = 'h-4 w-4';
+  @Input() ariaLabel?: string;
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
 
   get classes(): string {
     const dir = this.iconPosition === 'right' ? 'flex-row-reverse' : 'flex-row';
     const base = 'inline-flex items-center justify-center border';
     const spacingBase = this.size === 'sm' ? 'space-x-1' : 'space-x-2';
-    const spacing = spacingBase + (dir === 'flex-row-reverse' ? ' space-x-reverse' : '');
+    const spacing =
+      this.iconPosition === 'center'
+        ? ''
+        : spacingBase + (dir === 'flex-row-reverse' ? ' space-x-reverse' : '');
     const sizeCls = this.size === 'sm' ? 'px-3 py-2 text-sm' : 'px-4 py-2 text-sm';
     const disabledCls = this.disabled
       ? 'opacity-60 cursor-not-allowed pointer-events-none'

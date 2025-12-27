@@ -1,4 +1,12 @@
-<button [attr.type]="type" [disabled]="disabled" [class]="classes">
-  <app-icon *ngIf="icon" [name]="icon" [class]="iconClass"></app-icon>
-  <span class="inline"><ng-content></ng-content></span>
+<button [attr.type]="type" [disabled]="disabled" [class]="classes" [attr.aria-label]="ariaLabel">
+  <ng-container *ngIf="icon && iconPosition !== 'center'">
+    <app-icon [name]="icon" [class]="iconClass"></app-icon>
+  </ng-container>
+
+  <ng-container *ngIf="icon && iconPosition === 'center'">
+    <app-icon [name]="icon" [class]="iconClass"></app-icon>
+    <span *ngIf="ariaLabel" class="sr-only">{{ ariaLabel }}</span>
+  </ng-container>
+
+  <span *ngIf="iconPosition !== 'center'" class="inline"><ng-content></ng-content></span>
 </button>
