@@ -45,6 +45,8 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
     // Aceptar cualquier tipo y convertir a string internamente
     if (v === null || v === undefined) this._value = '';
     else this._value = String(v);
+    // Al asignar un valor externo, actualizar el estado numérico y la previsualización
+    this.updateNumericStateFromValue();
   }
   get value(): string {
     return this._value;
@@ -161,6 +163,32 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
     if (typeof obj === 'number') this._value = String(obj);
     else if (obj === null) this._value = '';
     else this._value = obj ?? '';
+    // Cuando Angular establece el valor (form control), calcular también la previsualización
+    this.updateNumericStateFromValue();
+  }
+
+  // Actualiza `numericValue` y `isNumberValid` a partir del `_value` actual.
+  private updateNumericStateFromValue(): void {
+    const trimmed = (this._value ?? '').toString().trim();
+    if (trimmed === '') {
+      this.numericValue = null;
+      this.isNumberValid = false;
+      try {
+        this.cdr.detectChanges();
+      } catch {}
+      return;
+    }
+    const num = this.parseLocalizedNumber(trimmed);
+    if (num === null) {
+      this.numericValue = null;
+      this.isNumberValid = false;
+    } else {
+      this.numericValue = num;
+      this.isNumberValid = true;
+    }
+    try {
+      this.cdr.detectChanges();
+    } catch {}
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;
