@@ -11,6 +11,7 @@ import { SelectComponent } from '../../../../shared/components/ui/select/select.
 })
 export class SelectDemoComponent {
   value: string | string[] | null = null;
+  valueIdName: string | string[] | null = null;
   valueMultiple: string | string[] | null = null;
   error?: string;
 

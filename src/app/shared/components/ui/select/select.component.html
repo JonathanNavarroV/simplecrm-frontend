@@ -30,9 +30,9 @@
 
       <div
         *ngIf="isOpen"
-        class="absolute z-10 mt-1 w-full bg-white border rounded shadow max-h-60 overflow-auto"
+        class="absolute z-10 mt-1 w-full bg-white border rounded border-gray-300 shadow max-h-60 overflow-auto"
       >
-        <ul class="divide-y">
+        <ul class="divide-y divide-gray-300">
           <li *ngFor="let o of normalizedOptions">
             <label
               class="flex items-center w-full px-3 py-2 hover:bg-gray-300 cursor-pointer"
@@ -45,7 +45,12 @@
               [attr.aria-disabled]="disabled"
             >
               <span class="flex-1">{{ o.label }}</span>
-              <span *ngIf="isSelected(o.value)" class="text-indigo-600">✓</span>
+              <app-icon
+                *ngIf="isSelected(o.value)"
+                name="check"
+                class="h-4 w-4 text-gray-500"
+                aria-hidden="true"
+              ></app-icon>
             </label>
           </li>
         </ul>
@@ -84,9 +89,9 @@
 
       <div
         *ngIf="isOpen"
-        class="absolute z-10 mt-1 w-full bg-white border rounded shadow max-h-60 overflow-auto"
+        class="absolute z-10 mt-1 w-full bg-white border rounded border-gray-300 max-h-60 overflow-auto"
       >
-        <ul class="divide-y">
+        <ul class="divide-y divide-gray-300">
           <li *ngFor="let o of normalizedOptions">
             <label
               class="flex items-center px-3 py-2 hover:bg-gray-300 cursor-pointer"
