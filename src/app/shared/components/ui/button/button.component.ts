@@ -27,7 +27,7 @@ export class ButtonComponent {
       this.iconPosition === 'center'
         ? ''
         : spacingBase + (dir === 'flex-row-reverse' ? ' space-x-reverse' : '');
-    const sizeCls = this.size === 'sm' ? 'px-3 py-2 text-sm' : 'px-4 py-2 text-sm';
+    const sizeCls = this.size === 'sm' ? 'px-2.5 py-1.5 text-sm' : 'px-4 py-2 text-sm';
     const disabledCls = this.disabled
       ? 'opacity-60 cursor-not-allowed pointer-events-none'
       : 'cursor-pointer';
