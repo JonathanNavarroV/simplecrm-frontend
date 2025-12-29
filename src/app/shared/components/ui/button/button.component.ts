@@ -34,13 +34,13 @@ export class ButtonComponent {
 
     switch (this.variant) {
       case 'secondary':
-        return `${base} ${dir} ${spacing} ${sizeCls} ${disabledCls} rounded border-gray-300 text-gray-700 bg-white hover:bg-gray-100 hover:text-gray-900`;
+        return `${base} ${dir} ${spacing} ${sizeCls} ${disabledCls} rounded border-gray-300 text-gray-700 bg-white hover:bg-gray-300 hover:text-gray-900`;
       case 'danger':
-        return `${base} ${dir} ${spacing} ${sizeCls} ${disabledCls} rounded border-transparent bg-red-600 text-white hover:bg-red-700`;
+        return `${base} ${dir} ${spacing} ${sizeCls} ${disabledCls} rounded border-transparent bg-red-600 text-white hover:bg-red-800`;
       // 'link' variant removed: prefer using a plain <a href> for navigational links.
       case 'primary':
       default:
-        return `${base} ${dir} ${spacing} ${sizeCls} ${disabledCls} rounded border-transparent bg-indigo-600 text-white hover:bg-indigo-700`;
+        return `${base} ${dir} ${spacing} ${sizeCls} ${disabledCls} rounded border-transparent bg-indigo-600 text-white hover:bg-indigo-800`;
     }
   }
 }
