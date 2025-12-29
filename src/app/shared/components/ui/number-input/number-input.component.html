@@ -3,14 +3,14 @@
 
   <div class="flex items-center gap-2">
     <div
-      class="w-full rounded border border-gray-300 bg-white flex items-stretch overflow-hidden"
+      class="w-full rounded border border-gray-300 bg-white flex items-stretch focus-within:ring-1 focus-within:ring-indigo-200 focus-within:border-indigo-500"
       [class.border-red-500]="!!displayError"
       [class.bg-gray-100]="disabled"
     >
       <input
         type="text"
         [attr.aria-disabled]="disabled"
-        class="flex-1 min-w-0 border-0 px-3 py-2 text-sm bg-transparent placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-200 focus:border-indigo-500"
+        class="flex-1 min-w-0 border-0 px-3 py-2 text-sm bg-transparent placeholder-gray-400 focus:outline-none"
         [class.text-gray-500]="disabled"
         [placeholder]="placeholder"
         [value]="value"
