@@ -34,17 +34,19 @@
       >
         <ul class="divide-y">
           <li *ngFor="let o of normalizedOptions">
-            <button
-              type="button"
-              class="w-full text-left px-3 py-2 hover:bg-gray-50"
-              (click)="toggleOption(o.value)"
-              [disabled]="disabled"
+            <label
+              class="flex items-center w-full px-3 py-2 hover:bg-gray-300 cursor-pointer"
+              role="option"
+              [attr.tabindex]="disabled ? -1 : 0"
+              (click)="disabled ? null : toggleOption(o.value)"
+              (keydown.enter)="disabled ? null : toggleOption(o.value)"
+              (keydown.space)="$event.preventDefault(); disabled ? null : toggleOption(o.value)"
+              [class.pointer-events-none]="disabled"
+              [attr.aria-disabled]="disabled"
             >
-              <span class="flex items-center">
-                <span class="flex-1">{{ o.label }}</span>
-                <span *ngIf="isSelected(o.value)" class="text-indigo-600">✓</span>
-              </span>
-            </button>
+              <span class="flex-1">{{ o.label }}</span>
+              <span *ngIf="isSelected(o.value)" class="text-indigo-600">✓</span>
+            </label>
           </li>
         </ul>
       </div>
@@ -86,7 +88,10 @@
       >
         <ul class="divide-y">
           <li *ngFor="let o of normalizedOptions">
-            <label class="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer">
+            <label
+              class="flex items-center px-3 py-2 hover:bg-gray-300 cursor-pointer"
+              [attr.aria-disabled]="disabled"
+            >
               <input
                 type="checkbox"
                 class="mr-3"
