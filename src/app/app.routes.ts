@@ -52,6 +52,14 @@ export const routes: Routes = [
                           (m) => m.ButtonsDemoComponent,
                         ),
                     },
+                    {
+                      path: 'select',
+                      data: { breadcrumb: 'select' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/components/select/select-demo.component').then(
+                          (m) => m.SelectDemoComponent,
+                        ),
+                    },
                   ],
                 },
                 {

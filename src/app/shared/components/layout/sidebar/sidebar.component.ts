@@ -51,6 +51,12 @@ export class SidebarComponent {
                 icon: 'grid',
                 route: '/ui-showcase/components/buttons',
               },
+              {
+                id: 'ui-select',
+                label: 'Select',
+                icon: 'grid',
+                route: '/ui-showcase/components/select',
+              },
             ],
           },
           {

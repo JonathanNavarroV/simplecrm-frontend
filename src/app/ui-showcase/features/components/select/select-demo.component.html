@@ -1,0 +1,72 @@
+<div class="p-6">
+  <h2 class="text-lg font-semibold mb-4">Select — Demo</h2>
+
+  <app-select
+    label="Selecciona"
+    [options]="options"
+    placeholder="Elige una opción"
+    [value]="value"
+    (valueChange)="value = $event"
+  ></app-select>
+
+  <div class="mt-4 text-sm text-gray-600">
+    Valor actual: {{ value === null ? '(vacío)' : value }}
+  </div>
+
+  <div class="mt-4">
+    <p class="text-sm font-medium">Ejemplo con `id` / `name`</p>
+    <app-select
+      label="Usando id/name"
+      [options]="optionsIdName"
+      optionValueKey="id"
+      optionLabelKey="name"
+      placeholder="Elige por id/name"
+      [value]="value"
+      (valueChange)="value = $event"
+    ></app-select>
+  </div>
+
+  <div class="mt-6">
+    <p class="text-sm font-medium">Variantes</p>
+    <div class="grid grid-cols-3 gap-3 mt-2">
+      <div>
+        <app-select label="Default" [options]="options" [value]="'1'"></app-select>
+      </div>
+
+      <div>
+        <app-select
+          label="Disabled"
+          [options]="options"
+          [value]="'2'"
+          [disabled]="true"
+        ></app-select>
+      </div>
+
+      <div>
+        <app-select
+          label="Con error"
+          [options]="options"
+          [value]="'x'"
+          [error]="'Valor inválido'"
+        ></app-select>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6">
+    <p class="text-sm font-medium">Multiselect (custom)</p>
+    <div class="mt-2">
+      <app-select
+        label="Selecciona múltiples"
+        [options]="options"
+        [multiple]="true"
+        [value]="valueMultiple"
+        (valueChange)="valueMultiple = $event"
+      ></app-select>
+
+      <div class="mt-2 text-sm text-gray-600">
+        Seleccionados: {{ valueMultiple || '(ninguno)' }}
+      </div>
+    </div>
+  </div>
+</div>
