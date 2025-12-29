@@ -5,6 +5,7 @@
   >
     <div class="h-6 w-6 rounded-full bg-indigo-200"></div>
     <span class="hidden sm:inline text-sm">Jonathan Navarro</span>
+    <app-icon name="chevron-down" class="size-4"></app-icon>
   </button>
 
   <!-- Dropdown -->
@@ -15,13 +16,13 @@
     <ng-container *ngFor="let item of items">
       <a
         *ngIf="item.routerLink"
-        class="block px-4 py-2 text-sm hover:bg-gray-200"
+        class="block px-4 py-2 text-sm hover:bg-gray-100"
         [routerLink]="item.routerLink"
         >{{ item.label }}</a
       >
       <button
         *ngIf="!item.routerLink && item.action"
-        class="w-full text-left px-4 py-2 text-sm hover:bg-gray-200 cursor-pointer"
+        class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
         (click)="item.action()"
       >
         {{ item.label }}
