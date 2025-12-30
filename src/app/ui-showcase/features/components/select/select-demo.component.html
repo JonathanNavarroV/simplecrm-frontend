@@ -5,12 +5,12 @@
     label="Selecciona"
     [options]="options"
     placeholder="Elige una opción"
-    [value]="value"
-    (valueChange)="value = $event"
+    [value]="valueMain"
+    (valueChange)="valueMain = $event"
   ></app-select>
 
   <div class="mt-4 text-sm text-gray-600">
-    Valor actual: {{ value === null ? '(vacío)' : value }}
+    Valor actual: {{ valueMain === null ? '(vacío)' : valueMain }}
   </div>
 
   <div class="mt-4">
@@ -60,12 +60,12 @@
         label="Selecciona múltiples"
         [options]="options"
         [multiple]="true"
-        [value]="valueMultiple"
-        (valueChange)="valueMultiple = $event"
+        [value]="valueMultipleCustom"
+        (valueChange)="valueMultipleCustom = $event"
       ></app-select>
 
       <div class="mt-2 text-sm text-gray-600">
-        Seleccionados: {{ valueMultiple || '(ninguno)' }}
+        Seleccionados: {{ valueMultipleCustom || '(ninguno)' }}
       </div>
     </div>
   </div>
@@ -78,8 +78,8 @@
           label="Grupos (single)"
           [options]="groupedOptions"
           placeholder="Elige una opción de un grupo"
-          [value]="value"
-          (valueChange)="value = $event"
+          [value]="valueMainGroups"
+          (valueChange)="valueMainGroups = $event"
         ></app-select>
       </div>
 
@@ -95,6 +95,33 @@
         <div class="mt-2 text-sm text-gray-600">
           Seleccionados: {{ groupedMultipleValue || '(ninguno)' }}
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6">
+    <p class="text-sm font-medium">Con búsqueda</p>
+    <div class="mt-2 grid grid-cols-2 gap-4">
+      <div>
+        <app-select
+          label="Searchable (single)"
+          [options]="options"
+          [searchable]="true"
+          placeholder="Buscar opción"
+          [value]="valueSearchSingle"
+          (valueChange)="valueSearchSingle = $event"
+        ></app-select>
+      </div>
+
+      <div>
+        <app-select
+          label="Searchable (multiple)"
+          [options]="options"
+          [searchable]="true"
+          [multiple]="true"
+          [value]="valueSearchMultiple"
+          (valueChange)="valueSearchMultiple = $event"
+        ></app-select>
       </div>
     </div>
   </div>

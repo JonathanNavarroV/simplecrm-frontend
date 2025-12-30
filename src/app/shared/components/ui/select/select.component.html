@@ -32,8 +32,17 @@
         *ngIf="isOpen"
         class="absolute z-10 mt-1 w-full bg-white border rounded border-gray-300 shadow max-h-60 overflow-auto"
       >
+        <div *ngIf="searchable" class="p-2">
+          <input
+            type="text"
+            class="w-full rounded border px-3 py-2 text-sm border-gray-300 focus:outline-none"
+            placeholder="Buscar..."
+            [value]="filterText"
+            (input)="filterText = $any($event.target).value"
+          />
+        </div>
         <ul class="divide-y divide-gray-300">
-          <ng-container *ngFor="let entry of normalizedOptions">
+          <ng-container *ngFor="let entry of filteredOptions">
             <!-- Si es un grupo, renderizar cabecera + opciones -->
             <li *ngIf="entry && entry.options">
               <div class="px-3 py-2 text-xs font-medium text-gray-600">{{ entry.label }}</div>
@@ -125,8 +134,17 @@
         *ngIf="isOpen"
         class="absolute z-10 mt-1 w-full bg-white border rounded border-gray-300 max-h-60 overflow-auto"
       >
+        <div *ngIf="searchable" class="p-2">
+          <input
+            type="text"
+            class="w-full rounded border px-3 py-2 text-sm border-gray-300 focus:outline-none"
+            placeholder="Buscar..."
+            [value]="filterText"
+            (input)="filterText = $any($event.target).value"
+          />
+        </div>
         <ul class="divide-y divide-gray-300">
-          <ng-container *ngFor="let entry of normalizedOptions">
+          <ng-container *ngFor="let entry of filteredOptions">
             <li *ngIf="entry && entry.options">
               <div class="px-3 py-2 text-xs font-medium text-gray-600">{{ entry.label }}</div>
               <ul class="divide-y divide-gray-200">

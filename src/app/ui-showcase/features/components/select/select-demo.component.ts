@@ -10,9 +10,16 @@ import { SelectComponent } from '../../../../shared/components/ui/select/select.
   styleUrls: ['./select-demo.component.css'],
 })
 export class SelectDemoComponent {
-  value: string | string[] | null = null;
+  // Estados independientes para cada demo para evitar compartir valores entre selects
+  valueMain: string | string[] | null = null;
   valueIdName: string | string[] | null = null;
-  valueMultiple: string | string[] | null = null;
+  valueMultipleCustom: string | string[] | null = null;
+  // Estado para el select searchable (single)
+  valueSearchSingle: string | string[] | null = null;
+  // Estado para el select searchable (multiple)
+  valueSearchMultiple: string | string[] | null = null;
+  // Estado para el select de grupos (single)
+  valueMainGroups: string | string[] | null = null;
   error?: string;
 
   options = [

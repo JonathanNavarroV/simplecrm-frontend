@@ -70,6 +70,29 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() size: 'sm' | 'md' = 'md';
 
   @Input() multiple = false;
+  @Input() searchable = false;
+
+  // Texto de filtrado cuando `searchable` está activado
+  filterText = '';
+
+  // Devuelve las opciones normalizadas aplicando filtro cuando corresponda
+  get filteredOptions(): any[] {
+    const q = String(this.filterText ?? '')
+      .trim()
+      .toLowerCase();
+    if (!q) return this.normalizedOptions;
+
+    const out: any[] = [];
+    for (const entry of this.normalizedOptions) {
+      if (entry && entry.options && Array.isArray(entry.options)) {
+        const matched = entry.options.filter((o: any) => String(o.label).toLowerCase().includes(q));
+        if (matched.length) out.push({ label: entry.label, options: matched });
+      } else if (entry && String(entry.label).toLowerCase().includes(q)) {
+        out.push(entry);
+      }
+    }
+    return out;
+  }
 
   // Puede ser string (single) o string[] (multiple)
   private _value: string | string[] | null = '';
@@ -128,6 +151,10 @@ export class SelectComponent implements ControlValueAccessor {
   toggleOpen() {
     if (this.disabled) return;
     this.isOpen = !this.isOpen;
+    if (this.isOpen && this.searchable) {
+      // reset filter al abrir
+      this.filterText = '';
+    }
   }
 
   close() {
