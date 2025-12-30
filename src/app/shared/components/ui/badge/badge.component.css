@@ -1,0 +1,6 @@
+/* Estilos mínimos; la mayoría se controla por utilidades Tailwind en `classes` */
+
+/* Permitir que el icono herede el color de texto */
+.app-badge-icon {
+  color: inherit;
+}

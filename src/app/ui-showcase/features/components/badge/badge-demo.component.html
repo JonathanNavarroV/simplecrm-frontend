@@ -1,0 +1,34 @@
+<div class="p-6">
+  <h2 class="text-lg font-semibold mb-4">Badge — Demo</h2>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <p class="text-sm font-medium mb-2">Variantes</p>
+      <div class="flex gap-2 items-center flex-wrap">
+        <app-badge label="Default"></app-badge>
+        <app-badge label="Primary" variant="primary"></app-badge>
+        <app-badge label="Success" variant="success"></app-badge>
+        <app-badge label="Danger" variant="danger"></app-badge>
+        <app-badge label="Warning" variant="warning"></app-badge>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-sm font-medium mb-2">Tamaños / Pill</p>
+      <div class="flex gap-2 items-center flex-wrap">
+        <app-badge label="Sm" size="sm"></app-badge>
+        <app-badge label="Md" size="md"></app-badge>
+        <app-badge label="Pill" [pill]="true"></app-badge>
+        <app-badge label="Pill Primary" [pill]="true" variant="primary"></app-badge>
+      </div>
+    </div>
+
+    <div class="col-span-2 mt-4">
+      <p class="text-sm font-medium mb-2">Con icono</p>
+      <div class="flex gap-2 items-center flex-wrap">
+        <app-badge label="Check" iconName="check" variant="success"></app-badge>
+        <app-badge label="Close" iconName="close" variant="danger" [pill]="true"></app-badge>
+      </div>
+    </div>
+  </div>
+</div>

@@ -57,6 +57,12 @@ export class SidebarComponent {
                 icon: 'grid',
                 route: '/ui-showcase/components/select',
               },
+              {
+                id: 'ui-badge',
+                label: 'Badge',
+                icon: 'grid',
+                route: '/ui-showcase/components/badge',
+              },
             ],
           },
           {

@@ -60,6 +60,14 @@ export const routes: Routes = [
                           (m) => m.SelectDemoComponent,
                         ),
                     },
+                    {
+                      path: 'badge',
+                      data: { breadcrumb: 'badge' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/components/badge/badge-demo.component').then(
+                          (m) => m.BadgeDemoComponent,
+                        ),
+                    },
                   ],
                 },
                 {
