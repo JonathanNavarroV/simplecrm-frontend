@@ -28,8 +28,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class SelectComponent implements ControlValueAccessor {
   @Input() label?: string;
   // Se aceptan arrays arbitrarios; normalizamos internamente a { value, label }
+  // También soportamos grupos: { label: string, options: [...] }
   private _rawOptions: any[] = [];
-  normalizedOptions: { value: string; label: string }[] = [];
+  // Cada entrada puede ser una opción o un grupo de opciones
+  // Usamos any[] para simplificar el acceso desde la plantilla.
+  normalizedOptions: any[] = [];
 
   @Input() optionValueKey = 'value';
   @Input() optionLabelKey = 'label';
@@ -37,10 +40,26 @@ export class SelectComponent implements ControlValueAccessor {
   @Input()
   set options(v: any[]) {
     this._rawOptions = v ?? [];
-    this.normalizedOptions = this._rawOptions.map((o) => ({
-      value: String(o?.[this.optionValueKey] ?? o?.value ?? o?.id ?? ''),
-      label: String(o?.[this.optionLabelKey] ?? o?.label ?? o?.name ?? o?.id ?? ''),
-    }));
+    const out: Array<any> = [];
+    for (const o of this._rawOptions) {
+      // Soporte para grupo: { label, options: [...] }
+      if (o && Array.isArray(o.options)) {
+        const grp = {
+          label: String(o.label ?? o.name ?? ''),
+          options: o.options.map((opt: any) => ({
+            value: String(opt?.[this.optionValueKey] ?? opt?.value ?? opt?.id ?? ''),
+            label: String(opt?.[this.optionLabelKey] ?? opt?.label ?? opt?.name ?? opt?.id ?? ''),
+          })),
+        };
+        out.push(grp);
+      } else {
+        out.push({
+          value: String(o?.[this.optionValueKey] ?? o?.value ?? o?.id ?? ''),
+          label: String(o?.[this.optionLabelKey] ?? o?.label ?? o?.name ?? o?.id ?? ''),
+        });
+      }
+    }
+    this.normalizedOptions = out;
   }
   get options(): any[] {
     return this._rawOptions;
@@ -146,9 +165,17 @@ export class SelectComponent implements ControlValueAccessor {
 
   get selectedLabels(): string {
     const vals = this.selectedValues;
-    const labels = this.normalizedOptions
-      .filter((o) => vals.indexOf(o.value) !== -1)
-      .map((o) => o.label);
+    const labels: string[] = [];
+    for (const entry of this.normalizedOptions) {
+      if (entry && entry.options && Array.isArray(entry.options)) {
+        for (const opt of entry.options) {
+          if (vals.indexOf(opt.value) !== -1) labels.push(opt.label);
+        }
+      } else if (entry) {
+        const opt = entry;
+        if (vals.indexOf(opt.value) !== -1) labels.push(opt.label);
+      }
+    }
     return labels.join(', ');
   }
 }

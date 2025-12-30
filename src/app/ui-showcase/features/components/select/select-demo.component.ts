@@ -27,4 +27,24 @@ export class SelectDemoComponent {
     { id: 'b', name: 'Beta' },
     { id: 'g', name: 'Gamma' },
   ];
+
+  // Ejemplo de secciones / grupos
+  groupedOptions = [
+    {
+      label: 'Grupo A',
+      options: [
+        { value: 'a1', label: 'A - Uno' },
+        { value: 'a2', label: 'A - Dos' },
+      ],
+    },
+    {
+      label: 'Grupo B',
+      options: [
+        { value: 'b1', label: 'B - Uno' },
+        { value: 'b2', label: 'B - Dos' },
+      ],
+    },
+  ];
+
+  groupedMultipleValue: string | string[] | null = null;
 }

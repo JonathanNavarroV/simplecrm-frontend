@@ -17,8 +17,8 @@
       >
         <span
           class="truncate"
-          [class.text-gray-400]="!selectedLabels"
-          [class.text-gray-700]="!!selectedLabels"
+          [class.text-gray-400]="disabled || !selectedLabels"
+          [class.text-gray-700]="!disabled && !!selectedLabels"
         >
           {{ selectedLabels || placeholder || '\u00A0' }}
         </span>
@@ -33,26 +33,60 @@
         class="absolute z-10 mt-1 w-full bg-white border rounded border-gray-300 shadow max-h-60 overflow-auto"
       >
         <ul class="divide-y divide-gray-300">
-          <li *ngFor="let o of normalizedOptions">
-            <label
-              class="flex items-center w-full px-3 py-2 hover:bg-gray-300 cursor-pointer"
-              role="option"
-              [attr.tabindex]="disabled ? -1 : 0"
-              (click)="disabled ? null : toggleOption(o.value)"
-              (keydown.enter)="disabled ? null : toggleOption(o.value)"
-              (keydown.space)="$event.preventDefault(); disabled ? null : toggleOption(o.value)"
-              [class.pointer-events-none]="disabled"
-              [attr.aria-disabled]="disabled"
-            >
-              <span class="flex-1">{{ o.label }}</span>
-              <app-icon
-                *ngIf="isSelected(o.value)"
-                name="check"
-                class="h-4 w-4 text-gray-500"
-                aria-hidden="true"
-              ></app-icon>
-            </label>
-          </li>
+          <ng-container *ngFor="let entry of normalizedOptions">
+            <!-- Si es un grupo, renderizar cabecera + opciones -->
+            <li *ngIf="entry && entry.options">
+              <div class="px-3 py-2 text-xs font-medium text-gray-600">{{ entry.label }}</div>
+              <ul class="divide-y divide-gray-200">
+                <li *ngFor="let o of entry.options">
+                  <label
+                    class="flex items-center w-full px-3 py-2 hover:bg-gray-300 cursor-pointer"
+                    role="option"
+                    [attr.tabindex]="disabled ? -1 : 0"
+                    (click)="disabled ? null : toggleOption(o.value)"
+                    (keydown.enter)="disabled ? null : toggleOption(o.value)"
+                    (keydown.space)="
+                      $event.preventDefault(); disabled ? null : toggleOption(o.value)
+                    "
+                    [class.pointer-events-none]="disabled"
+                    [attr.aria-disabled]="disabled"
+                  >
+                    <span class="flex-1">{{ o.label }}</span>
+                    <app-icon
+                      *ngIf="isSelected(o.value)"
+                      name="check"
+                      class="h-4 w-4 text-gray-500"
+                      aria-hidden="true"
+                    ></app-icon>
+                  </label>
+                </li>
+              </ul>
+            </li>
+
+            <!-- Si es opción simple -->
+            <li *ngIf="entry && !entry.options">
+              <label
+                class="flex items-center w-full px-3 py-2 hover:bg-gray-300 cursor-pointer"
+                role="option"
+                [attr.tabindex]="disabled ? -1 : 0"
+                (click)="disabled ? null : toggleOption(entry.value)"
+                (keydown.enter)="disabled ? null : toggleOption(entry.value)"
+                (keydown.space)="
+                  $event.preventDefault(); disabled ? null : toggleOption(entry.value)
+                "
+                [class.pointer-events-none]="disabled"
+                [attr.aria-disabled]="disabled"
+              >
+                <span class="flex-1">{{ entry.label }}</span>
+                <app-icon
+                  *ngIf="isSelected(entry.value)"
+                  name="check"
+                  class="h-4 w-4 text-gray-500"
+                  aria-hidden="true"
+                ></app-icon>
+              </label>
+            </li>
+          </ng-container>
         </ul>
       </div>
     </div>
@@ -76,8 +110,8 @@
       >
         <span
           class="truncate"
-          [class.text-gray-400]="!selectedLabels"
-          [class.text-gray-700]="!!selectedLabels"
+          [class.text-gray-400]="disabled || !selectedLabels"
+          [class.text-gray-700]="!disabled && !!selectedLabels"
         >
           {{ selectedLabels || placeholder || '\u00A0' }}
         </span>
@@ -92,21 +126,44 @@
         class="absolute z-10 mt-1 w-full bg-white border rounded border-gray-300 max-h-60 overflow-auto"
       >
         <ul class="divide-y divide-gray-300">
-          <li *ngFor="let o of normalizedOptions">
-            <label
-              class="flex items-center px-3 py-2 hover:bg-gray-300 cursor-pointer"
-              [attr.aria-disabled]="disabled"
-            >
-              <input
-                type="checkbox"
-                class="mr-3"
-                [checked]="isSelected(o.value)"
-                (change)="toggleOption(o.value)"
-                [disabled]="disabled"
-              />
-              <span class="flex-1">{{ o.label }}</span>
-            </label>
-          </li>
+          <ng-container *ngFor="let entry of normalizedOptions">
+            <li *ngIf="entry && entry.options">
+              <div class="px-3 py-2 text-xs font-medium text-gray-600">{{ entry.label }}</div>
+              <ul class="divide-y divide-gray-200">
+                <li *ngFor="let o of entry.options">
+                  <label
+                    class="flex items-center px-3 py-2 hover:bg-gray-300 cursor-pointer"
+                    [attr.aria-disabled]="disabled"
+                  >
+                    <input
+                      type="checkbox"
+                      class="mr-3"
+                      [checked]="isSelected(o.value)"
+                      (change)="toggleOption(o.value)"
+                      [disabled]="disabled"
+                    />
+                    <span class="flex-1">{{ o.label }}</span>
+                  </label>
+                </li>
+              </ul>
+            </li>
+
+            <li *ngIf="entry && !entry.options">
+              <label
+                class="flex items-center px-3 py-2 hover:bg-gray-300 cursor-pointer"
+                [attr.aria-disabled]="disabled"
+              >
+                <input
+                  type="checkbox"
+                  class="mr-3"
+                  [checked]="isSelected(entry.value)"
+                  (change)="toggleOption(entry.value)"
+                  [disabled]="disabled"
+                />
+                <span class="flex-1">{{ entry.label }}</span>
+              </label>
+            </li>
+          </ng-container>
         </ul>
       </div>
     </div>

@@ -69,4 +69,33 @@
       </div>
     </div>
   </div>
+
+  <div class="mt-6">
+    <p class="text-sm font-medium">Secciones / Grupos</p>
+    <div class="mt-2 grid grid-cols-2 gap-4">
+      <div>
+        <app-select
+          label="Grupos (single)"
+          [options]="groupedOptions"
+          placeholder="Elige una opción de un grupo"
+          [value]="value"
+          (valueChange)="value = $event"
+        ></app-select>
+      </div>
+
+      <div>
+        <app-select
+          label="Grupos (multiple)"
+          [options]="groupedOptions"
+          [multiple]="true"
+          [value]="groupedMultipleValue"
+          (valueChange)="groupedMultipleValue = $event"
+        ></app-select>
+
+        <div class="mt-2 text-sm text-gray-600">
+          Seleccionados: {{ groupedMultipleValue || '(ninguno)' }}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
