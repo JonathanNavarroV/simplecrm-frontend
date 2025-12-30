@@ -24,8 +24,19 @@
         </span>
       </button>
 
-      <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center">
-        <app-icon name="chevron-down" class="h-4 w-4 text-gray-500"></app-icon>
+      <div class="absolute inset-y-0 right-2 flex items-center space-x-2">
+        <button
+          *ngIf="clearable && hasValue && !disabled"
+          type="button"
+          class="inline-flex items-center justify-center rounded-full p-1 hover:bg-gray-100 cursor-pointer"
+          aria-label="Limpiar"
+          (click)="clearSelection($event)"
+        >
+          <app-icon name="close" class="h-4 w-4 text-gray-500"></app-icon>
+        </button>
+        <div class="pointer-events-none">
+          <app-icon name="chevron-down" class="h-4 w-4 text-gray-500"></app-icon>
+        </div>
       </div>
 
       <div
@@ -126,8 +137,19 @@
         </span>
       </button>
 
-      <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center">
-        <app-icon name="chevron-down" class="h-4 w-4 text-gray-500"></app-icon>
+      <div class="absolute inset-y-0 right-2 flex items-center space-x-2">
+        <button
+          *ngIf="clearable && hasValue && !disabled"
+          type="button"
+          class="inline-flex items-center justify-center rounded-full p-1 hover:bg-gray-100 cursor-pointer"
+          aria-label="Limpiar"
+          (click)="clearSelection($event)"
+        >
+          <app-icon name="close" class="h-4 w-4 text-gray-500"></app-icon>
+        </button>
+        <div class="pointer-events-none">
+          <app-icon name="chevron-down" class="h-4 w-4 text-gray-500"></app-icon>
+        </div>
       </div>
 
       <div

@@ -3,6 +3,7 @@
 
   <app-select
     label="Selecciona"
+    [clearable]="true"
     [options]="options"
     placeholder="Elige una opción"
     [value]="valueMain"
@@ -107,6 +108,7 @@
           label="Searchable (single)"
           [options]="options"
           [searchable]="true"
+          [clearable]="true"
           placeholder="Buscar opción"
           [value]="valueSearchSingle"
           (valueChange)="valueSearchSingle = $event"
@@ -119,6 +121,7 @@
           [options]="options"
           [searchable]="true"
           [multiple]="true"
+          [clearable]="true"
           [value]="valueSearchMultiple"
           (valueChange)="valueSearchMultiple = $event"
         ></app-select>

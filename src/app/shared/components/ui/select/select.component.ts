@@ -70,6 +70,7 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() size: 'sm' | 'md' = 'md';
 
   @Input() multiple = false;
+  @Input() clearable = false;
   @Input() searchable = false;
 
   // Texto de filtrado cuando `searchable` está activado
@@ -92,6 +93,26 @@ export class SelectComponent implements ControlValueAccessor {
       }
     }
     return out;
+  }
+
+  get hasValue(): boolean {
+    if (this.multiple) return this.selectedValues.length > 0;
+    return !!this._value;
+  }
+
+  clearSelection(e: Event) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (this.disabled) return;
+    if (this.multiple) {
+      this._value = null;
+      this.onChange(null);
+      this.valueChange.emit(null);
+      return;
+    }
+    this._value = '';
+    this.onChange(null);
+    this.valueChange.emit(null);
   }
 
   // Puede ser string (single) o string[] (multiple)
