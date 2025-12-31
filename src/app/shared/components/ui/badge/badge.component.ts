@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
@@ -17,6 +17,10 @@ export class BadgeComponent {
   @Input() iconName?: string;
   @Input() dot = false;
   @Input() dotColor?: string;
+  @Input() removable = false;
+  @Input() id?: string | number;
+
+  @Output() remove = new EventEmitter<string | number | null>();
 
   get classes(): string {
     const base = 'inline-flex items-center gap-2 font-medium select-none border border-gray-200';
@@ -45,5 +49,12 @@ export class BadgeComponent {
       warning: 'bg-yellow-500',
     };
     return map[this.variant] ?? 'bg-gray-400';
+  }
+
+  onRemoveClick(e: Event) {
+    e.stopPropagation();
+    e.preventDefault();
+    const out = this.id ?? this.label ?? null;
+    this.remove.emit(out);
   }
 }

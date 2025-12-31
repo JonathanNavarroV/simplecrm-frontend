@@ -2,4 +2,14 @@
   <span *ngIf="dot" [class]="'h-2 w-2 rounded-full ' + dotClass" aria-hidden="true"></span>
   <app-icon *ngIf="iconName" [name]="iconName" class="h-3.5 w-3.5 text-current"></app-icon>
   <span *ngIf="label">{{ label }}</span>
+
+  <button
+    *ngIf="removable"
+    type="button"
+    (click)="onRemoveClick($event)"
+    aria-label="Eliminar tag: {{ label }}"
+    class="inline-flex items-center justify-center h-4.5 w-4.5 rounded-full hover:bg-gray-500/20 text-gray-500 cursor-pointer"
+  >
+    <app-icon name="close" class="h-3 w-3"></app-icon>
+  </button>
 </span>

@@ -40,5 +40,24 @@
         <app-badge label="Sin texto" [dot]="true" variant="primary" [pill]="true"></app-badge>
       </div>
     </div>
+
+    <div class="col-span-2 mt-4">
+      <p class="text-sm font-medium mb-2">Removibles (variantes visuales)</p>
+      <div class="flex gap-2 items-center flex-wrap">
+        <ng-container *ngFor="let t of tags">
+          <app-badge
+            [id]="t.id"
+            [label]="t.label"
+            [variant]="t.variant"
+            [dot]="t.dot || false"
+            [pill]="t.pill || false"
+            [size]="t.size || 'md'"
+            [iconName]="t.iconName"
+            [removable]="true"
+            (remove)="onRemove($event)"
+          ></app-badge>
+        </ng-container>
+      </div>
+    </div>
   </div>
 </div>
