@@ -1,4 +1,5 @@
 <span [class]="classes">
+  <span *ngIf="dot" [class]="'h-2 w-2 rounded-full ' + dotClass" aria-hidden="true"></span>
   <app-icon *ngIf="iconName" [name]="iconName" class="h-3.5 w-3.5 text-current"></app-icon>
   <span *ngIf="label">{{ label }}</span>
 </span>

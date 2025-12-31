@@ -15,6 +15,8 @@ export class BadgeComponent {
   @Input() size: 'sm' | 'md' = 'md';
   @Input() pill = false;
   @Input() iconName?: string;
+  @Input() dot = false;
+  @Input() dotColor?: string;
 
   get classes(): string {
     const base = 'inline-flex items-center gap-2 font-medium select-none border border-gray-200';
@@ -31,5 +33,17 @@ export class BadgeComponent {
     }[this.variant || 'default'];
 
     return [base, rounded, sizeCls, variantCls].join(' ');
+  }
+
+  get dotClass(): string {
+    if (this.dotColor) return this.dotColor;
+    const map: Record<string, string> = {
+      default: 'bg-gray-400',
+      primary: 'bg-indigo-500',
+      success: 'bg-green-600',
+      danger: 'bg-red-500',
+      warning: 'bg-yellow-500',
+    };
+    return map[this.variant] ?? 'bg-gray-400';
   }
 }
