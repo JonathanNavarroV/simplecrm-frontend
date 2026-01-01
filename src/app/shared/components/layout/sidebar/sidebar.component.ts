@@ -47,7 +47,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       const newCollapsed = this.getCollapsedModeForBreakpoint(bp);
       const newExpanded = this.getExpandedModeForBreakpoint(bp);
       this.currentBreakpoint = bp;
-      console.log(`Sidebar: cambio de breakpoint -> ${this.currentBreakpoint}`);
 
       // Comportamiento explícito: si entramos en `md` replegamos; si entramos
       // en `lg` desplegamos. Para otros breakpoints se mantiene la semántica
@@ -55,13 +54,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.ngZone.run(() => {
         if (bp === 'md') {
           this.currentMode = newCollapsed;
-          console.log(`Sidebar: forzado replegado al entrar en md -> ${newCollapsed}`);
           return;
         }
 
         if (bp === 'lg') {
           this.currentMode = newExpanded;
-          console.log(`Sidebar: forzado desplegado al entrar en lg -> ${newExpanded}`);
           return;
         }
 
@@ -69,16 +66,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // modo correspondiente del nuevo breakpoint.
         if (this.currentMode === prevCollapsed) {
           this.currentMode = newCollapsed;
-          console.log(`Sidebar: map -> ${prevCollapsed} -> ${newCollapsed}`);
         } else if (this.currentMode === prevExpanded) {
           this.currentMode = newExpanded;
-          console.log(`Sidebar: map -> ${prevExpanded} -> ${newExpanded}`);
         } else if (this.isCollapsedMode(this.currentMode)) {
           this.currentMode = newCollapsed;
-          console.log(`Sidebar: map (collapsed fallback) -> ${newCollapsed}`);
         } else {
           this.currentMode = newExpanded;
-          console.log(`Sidebar: map (expanded fallback) -> ${newExpanded}`);
         }
       });
     }
@@ -97,12 +90,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     // Inicializar modo acorde al breakpoint: por defecto collapsado en xs/md, expandido en lg
     if (this.currentBreakpoint === 'lg') {
       this.currentMode = this.getExpandedModeForBreakpoint(this.currentBreakpoint);
-      console.log(`Sidebar: inicio -> modo inicial ${this.currentMode} (lg)`);
     } else {
       this.currentMode = this.getCollapsedModeForBreakpoint(this.currentBreakpoint);
-      console.log(
-        `Sidebar: inicio -> modo inicial ${this.currentMode} (${this.currentBreakpoint})`,
-      );
     }
     // Escuchar resize fuera de Angular para reducir sobrecarga
     this.ngZone.runOutsideAngular(() => window.addEventListener('resize', this.onResize));
@@ -112,7 +101,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       if (this.currentBreakpoint === 'xs') {
         this.ngZone.run(() => {
           this.currentMode = this.getExpandedModeForBreakpoint(this.currentBreakpoint);
-          console.log('Sidebar: apertura solicitada desde header -> modo', this.currentMode);
         });
       }
     });
@@ -129,14 +117,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     const expanded = this.getExpandedModeForBreakpoint(this.currentBreakpoint);
     if (this.isCollapsedMode(this.currentMode)) {
       this.currentMode = expanded;
-      console.log(
-        `Acción: toggle sidebar -> expandido (${expanded}). Breakpoint: ${this.currentBreakpoint}`,
-      );
     } else {
       this.currentMode = collapsed;
-      console.log(
-        `Acción: toggle sidebar -> replegado (${collapsed}). Breakpoint: ${this.currentBreakpoint}`,
-      );
     }
   }
 
@@ -144,9 +126,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   closeOverlay() {
     const collapsed = this.getCollapsedModeForBreakpoint(this.currentBreakpoint);
     this.currentMode = collapsed;
-    console.log(
-      `Acción: overlay click -> replegado (${collapsed}). Breakpoint: ${this.currentBreakpoint}`,
-    );
   }
 
   // Cuando se hace click en un item de navegación, si estamos en overlay
@@ -154,7 +133,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   onNavItemClick() {
     if (this.currentMode === 'overlay') {
       this.closeOverlay();
-      console.log('Sidebar: navegación -> cierre por modo overlay');
     }
   }
 
