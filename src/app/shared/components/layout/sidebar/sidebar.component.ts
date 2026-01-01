@@ -1,24 +1,10 @@
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { SidebarService } from '../services/sidebar.service';
 import { CommonModule } from '@angular/common';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { IconComponent } from '../../ui/icon/icon.component';
-import { environment } from '../../../../../environments/environment';
+import { SidebarService } from '../services/sidebar.service';
 import { SIDEBAR_ITEMS } from './sidebar-items';
-
-interface SidebarItem {
-  id: string;
-  label: string;
-  icon: string;
-  route: string;
-}
-
-interface SidebarModule {
-  id: string;
-  label: string;
-  items: SidebarItem[];
-}
 
 // Tipo para los breakpoints que utiliza la máquina de estados del sidebar
 type Breakpoint = 'xs' | 'sm' | 'md' | 'lg';
@@ -52,6 +38,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
       // en `lg` desplegamos. Para otros breakpoints se mantiene la semántica
       // mapeando collapsed/expanded del breakpoint anterior al nuevo.
       this.ngZone.run(() => {
+        // Si entramos en xs siempre queremos ocultar el sidebar (comportamiento móvil)
+        if (bp === 'xs') {
+          this.currentMode = newCollapsed;
+          return;
+        }
+
         if (bp === 'md') {
           this.currentMode = newCollapsed;
           return;
