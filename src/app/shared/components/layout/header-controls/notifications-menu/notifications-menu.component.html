@@ -1,6 +1,6 @@
 <div class="relative" [appCloseOnInteract]="open" (requestClose)="open = false">
   <button
-    class="relative inline-flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 hover:bg-gray-200 cursor-pointer"
+    class="relative inline-flex h-10 w-10 items-center justify-center rounded-md border border-gray-200 hover:bg-gray-200 cursor-pointer"
     (click)="open = !open"
     aria-label="Notificaciones"
   >
@@ -14,7 +14,7 @@
   <!-- Dropdown -->
   <div
     *ngIf="open"
-    class="absolute right-0 mt-1 w-64 rounded-xl border border-gray-200 bg-white shadow-lg p-2 z-50"
+    class="absolute right-0 mt-1 w-64 rounded-md border border-gray-200 bg-white shadow-lg p-2 z-50"
   >
     <p class="text-sm text-gray-700">No tienes notificaciones nuevas</p>
     <div class="p-2 border-b text-sm font-medium text-gray-700">Notificaciones</div>
