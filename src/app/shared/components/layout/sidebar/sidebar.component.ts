@@ -34,8 +34,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
       const newExpanded = this.getExpandedModeForBreakpoint(bp);
       this.currentBreakpoint = bp;
 
-      // Comportamiento explícito: si entramos en `md` replegamos; si entramos
-      // en `lg` desplegamos. Para otros breakpoints se mantiene la semántica
+      // Comportamiento explícito: si entramos en `sm` replegamos; si entramos
+      // en `md` desplegamos. Para otros breakpoints se mantiene la semántica
       // mapeando collapsed/expanded del breakpoint anterior al nuevo.
       this.ngZone.run(() => {
         // Si entramos en xs siempre queremos ocultar el sidebar (comportamiento móvil)
@@ -44,12 +44,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
           return;
         }
 
-        if (bp === 'md') {
+        if (bp === 'sm') {
           this.currentMode = newCollapsed;
           return;
         }
 
-        if (bp === 'lg') {
+        if (bp === 'md') {
           this.currentMode = newExpanded;
           return;
         }
@@ -79,8 +79,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Detectar breakpoint inicial
     this.currentBreakpoint = this.getBreakpoint(window.innerWidth);
-    // Inicializar modo acorde al breakpoint: por defecto collapsado en xs/md, expandido en lg
-    if (this.currentBreakpoint === 'lg') {
+    // Inicializar modo acorde al breakpoint: por defecto collapsado en xs/sm, expandido en md
+    if (this.currentBreakpoint === 'md') {
       this.currentMode = this.getExpandedModeForBreakpoint(this.currentBreakpoint);
     } else {
       this.currentMode = this.getCollapsedModeForBreakpoint(this.currentBreakpoint);
@@ -154,7 +154,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   private getExpandedModeForBreakpoint(bp: Breakpoint): SidebarMode {
-    if (bp === 'lg') return 'expanded';
+    if (bp === 'md' || bp === 'lg') return 'expanded';
     return 'overlay';
   }
 
