@@ -1,24 +1,31 @@
 <aside
-  class="hidden lg:flex h-full w-72 shrink-0 border-r border-gray-200 bg-white/80 backdrop-blur-md"
+  class="flex h-full w-16 lg:w-72 shrink-0 border-r border-gray-200 bg-white/80 backdrop-blur-md"
 >
   <div class="flex h-full w-full flex-col">
     <!-- Nav -->
     <nav class="flex-1 overflow-y-auto py-4">
-      <ul class="px-3 space-y-1">
+      <ul class="px-0 lg:px-3 space-y-0 lg:space-y-1">
         <li *ngFor="let module of sidebarItems; let si = index">
-          <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <!-- separator visible only on slim (small) and not for the first module -->
+          <div *ngIf="si > 0" class="block lg:hidden h-px bg-gray-200 my-2"></div>
+
+          <!-- module label (hidden in slim) -->
+          <div
+            class="hidden lg:block px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             {{ module.label }}
           </div>
-          <ul class="pl-2 space-y-1">
+
+          <ul class="pl-0 lg:pl-2 space-y-0 lg:space-y-1">
             <li *ngFor="let item of module.items; let i = index">
               <a
                 [routerLink]="item.route"
                 routerLinkActive="bg-gray-200 text-gray-900"
                 [routerLinkActiveOptions]="{ exact: true }"
-                class="flex items-center gap-3 rounded-md px-3 py-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900"
+                class="flex items-center gap-0 lg:gap-3 rounded-md px-0 lg:px-3 py-3 lg:py-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900 justify-center lg:justify-start"
               >
                 <app-icon [name]="item.icon" [class]="'size-6'" />
-                <span> {{ item.label }} </span>
+                <span class="sr-only lg:not-sr-only lg:inline ml-3">{{ item.label }}</span>
               </a>
             </li>
           </ul>
@@ -27,14 +34,39 @@
     </nav>
 
     <!-- Usuario -->
-    <div class="border-t border-gray-200/70 px-4 py-3">
-      <div class="flex items-center gap-3">
-        <div class="h-9 w-9 rounded-full bg-indigo-200"></div>
-        <div class="min-w-0">
-          <div class="text-sm font-medium text-gray-900">Jonathan Navarro</div>
-          <div class="text-xs text-gray-500">Ejecutivo</div>
+    <!-- Full footer for large screens -->
+    <div class="hidden lg:block border-t border-gray-200/70 px-4 py-3">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="h-9 w-9 rounded-full bg-indigo-200"></div>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-gray-900">Jonathan Navarro</div>
+            <div class="text-xs text-gray-500">Ejecutivo</div>
+          </div>
+        </div>
+
+        <div class="flex items-center">
+          <button
+            type="button"
+            class="inline-flex items-center justify-center h-8 w-8 rounded-md text-gray-500 hover:bg-gray-200 cursor-pointer"
+            aria-label="Mostrar/Ocultar sidebar"
+          >
+            <app-icon name="chevron-double-left" class="size-5"></app-icon>
+          </button>
         </div>
       </div>
+    </div>
+
+    <!-- Slim footer for small screens: avatar on top, button below -->
+    <div class="flex flex-col items-center gap-2 border-t border-gray-200/70 px-2 py-3 lg:hidden">
+      <div class="h-9 w-9 rounded-full bg-indigo-200"></div>
+      <button
+        type="button"
+        class="inline-flex items-center justify-center h-8 w-8 rounded-md text-gray-500 hover:bg-gray-200 cursor-pointer"
+        aria-label="Ocultar sidebar"
+      >
+        <app-icon name="chevron-double-right" class="size-5"></app-icon>
+      </button>
     </div>
   </div>
 </aside>
