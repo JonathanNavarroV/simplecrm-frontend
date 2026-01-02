@@ -3,6 +3,7 @@ import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IconComponent } from '../../ui/icon/icon.component';
+import { TooltipComponent } from '../../ui/tooltip/tooltip.component';
 import { SidebarService } from '../services/sidebar.service';
 import { SIDEBAR_ITEMS } from './sidebar-items';
 
@@ -13,7 +14,7 @@ type SidebarMode = 'hidden' | 'slim' | 'overlay' | 'expanded';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, RouterLink, RouterLinkActive, IconComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, IconComponent, TooltipComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })

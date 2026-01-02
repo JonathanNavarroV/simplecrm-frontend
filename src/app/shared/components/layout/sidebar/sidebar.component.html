@@ -52,21 +52,44 @@
 
           <ul class="pl-0">
             <li *ngFor="let item of module.items; let i = index">
-              <a
-                [routerLink]="item.route"
-                routerLinkActive="bg-gray-200 text-gray-900"
-                [routerLinkActiveOptions]="{ exact: true }"
-                class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2"
-                [class.gap-0]="currentMode === 'slim'"
-                [class.gap-3]="currentMode !== 'slim'"
-                [class.justify-center]="currentMode === 'slim'"
-                [class.justify-start]="currentMode !== 'slim'"
-                (click)="onNavItemClick()"
-              >
-                <app-icon [name]="item.icon" [class]="'size-6'" />
-                <span *ngIf="currentMode !== 'slim'" class="ml-3">{{ item.label }}</span>
-                <span *ngIf="currentMode === 'slim'" class="sr-only">{{ item.label }}</span>
-              </a>
+              <!-- En modo slim envolvemos el propio <a> con app-tooltip para que
+                   el tooltip se dispare al pasar sobre cualquier parte del botón -->
+              <ng-container
+                *ngIf="currentMode === 'slim'; then slimLink; else expandedLink"
+              ></ng-container>
+
+              <ng-template #slimLink>
+                <app-tooltip [text]="item.label" position="right">
+                  <a
+                    [routerLink]="item.route"
+                    routerLinkActive="bg-gray-200 text-gray-900"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2"
+                    [class.gap-0]="true"
+                    [class.justify-center]="true"
+                    (click)="onNavItemClick()"
+                  >
+                    <app-icon [name]="item.icon" [class]="'size-6'"></app-icon>
+                    <span class="sr-only">{{ item.label }}</span>
+                  </a>
+                </app-tooltip>
+              </ng-template>
+
+              <ng-template #expandedLink>
+                <a
+                  [routerLink]="item.route"
+                  routerLinkActive="bg-gray-200 text-gray-900"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2"
+                  [class.gap-0]="false"
+                  [class.gap-3]="true"
+                  [class.justify-start]="true"
+                  (click)="onNavItemClick()"
+                >
+                  <app-icon [name]="item.icon" [class]="'size-6'"></app-icon>
+                  <span class="ml-3">{{ item.label }}</span>
+                </a>
+              </ng-template>
             </li>
           </ul>
         </li>
