@@ -38,6 +38,12 @@ export const SIDEBAR_ITEMS = [
               icon: 'grid',
               route: '/ui-showcase/components/badge',
             },
+            {
+              id: 'ui-tooltip',
+              label: 'Tooltip',
+              icon: 'info',
+              route: '/ui-showcase/components/tooltip',
+            },
           ],
         },
         {

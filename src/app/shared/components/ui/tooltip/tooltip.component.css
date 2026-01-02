@@ -1,0 +1,118 @@
+.tooltip-wrapper {
+  position: relative;
+  /* variables locales: tamaño de la flecha y separación (gap) */
+  --arrow-size: 4px;
+  --arrow-half: 4px;
+  --tooltip-gap: var(--arrow-size);
+}
+
+.tooltip {
+  position: absolute;
+  /* comportamiento sencillo: ocupa todo el ancho hasta max-width; uso inline-block
+     para que el elemento crezca hasta su contenido pero se limite por max-width. */
+  display: inline-block;
+  word-break: normal;
+  overflow-wrap: break-word;
+  opacity: 0;
+  transform-origin: center;
+}
+
+/* Posicionamiento del tooltip: el gap usa la altura de la flecha para que
+   la base del triángulo coincida con el borde del tooltip */
+.tooltip.top {
+  left: 50%;
+  bottom: calc(100% + var(--tooltip-gap));
+  transform: translateX(-50%) translateY(6px) scale(0.98);
+}
+
+.tooltip.bottom {
+  left: 50%;
+  top: calc(100% + var(--tooltip-gap));
+  transform: translateX(-50%) translateY(-6px) scale(0.98);
+}
+
+.tooltip.left {
+  top: 50%;
+  right: calc(100% + var(--tooltip-gap));
+  transform: translateY(-50%) translateX(6px) scale(0.98);
+}
+
+.tooltip.right {
+  top: 50%;
+  left: calc(100% + var(--tooltip-gap));
+  transform: translateY(-50%) translateX(-6px) scale(0.98);
+}
+
+/* Flecha: triángulo CSS dibujado desde el propio tooltip.
+   Usar pseudo-elemento del tooltip evita problemas de posicionamiento
+   y permite que la punta toque exactamente el trigger. */
+.tooltip::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+  z-index: 9998;
+}
+
+/* Top: tooltip está arriba del trigger; la flecha apunta hacia abajo
+   y se coloca justo debajo del tooltip para que su punta toque el trigger. */
+.tooltip.top::after {
+  bottom: calc(-1 * var(--arrow-size));
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: var(--arrow-size) var(--arrow-half) 0 var(--arrow-half);
+  border-color: #374151 transparent transparent transparent;
+}
+
+/* Bottom: tooltip está debajo del trigger; la flecha apunta hacia arriba */
+.tooltip.bottom::after {
+  top: calc(-1 * var(--arrow-size));
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 var(--arrow-half) var(--arrow-size) var(--arrow-half);
+  border-color: transparent transparent #374151 transparent;
+}
+
+/* Left: tooltip está a la izquierda del trigger; la flecha apunta a la derecha */
+.tooltip.left::after {
+  right: calc(-1 * var(--arrow-size));
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: var(--arrow-half) 0 var(--arrow-half) var(--arrow-size);
+  border-color: transparent transparent transparent #374151;
+}
+
+/* Right: tooltip está a la derecha del trigger; la flecha apunta a la izquierda */
+.tooltip.right::after {
+  left: calc(-1 * var(--arrow-size));
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: var(--arrow-half) var(--arrow-size) var(--arrow-half) 0;
+  border-color: transparent #374151 transparent transparent;
+}
+
+/* Cuando el wrapper tiene la clase `show` mostramos el tooltip y la flecha. */
+/* mostrar contenido del tooltip (opacidad) */
+.tooltip-wrapper.show .tooltip {
+  opacity: 1;
+}
+
+/* Mostrar la flecha del tooltip cuando el wrapper está en estado show */
+.tooltip-wrapper.show .tooltip::after {
+  opacity: 1;
+}
+
+/* Animar transformaciones para verticales y horizontales de forma consolidada */
+.tooltip-wrapper.top.show .tooltip,
+.tooltip-wrapper.bottom.show .tooltip {
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.tooltip-wrapper.left.show .tooltip,
+.tooltip-wrapper.right.show .tooltip {
+  transform: translateY(-50%) translateX(0) scale(1);
+}

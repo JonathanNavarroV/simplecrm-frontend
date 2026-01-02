@@ -1,0 +1,44 @@
+<div class="p-6">
+  <h2 class="text-lg font-semibold mb-4">Tooltip — Demo</h2>
+
+  <div class="space-y-4">
+    <div>
+      <p class="text-sm text-gray-600">Ejemplos básicos:</p>
+      <div class="flex flex-col gap-6 mt-4">
+        <!-- fila 1: top & bottom -->
+        <div class="flex items-center justify-center gap-8">
+          <app-tooltip text="Tooltip arriba" position="top">
+            <app-button variant="primary">Hover (top)</app-button>
+          </app-tooltip>
+
+          <app-tooltip text="Tooltip abajo" position="bottom">
+            <app-button variant="primary">Hover (bottom)</app-button>
+          </app-tooltip>
+        </div>
+
+        <!-- fila 2: left & right (left primero) -->
+        <div class="flex items-center justify-center gap-8">
+          <app-tooltip text="Tooltip izquierda" position="left">
+            <app-button variant="secondary">Hover (left)</app-button>
+          </app-tooltip>
+
+          <app-tooltip text="Tooltip derecha" position="right">
+            <app-button variant="secondary">Hover (right)</app-button>
+          </app-tooltip>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-600">Texto largo (wrapping):</p>
+      <div class="mt-2">
+        <app-tooltip
+          text="Texto largo de ejemplo para comprobar el wrapping y el comportamiento cuando el tooltip es más ancho que el elemento contenedor."
+          position="top"
+        >
+          <span class="underline cursor-help">Hover para texto largo</span>
+        </app-tooltip>
+      </div>
+    </div>
+  </div>
+</div>

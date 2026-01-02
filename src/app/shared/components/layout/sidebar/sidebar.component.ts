@@ -7,7 +7,8 @@ import { SidebarService } from '../services/sidebar.service';
 import { SIDEBAR_ITEMS } from './sidebar-items';
 
 // Tipo para los breakpoints que utiliza la máquina de estados del sidebar
-type Breakpoint = 'xs' | 'sm' | 'md' | 'lg';
+// Nota: se eliminó 'lg' del cálculo para simplificar la lógica del sidebar.
+type Breakpoint = 'xs' | 'sm' | 'md';
 type SidebarMode = 'hidden' | 'slim' | 'overlay' | 'expanded';
 
 @Component({
@@ -21,7 +22,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   currentMode: SidebarMode = 'slim';
 
   // Máquina de estados: breakpoints simplificados
-  currentBreakpoint: Breakpoint = 'lg';
+  currentBreakpoint: Breakpoint = 'md';
 
   // Handler como propiedad para permitir add/removeEventListener
   private onResize = () => {
@@ -129,17 +130,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Mapeo simple de anchura a breakpoint (sm/md/lg).
+   * Mapeo simple de anchura a breakpoint (xs/sm/md).
    * - < 640 => xs
    * - 640 .. 767 => sm
-   * - 768 .. 1023 => md
-   * - >= 1024 => lg
+   * - >= 768 => md
    */
   private getBreakpoint(width: number): Breakpoint {
     if (width < 640) return 'xs';
     if (width < 768) return 'sm';
-    if (width < 1024) return 'md';
-    return 'lg';
+    return 'md';
   }
 
   private getCollapsedModeForBreakpoint(bp: Breakpoint): SidebarMode {
@@ -154,8 +153,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   private getExpandedModeForBreakpoint(bp: Breakpoint): SidebarMode {
-    if (bp === 'md' || bp === 'lg') return 'expanded';
-    return 'overlay';
+    switch (bp) {
+      case 'md':
+        return 'expanded';
+      case 'sm':
+      case 'xs':
+        return 'overlay';
+    }
   }
 
   private isCollapsedMode(mode: SidebarMode) {

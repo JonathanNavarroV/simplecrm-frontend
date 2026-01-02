@@ -1,0 +1,9 @@
+.tooltip-demo p {
+  margin: 0;
+}
+
+.tooltip-demo .example-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}

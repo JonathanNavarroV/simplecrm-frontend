@@ -68,6 +68,14 @@ export const routes: Routes = [
                           (m) => m.BadgeDemoComponent,
                         ),
                     },
+                    {
+                      path: 'tooltip',
+                      data: { breadcrumb: 'tooltip' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/components/tooltip/tooltip-demo.component').then(
+                          (m) => m.TooltipDemoComponent,
+                        ),
+                    },
                   ],
                 },
                 {
