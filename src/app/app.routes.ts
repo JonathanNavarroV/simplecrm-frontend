@@ -76,6 +76,14 @@ export const routes: Routes = [
                           (m) => m.TooltipDemoComponent,
                         ),
                     },
+                    {
+                      path: 'tabs',
+                      data: { breadcrumb: 'tabs' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/components/tabs/tab-demo.component').then(
+                          (m) => m.TabDemoComponent,
+                        ),
+                    },
                   ],
                 },
                 {

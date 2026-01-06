@@ -39,6 +39,12 @@ export const SIDEBAR_ITEMS = [
               route: '/ui-showcase/components/badge',
             },
             {
+              id: 'ui-tabs',
+              label: 'Tabs',
+              icon: 'grid',
+              route: '/ui-showcase/components/tabs',
+            },
+            {
               id: 'ui-tooltip',
               label: 'Tooltip',
               icon: 'info',
