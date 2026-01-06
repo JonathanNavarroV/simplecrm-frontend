@@ -48,4 +48,15 @@ export class TabDemoComponent {
     { label: 'Notificaciones', content: 'Alertas del sistema', badge: 12 },
     { label: 'Tareas', content: 'Pendientes', badge: 0 },
   ];
+
+  tabsPlainLong = Array.from({ length: 10 }).map((_, i) => ({
+    label: `Item ${i + 1}`,
+    content: `Contenido para Item ${i + 1}`,
+  }));
+
+  tabsWithIconsLong = Array.from({ length: 10 }).map((_, i) => ({
+    label: `Item ${i + 1}`,
+    content: `Contenido para Item ${i + 1}`,
+    icon: ['user', 'trending_up', 'settings', 'grid', 'info'][i % 5],
+  }));
 }

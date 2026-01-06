@@ -12,8 +12,6 @@ import { BadgeComponent } from '../badge/badge.component';
 })
 export class TabsComponent {
   @Input() tabs: { label: string; content: string; icon?: string; badge?: number | string }[] = [];
-  @Input() truncateLabels = false;
-  @Input() nowrap = false;
 
   selected = 0;
 
