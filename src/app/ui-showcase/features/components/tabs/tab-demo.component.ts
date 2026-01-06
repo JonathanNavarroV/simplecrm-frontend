@@ -11,8 +11,35 @@ import { TabsComponent } from '../../../../shared/components/ui/tabs/tabs.compon
 })
 export class TabDemoComponent {
   tabs = [
+    {
+      label: 'Perfil',
+      content: 'Contenido del perfil: Nombre, correo y configuración.',
+      icon: 'user',
+    },
+    {
+      label: 'Actividad',
+      content: 'Historial de actividad y últimos eventos.',
+      icon: 'trending_up',
+    },
+    { label: 'Ajustes', content: 'Opciones de configuración y preferencias.', icon: 'settings' },
+  ];
+  tabsPlain = [
     { label: 'Perfil', content: 'Contenido del perfil: Nombre, correo y configuración.' },
     { label: 'Actividad', content: 'Historial de actividad y últimos eventos.' },
     { label: 'Ajustes', content: 'Opciones de configuración y preferencias.' },
+  ];
+
+  tabsWithIcons = [
+    {
+      label: 'Perfil',
+      content: 'Contenido del perfil: Nombre, correo y configuración.',
+      icon: 'user',
+    },
+    {
+      label: 'Actividad',
+      content: 'Historial de actividad y últimos eventos.',
+      icon: 'trending_up',
+    },
+    { label: 'Ajustes', content: 'Opciones de configuración y preferencias.', icon: 'settings' },
   ];
 }
