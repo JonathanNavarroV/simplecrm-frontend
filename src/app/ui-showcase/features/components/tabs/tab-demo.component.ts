@@ -42,4 +42,10 @@ export class TabDemoComponent {
     },
     { label: 'Ajustes', content: 'Opciones de configuración y preferencias.', icon: 'settings' },
   ];
+
+  tabsWithBadges = [
+    { label: 'Mensajes', content: 'Mensajes recientes', badge: 3 },
+    { label: 'Notificaciones', content: 'Alertas del sistema', badge: 12 },
+    { label: 'Tareas', content: 'Pendientes', badge: 0 },
+  ];
 }

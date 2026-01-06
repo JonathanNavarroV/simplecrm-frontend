@@ -12,7 +12,14 @@
       "
     >
       <app-icon *ngIf="t.icon" [name]="t.icon" [class]="'h-4 w-4 mr-2'"></app-icon>
-      {{ t.label }}
+      <span>{{ t.label }}</span>
+      <app-badge
+        *ngIf="t.badge !== undefined"
+        class="ml-2"
+        [label]="t.badge?.toString()"
+        size="sm"
+        [pill]="true"
+      ></app-badge>
     </button>
   </nav>
 

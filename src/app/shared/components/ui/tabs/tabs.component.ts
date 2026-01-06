@@ -1,16 +1,17 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
+import { BadgeComponent } from '../badge/badge.component';
 
 @Component({
   selector: 'app-tabs',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [CommonModule, IconComponent, BadgeComponent],
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.css'],
 })
 export class TabsComponent {
-  @Input() tabs: { label: string; content: string; icon?: string }[] = [];
+  @Input() tabs: { label: string; content: string; icon?: string; badge?: number | string }[] = [];
 
   selected = 0;
 
