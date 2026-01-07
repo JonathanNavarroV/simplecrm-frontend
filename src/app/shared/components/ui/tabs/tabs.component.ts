@@ -1,15 +1,13 @@
-import {
-  Component,
-  Input,
-  AfterViewInit,
-  OnDestroy,
-  ElementRef,
-  ViewChild,
-  NgZone,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IconComponent } from '../icon/icon.component';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild
+} from '@angular/core';
 import { BadgeComponent } from '../badge/badge.component';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'app-tabs',
@@ -29,6 +27,10 @@ export class TabsComponent {
   canScrollRight = false;
   private scrollAmount = 150;
   private resizeObserver: ResizeObserver | null = null;
+  // Referencia estable para añadir/remover listeners correctamente
+  private boundUpdate = () => this.updateScrollButtons();
+
+  constructor(private cd: ChangeDetectorRef) {}
 
   select(index: number) {
     this.selected = index;
@@ -39,28 +41,33 @@ export class TabsComponent {
   }
 
   ngAfterViewInit(): void {
-    this.updateScrollButtons();
+    // Ejecutar la actualización en la siguiente microtarea para evitar
+    // ExpressionChangedAfterItHasBeenCheckedError en modo dev.
+    Promise.resolve().then(() => {
+      this.updateScrollButtons();
+      this.cd.detectChanges();
+    });
 
-    this.nav.nativeElement.addEventListener('scroll', this.updateScrollButtons.bind(this), {
+    this.nav.nativeElement.addEventListener('scroll', this.boundUpdate, {
       passive: true,
     });
 
-    this.resizeObserver = new ResizeObserver(() => this.updateScrollButtons());
+    this.resizeObserver = new ResizeObserver(this.boundUpdate);
     this.resizeObserver.observe(this.nav.nativeElement);
 
-    window.addEventListener('resize', this.updateScrollButtons.bind(this));
+    window.addEventListener('resize', this.boundUpdate);
   }
 
   ngOnDestroy(): void {
     try {
-      this.nav.nativeElement.removeEventListener('scroll', this.updateScrollButtons.bind(this));
+      this.nav.nativeElement.removeEventListener('scroll', this.boundUpdate);
     } catch {}
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
       this.resizeObserver = null;
     }
     try {
-      window.removeEventListener('resize', this.updateScrollButtons.bind(this));
+      window.removeEventListener('resize', this.boundUpdate);
     } catch {}
   }
 
