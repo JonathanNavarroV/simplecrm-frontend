@@ -7,6 +7,16 @@
   [class]="class"
   [ngSwitch]="name"
 >
+  <!--
+    Iconos organizados por secciones para facilitar la lectura y mantenimiento.
+    Secciones:
+      - Navegación
+      - Estado / Notificaciones
+      - Acciones / CRUD
+      - Contenedores / Layout
+      - Miscelánea
+  -->
+  <!-- Sección: Navegación -->
   <g *ngSwitchCase="'home'">
     <path
       strokeLinecap="round"
@@ -15,6 +25,7 @@
     />
   </g>
 
+  <!-- Sección: Usuario / Perfil -->
   <g *ngSwitchCase="'user'">
     <path
       stroke-linecap="round"
@@ -23,10 +34,12 @@
     />
   </g>
 
+  <!-- Sección: Navegación (hamburger / toggles) -->
   <g *ngSwitchCase="'bars'">
     <path stroke-linecap="round" stroke-linejoin="round" d="M5 7h14M5 12h14M5 17h14" />
   </g>
 
+  <!-- Sección: Estado / Notificaciones -->
   <g *ngSwitchCase="'bell'">
     <path
       stroke-linecap="round"
@@ -35,6 +48,7 @@
     />
   </g>
 
+  <!-- Sección: Flechas / Paginación -->
   <g *ngSwitchCase="'chevron-down'">
     <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7" />
   </g>
@@ -47,6 +61,7 @@
     <path stroke-linecap="round" stroke-linejoin="round" d="m10 16 4-4-4-4" />
   </g>
 
+  <!-- Sección: Layout / Vistas -->
   <g *ngSwitchCase="'grid'">
     <path
       stroke-linecap="round"
@@ -55,6 +70,7 @@
     />
   </g>
 
+  <!-- Sección: Table / Column toggles -->
   <g *ngSwitchCase="'toggle-header-column'">
     <path
       stroke-linecap="round"
@@ -63,6 +79,7 @@
     />
   </g>
 
+  <!-- Sección: Acciones / CRUD -->
   <g *ngSwitchCase="'trash'">
     <path
       stroke-linecap="round"
@@ -87,6 +104,7 @@
     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 17.94 6M18 18 6.06 6" />
   </g>
 
+  <!-- Sección: Navegación avanzada -->
   <g *ngSwitchCase="'chevron-double-left'">
     <path stroke-linecap="round" stroke-linejoin="round" d="m17 16-4-4 4-4m-6 8-4-4 4-4" />
   </g>
@@ -95,6 +113,26 @@
     <path stroke-linecap="round" stroke-linejoin="round" d="m7 16 4-4-4-4m6 8 4-4-4-4" />
   </g>
 
+  <!-- Sección: Visualización / Ver -->
+  <g *ngSwitchCase="'eye'">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"
+    />
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+  </g>
+
+  <!-- Sección: Editar / Modificar -->
+  <g *ngSwitchCase="'edit'">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
+    />
+  </g>
+
+  <!-- Sección: Miscelánea / Default -->
   <g *ngSwitchDefault>
     <path
       stroke-linecap="round"
