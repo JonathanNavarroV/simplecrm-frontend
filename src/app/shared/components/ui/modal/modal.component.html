@@ -3,7 +3,7 @@
   <div class="fixed inset-0 bg-black/50" (click)="close()"></div>
   <div class="modal-panel bg-white rounded-lg shadow-lg w-full max-w-lg z-10 p-4 text-gray-900">
     <header class="flex items-center justify-between pb-2 border-b border-gray-200">
-      <h3 class="text-lg font-medium text-gray-900">{{title}}</h3>
+      <h3 class="text-lg font-medium text-gray-900">{{ title }}</h3>
       <app-button
         size="sm"
         variant="secondary"
@@ -17,8 +17,25 @@
       <ng-content></ng-content>
     </div>
     <footer class="flex justify-end pt-2 border-t border-gray-200">
-      <app-button variant="secondary" size="sm" (click)="close()">Cerrar</app-button>
-      <app-button variant="primary" size="sm" class="ml-2" (click)="confirm()">Confirmar</app-button>
+      <ng-container *ngIf="buttons?.length; else defaultFooter">
+        <ng-container *ngFor="let b of buttons">
+          <app-button
+            [variant]="b.variant || 'secondary'"
+            [size]="b.size || 'sm'"
+            [icon]="b.icon"
+            class="ml-2"
+            (click)="handleButton(b)"
+            >{{ b.label }}</app-button
+          ></ng-container
+        >
+      </ng-container>
+
+      <ng-template #defaultFooter>
+        <app-button variant="secondary" size="sm" (click)="close()">Cerrar</app-button>
+        <app-button variant="primary" size="sm" class="ml-2" (click)="confirm()"
+          >Confirmar</app-button
+        >
+      </ng-template>
     </footer>
   </div>
 </div>

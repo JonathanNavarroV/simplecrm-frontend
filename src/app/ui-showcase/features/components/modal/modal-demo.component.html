@@ -2,11 +2,19 @@
   <h2 class="text-xl font-semibold mb-4">Modal — Demo simple</h2>
   <div class="flex gap-2 mb-4">
     <app-button variant="primary" (click)="open('simple')">Abrir modal simple</app-button>
-    <app-button variant="secondary" (click)="open('confirm')">Abrir modal de confirmación</app-button>
+    <app-button variant="secondary" (click)="open('confirm')"
+      >Abrir modal de confirmación</app-button
+    >
   </div>
 
   <ng-container *ngIf="isOpen() as modalType">
-    <app-modal [title]="modalType === 'confirm' ? 'Confirmar acción' : 'Modal simple'" (closed)="close()" (confirmed)="onConfirm()">
+    <app-modal
+      [title]="modalType === 'confirm' ? 'Confirmar acción' : 'Modal simple'"
+      [buttons]="modalType === 'confirm' ? confirmButtons : simpleButtons"
+      (closed)="close()"
+      (confirmed)="onConfirm()"
+      (action)="onAction($event)"
+    >
       <ng-container *ngIf="modalType === 'confirm'">
         <p>¿Estás seguro de ejecutar esta acción?</p>
       </ng-container>
