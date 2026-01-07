@@ -11,6 +11,54 @@
         ></app-badge>
       </ng-template>
 
-      <app-table [columns]="columns" [rows]="rows"></app-table>
+      <ng-template #actionsTpl let-row>
+        <div class="flex items-center justify-center gap-2">
+          <app-tooltip text="Ver" position="top">
+            <app-button
+              size="sm"
+              variant="secondary"
+              icon="eye"
+              iconPosition="center"
+              ariaLabel="Ver"
+              (click)="onView(row)"
+            ></app-button>
+          </app-tooltip>
+          <app-tooltip text="Editar" position="top">
+            <app-button
+              size="sm"
+              variant="primary"
+              icon="pencil"
+              iconPosition="center"
+              ariaLabel="Editar"
+              (click)="onEdit(row)"
+            ></app-button>
+          </app-tooltip>
+          <app-tooltip text="Eliminar" position="top">
+            <app-button
+              size="sm"
+              variant="danger"
+              icon="trash"
+              iconPosition="center"
+              ariaLabel="Eliminar"
+              (click)="onDelete(row)"
+            ></app-button>
+          </app-tooltip>
+        </div>
+      </ng-template>
+
+      <div class="mb-6">
+        <h3 class="font-medium mb-2">Tabla normal</h3>
+        <app-table [columns]="columns" [rows]="rows"></app-table>
+      </div>
+
+      <div class="mb-6">
+        <h3 class="font-medium mb-2">Tabla con badges</h3>
+        <app-table [columns]="columnsBadges" [rows]="rowsShort"></app-table>
+      </div>
+
+      <div>
+        <h3 class="font-medium mb-2">Tabla con botones de acciones</h3>
+        <app-table [columns]="columnsActions" [rows]="rowsShort"></app-table>
+      </div>
   </div>
 </div>
