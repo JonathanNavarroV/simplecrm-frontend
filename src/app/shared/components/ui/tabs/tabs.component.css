@@ -1,3 +1,14 @@
 .tabs-hidden {
   /* placeholder CSS: la mayor parte del estilo lo aporta Tailwind */
 }
+
+/* Ocultar scrollbar horizontal pero permitir scroll por botones y por scroll programático */
+.tabs-hide-scrollbar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+.tabs-hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Safari y Chrome */
+  height: 0;
+}
