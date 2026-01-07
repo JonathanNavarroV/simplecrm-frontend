@@ -11,13 +11,13 @@ export const SIDEBAR_ITEMS = [
             {
               id: 'ui-text-input',
               label: 'Text Input',
-              icon: 'grid',
+              icon: 'edit',
               route: '/ui-showcase/components/text-input',
             },
             {
               id: 'ui-number-input',
               label: 'Number Input',
-              icon: 'grid',
+              icon: 'edit',
               route: '/ui-showcase/components/number-input',
             },
             {
@@ -29,31 +29,31 @@ export const SIDEBAR_ITEMS = [
             {
               id: 'ui-select',
               label: 'Select',
-              icon: 'grid',
+              icon: 'rectangle-list',
               route: '/ui-showcase/components/select',
             },
             {
               id: 'ui-badge',
               label: 'Badge',
-              icon: 'grid',
+              icon: 'label',
               route: '/ui-showcase/components/badge',
             },
             {
               id: 'ui-table',
               label: 'Table',
-              icon: 'grid',
+              icon: 'table-column',
               route: '/ui-showcase/components/table',
             },
             {
               id: 'ui-tabs',
               label: 'Tabs',
-              icon: 'grid',
+              icon: 'window',
               route: '/ui-showcase/components/tabs',
             },
             {
               id: 'ui-tooltip',
               label: 'Tooltip',
-              icon: 'info',
+              icon: 'annotation',
               route: '/ui-showcase/components/tooltip',
             },
           ],
