@@ -35,6 +35,9 @@ export class TableDemoComponent implements OnInit {
   // Subconjunto de filas para centrarnos en la columna especial en demos
   rowsShort: UserRow[] = this.rows.slice(0, 2);
 
+  // Usar las mismas filas (4 elementos) para la tabla de acciones
+  rowsActions: UserRow[] = this.rows;
+
   ngOnInit(): void {
     // Definir columnas en ngOnInit usando statusTpl/actionsTpl (static: true)
     this.columns = [
