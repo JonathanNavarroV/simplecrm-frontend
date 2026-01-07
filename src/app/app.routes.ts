@@ -84,6 +84,14 @@ export const routes: Routes = [
                           (m) => m.TabDemoComponent,
                         ),
                     },
+                    {
+                      path: 'table',
+                      data: { breadcrumb: 'table' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/components/table/table-demo.component').then(
+                          (m) => m.TableDemoComponent,
+                        ),
+                    },
                   ],
                 },
                 {
