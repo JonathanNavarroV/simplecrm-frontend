@@ -51,6 +51,12 @@ export const SIDEBAR_ITEMS = [
               route: '/ui-showcase/components/tabs',
             },
             {
+              id: 'ui-modal',
+              label: 'Modal',
+              icon: 'restore-window',
+              route: '/ui-showcase/components/modal',
+            },
+            {
               id: 'ui-tooltip',
               label: 'Tooltip',
               icon: 'annotation',

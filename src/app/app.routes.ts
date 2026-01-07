@@ -85,6 +85,14 @@ export const routes: Routes = [
                         ),
                     },
                     {
+                      path: 'modal',
+                      data: { breadcrumb: 'modal' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/components/modal/modal-demo.component').then(
+                          (m) => m.ModalDemoComponent,
+                        ),
+                    },
+                    {
                       path: 'table',
                       data: { breadcrumb: 'table' },
                       loadComponent: () =>
