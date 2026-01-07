@@ -39,7 +39,8 @@ app-tooltip {
 }
 
 .tooltip.top .tooltip-arrow {
-  bottom: calc(-1 * var(--arrow-size));
+  /* acercar 1px para solapar la base y evitar líneas visibles */
+  bottom: calc(-1 * var(--arrow-size) + 1px);
   left: 50%;
   transform: translateX(-50%);
   border-width: var(--arrow-size) var(--arrow-half) 0 var(--arrow-half);
@@ -47,7 +48,8 @@ app-tooltip {
 }
 
 .tooltip.bottom .tooltip-arrow {
-  top: calc(-1 * var(--arrow-size));
+  /* acercar 1px para solapar la base y evitar líneas visibles */
+  top: calc(-1 * var(--arrow-size) + 1px);
   left: 50%;
   transform: translateX(-50%);
   border-width: 0 var(--arrow-half) var(--arrow-size) var(--arrow-half);
@@ -55,7 +57,8 @@ app-tooltip {
 }
 
 .tooltip.left .tooltip-arrow {
-  right: calc(-1 * var(--arrow-size));
+  /* acercar 1px para solapar la base y evitar líneas visibles */
+  right: calc(-1 * var(--arrow-size) + 1px);
   top: 50%;
   transform: translateY(-50%);
   border-width: var(--arrow-half) 0 var(--arrow-half) var(--arrow-size);
@@ -63,7 +66,8 @@ app-tooltip {
 }
 
 .tooltip.right .tooltip-arrow {
-  left: calc(-1 * var(--arrow-size));
+  /* acercar 1px para solapar la base y evitar líneas visibles */
+  left: calc(-1 * var(--arrow-size) + 1px);
   top: 50%;
   transform: translateY(-50%);
   border-width: var(--arrow-half) var(--arrow-size) var(--arrow-half) 0;
