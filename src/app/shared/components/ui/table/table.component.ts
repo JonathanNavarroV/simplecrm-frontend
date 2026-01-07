@@ -1,11 +1,13 @@
-import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input, TemplateRef } from '@angular/core';
 
 export type SimpleTableColumn<T = any> = {
   key: keyof T | string;
   label: string;
-  width?: string; // tailwind width class or CSS value
+  width?: string; // clase de anchura de Tailwind o valor CSS
   align?: 'left' | 'center' | 'right';
+  // Opcional: plantilla personalizada para renderizar la celda
+  cellTemplate?: TemplateRef<any>;
 };
 
 @Component({

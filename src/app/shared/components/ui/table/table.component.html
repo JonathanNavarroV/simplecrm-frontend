@@ -36,7 +36,12 @@
             "
             class="px-4 py-2 align-top"
           >
-            <div [class]="c.width || ''">{{ getCellValue(r, c.key) }}</div>
+            <div [class]="c.width || ''">
+              <ng-container *ngIf="c.cellTemplate; else defaultCell">
+                <ng-container *ngTemplateOutlet="c.cellTemplate; context: { $implicit: r, row: r }"></ng-container>
+              </ng-container>
+              <ng-template #defaultCell>{{ getCellValue(r, c.key) }}</ng-template>
+            </div>
           </td>
         </tr>
       </tbody>

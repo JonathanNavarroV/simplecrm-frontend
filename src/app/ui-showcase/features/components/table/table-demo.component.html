@@ -2,6 +2,15 @@
   <h2 class="text-lg font-semibold mb-4">Tabla — Demo</h2>
 
   <div class="bg-white rounded p-4">
-    <app-table [columns]="columns" [rows]="rows"></app-table>
+      <ng-template #statusTpl let-row>
+        <app-badge
+          [label]="row.active ? 'Activo' : 'Inactivo'"
+          [variant]="row.active ? 'success' : 'default'"
+          size="sm"
+          [pill]="true"
+        ></app-badge>
+      </ng-template>
+
+      <app-table [columns]="columns" [rows]="rows"></app-table>
   </div>
 </div>
