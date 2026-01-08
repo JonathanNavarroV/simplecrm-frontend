@@ -26,6 +26,9 @@ export interface ModalButton {
 })
 export class ModalComponent {
   @Input() title = 'Modal';
+  /** Mostrar botón de retroceso (volver al modal padre) */
+  @Input() showBack = false;
+  @Output() back = new EventEmitter<void>();
   @Output() closed = new EventEmitter<void>();
   @Output() confirmed = new EventEmitter<void>();
   @Output() action = new EventEmitter<string>();

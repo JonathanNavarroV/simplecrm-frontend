@@ -32,6 +32,33 @@
     </section>
   </div>
 
+  <section>
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Anidado</h3>
+    <div class="bg-white rounded p-4">
+      <app-button variant="primary" (click)="openNested()"
+        >Abrir modal padre (puede abrir hijo)</app-button
+      >
+    </div>
+  </section>
+
+  <!-- Templates para modales anidados -->
+  <ng-template #parentTpl let-data="data">
+    <p>Contenido del modal padre.</p>
+    <div class="mt-3">
+      <app-button variant="secondary" size="sm" (click)="openChild()">Abrir modal hijo</app-button>
+    </div>
+  </ng-template>
+
+  <ng-template #childTpl let-data="data">
+    <p>Contenido del modal hijo (anidado).</p>
+    <div class="mt-3">
+      <app-button variant="primary" size="sm" (click)="onChildAccept()">Aceptar</app-button>
+    </div>
+  </ng-template>
+
+  <!-- Host global que renderiza el modal superior del stack -->
+  <app-modal-host></app-modal-host>
+
   <ng-container *ngIf="isOpen() as modalType">
     <app-modal
       [title]="

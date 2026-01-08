@@ -1,15 +1,17 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ViewChild, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ModalComponent,
   ModalButton,
 } from '../../../../shared/components/ui/modal/modal.component';
 import { ButtonComponent } from '../../../../shared/components/ui/button/button.component';
+import { ModalHostComponent } from '../../../../shared/components/ui/modal/modal-host.component';
+import { ModalStackService } from '../../../../shared/components/ui/modal/modal-stack.service';
 
 @Component({
   selector: 'app-modal-demo',
   standalone: true,
-  imports: [CommonModule, ModalComponent, ButtonComponent],
+  imports: [CommonModule, ModalComponent, ButtonComponent, ModalHostComponent],
   templateUrl: './modal-demo.component.html',
   styleUrls: ['./modal-demo.component.css'],
 })
@@ -36,6 +38,10 @@ export class ModalDemoComponent {
   infoButtons: ModalButton[] = [
     { label: 'Aceptar', action: 'custom', event: 'info-ok', variant: 'primary', size: 'sm' },
   ];
+
+  // Templates para demo de modales anidados
+  @ViewChild('parentTpl', { read: TemplateRef }) parentTpl!: TemplateRef<any>;
+  @ViewChild('childTpl', { read: TemplateRef }) childTpl!: TemplateRef<any>;
 
   open(type: string) {
     this.isOpen.set(type);
@@ -69,4 +75,31 @@ export class ModalDemoComponent {
     // fallback
     console.log('Modal acción:', ev);
   }
+
+  // Demo: abrir modal padre que puede abrir un hijo
+  openNested() {
+    this.modalStack.open({
+      title: 'Modal padre',
+      template: this.parentTpl,
+      buttons: [{ label: 'Cerrar', action: 'close', variant: 'secondary', size: 'sm' }],
+    });
+  }
+
+  openChild() {
+    this.modalStack.open({
+      title: 'Modal hijo',
+      template: this.childTpl,
+      buttons: [
+        { label: 'Volver', action: 'close', variant: 'secondary', size: 'sm' },
+        { label: 'Aceptar', action: 'custom', event: 'child-ok', variant: 'primary', size: 'sm' },
+      ],
+    });
+  }
+
+  onChildAccept() {
+    console.log('Acción en modal hijo');
+    this.modalStack.back();
+  }
+
+  constructor(private modalStack: ModalStackService) {}
 }

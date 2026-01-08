@@ -4,14 +4,25 @@
   <div class="modal-panel bg-white rounded-lg shadow-lg w-full max-w-lg z-10 p-4 text-gray-900">
     <header class="flex items-center justify-between pb-2 border-b border-gray-200">
       <h3 class="text-lg font-medium text-gray-900">{{ title }}</h3>
-      <app-button
-        size="sm"
-        variant="secondary"
-        icon="close"
-        iconPosition="center"
-        ariaLabel="Cerrar"
-        (click)="close()"
-      ></app-button>
+      <div class="flex items-center gap-2">
+        <app-button
+          *ngIf="showBack"
+          size="sm"
+          variant="secondary"
+          icon="arrow-left"
+          iconPosition="center"
+          ariaLabel="Volver"
+          (click)="back.emit()"
+        ></app-button>
+        <app-button
+          size="sm"
+          variant="secondary"
+          icon="close"
+          iconPosition="center"
+          ariaLabel="Cerrar"
+          (click)="close()"
+        ></app-button>
+      </div>
     </header>
     <div class="py-4 text-sm text-gray-700">
       <ng-content></ng-content>
