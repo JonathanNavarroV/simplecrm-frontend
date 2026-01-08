@@ -5,6 +5,8 @@ import {
   ChangeDetectorRef,
   Output,
   EventEmitter,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
@@ -28,6 +30,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class SelectComponent implements ControlValueAccessor {
   @Input() visibleCount?: number;
   readonly ITEM_HEIGHT_PX = 40;
+
+  @ViewChild('buttonRef', { static: false }) buttonRef!: ElementRef;
+
+  isOpenUp = false;
   @Input() label?: string;
   // Se aceptan arrays arbitrarios; normalizamos internamente a { value, label }
   // También soportamos grupos: { label: string, options: [...] }
@@ -181,7 +187,14 @@ export class SelectComponent implements ControlValueAccessor {
   toggleOpen() {
     if (this.disabled) return;
     this.isOpen = !this.isOpen;
-    if (this.isOpen && this.searchable) {
+    if (this.isOpen) {
+      // Calcular dirección: arriba o abajo
+      const button = this.buttonRef.nativeElement;
+      const rect = button.getBoundingClientRect();
+      const estimatedHeight = this.visibleCount ? this.visibleCount * this.ITEM_HEIGHT_PX : 240; // 15rem ≈ 240px
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      this.isOpenUp = spaceBelow < estimatedHeight && spaceAbove > estimatedHeight;
       // reset filter al abrir
       this.filterText = '';
     }
