@@ -42,6 +42,7 @@ export class ModalDemoComponent {
   // Templates para demo de modales anidados
   @ViewChild('parentTpl', { read: TemplateRef }) parentTpl!: TemplateRef<any>;
   @ViewChild('childTpl', { read: TemplateRef }) childTpl!: TemplateRef<any>;
+  @ViewChild('grandTpl', { read: TemplateRef }) grandTpl!: TemplateRef<any>;
 
   open(type: string) {
     this.isOpen.set(type);
@@ -94,6 +95,22 @@ export class ModalDemoComponent {
         { label: 'Aceptar', action: 'custom', event: 'child-ok', variant: 'primary', size: 'sm' },
       ],
     });
+  }
+
+  openGrandchild() {
+    this.modalStack.open({
+      title: 'Modal nieto',
+      template: this.grandTpl,
+      buttons: [
+        { label: 'Volver', action: 'close', variant: 'secondary', size: 'sm' },
+        { label: 'Aceptar', action: 'custom', event: 'grand-ok', variant: 'primary', size: 'sm' },
+      ],
+    });
+  }
+
+  onGrandAccept() {
+    console.log('Acción en modal nieto');
+    this.modalStack.back();
   }
 
   onChildAccept() {

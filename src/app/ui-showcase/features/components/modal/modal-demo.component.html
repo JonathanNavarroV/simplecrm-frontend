@@ -53,6 +53,16 @@
     <p>Contenido del modal hijo (anidado).</p>
     <div class="mt-3">
       <app-button variant="primary" size="sm" (click)="onChildAccept()">Aceptar</app-button>
+      <app-button variant="secondary" size="sm" class="ml-2" (click)="openGrandchild()"
+        >Abrir nieto</app-button
+      >
+    </div>
+  </ng-template>
+
+  <ng-template #grandTpl let-data="data">
+    <p>Contenido del modal nieto (anidado aún más).</p>
+    <div class="mt-3">
+      <app-button variant="primary" size="sm" (click)="onGrandAccept()">Aceptar nieto</app-button>
     </div>
   </ng-template>
 
