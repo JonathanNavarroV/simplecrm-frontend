@@ -33,6 +33,8 @@ export class SelectComponent implements ControlValueAccessor {
 
   @ViewChild('buttonRef', { static: false }) buttonRef!: ElementRef;
 
+  @ViewChild('searchInput', { static: false }) searchInput!: ElementRef;
+
   isOpenUp = false;
   @Input() label?: string;
   // Se aceptan arrays arbitrarios; normalizamos internamente a { value, label }
@@ -197,6 +199,10 @@ export class SelectComponent implements ControlValueAccessor {
       this.isOpenUp = spaceBelow < estimatedHeight && spaceAbove > estimatedHeight;
       // reset filter al abrir
       this.filterText = '';
+      // focus en search si searchable
+      if (this.searchable) {
+        setTimeout(() => this.searchInput.nativeElement.focus(), 0);
+      }
     }
   }
 
