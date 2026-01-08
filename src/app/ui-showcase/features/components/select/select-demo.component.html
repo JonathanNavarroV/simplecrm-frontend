@@ -1,21 +1,24 @@
-<div class="p-6">
-  <h2 class="text-lg font-semibold mb-4">Select — Demo</h2>
+<div class="p-6 space-y-6">
+  <h2 class="text-xl font-semibold mb-4">Select — Demo</h2>
 
-  <app-select
-    label="Selecciona"
-    [clearable]="true"
-    [options]="options"
-    placeholder="Elige una opción"
-    [value]="valueMain"
-    (valueChange)="valueMain = $event"
-  ></app-select>
+  <section>
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Ejemplo básico</h3>
+    <app-select
+      label="Selecciona"
+      [clearable]="true"
+      [options]="options"
+      placeholder="Elige una opción"
+      [value]="valueMain"
+      (valueChange)="valueMain = $event"
+    ></app-select>
 
-  <div class="mt-4 text-sm text-gray-600">
-    Valor actual: {{ valueMain === null ? '(vacío)' : valueMain }}
-  </div>
+    <div class="mt-4 text-sm text-gray-600">
+      Valor actual: {{ valueMain === null ? '(vacío)' : valueMain }}
+    </div>
+  </section>
 
-  <div class="mt-4">
-    <p class="text-sm font-medium">Ejemplo con `id` / `name`</p>
+  <section class="bg-white rounded">
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Ejemplo con id/name</h3>
     <app-select
       label="Usando id/name"
       [options]="optionsIdName"
@@ -25,10 +28,10 @@
       [value]="valueIdName"
       (valueChange)="valueIdName = $event"
     ></app-select>
-  </div>
+  </section>
 
-  <div class="mt-6">
-    <p class="text-sm font-medium">Variantes</p>
+  <section class="bg-white rounded">
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Variantes</h3>
     <div class="grid grid-cols-3 gap-3 mt-2">
       <div>
         <app-select label="Default" [options]="options" [value]="'1'"></app-select>
@@ -52,11 +55,11 @@
         ></app-select>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="mt-6">
-    <p class="text-sm font-medium">Multiselect (custom)</p>
-    <div class="mt-2">
+  <section class="bg-white rounded">
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Multiselect</h3>
+    <div>
       <app-select
         label="Selecciona múltiples"
         [options]="options"
@@ -69,10 +72,10 @@
         Seleccionados: {{ valueMultipleCustom || '(ninguno)' }}
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="mt-6">
-    <p class="text-sm font-medium">Secciones / Grupos</p>
+  <section class="bg-white rounded">
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Secciones / Grupos</h3>
     <div class="mt-2 grid grid-cols-2 gap-4">
       <div>
         <app-select
@@ -98,10 +101,10 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="mt-6">
-    <p class="text-sm font-medium">Con búsqueda</p>
+  <section class="bg-white rounded">
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Con búsqueda</h3>
     <div class="mt-2 grid grid-cols-2 gap-4">
       <div>
         <app-select
@@ -127,5 +130,5 @@
         ></app-select>
       </div>
     </div>
-  </div>
+  </section>
 </div>

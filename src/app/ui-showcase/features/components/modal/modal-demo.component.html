@@ -1,16 +1,14 @@
-<div class="p-4">
+<div class="p-6 space-y-6">
   <h2 class="text-xl font-semibold mb-4">Modal — Demo simple</h2>
   <div class="grid gap-6">
     <section>
       <h3 class="text-sm font-medium text-gray-700 mb-2">Simple</h3>
-      <div class="bg-white rounded p-4">
-        <app-button variant="primary" (click)="open('simple')">Abrir modal simple</app-button>
-      </div>
+      <app-button variant="primary" (click)="open('simple')">Abrir modal simple</app-button>
     </section>
 
     <section>
       <h3 class="text-sm font-medium text-gray-700 mb-2">Confirmación</h3>
-      <div class="bg-white rounded p-4">
+      <div class="bg-white rounded">
         <app-button variant="secondary" (click)="open('confirm')"
           >Abrir modal de confirmación</app-button
         >
@@ -19,14 +17,14 @@
 
     <section>
       <h3 class="text-sm font-medium text-gray-700 mb-2">Eliminar (peligroso)</h3>
-      <div class="bg-white rounded p-4">
+      <div class="bg-white rounded">
         <app-button variant="danger" (click)="open('delete')">Abrir modal eliminación</app-button>
       </div>
     </section>
 
     <section>
       <h3 class="text-sm font-medium text-gray-700 mb-2">Alerta informativa</h3>
-      <div class="bg-white rounded p-4">
+      <div class="bg-white rounded">
         <app-button variant="primary" (click)="open('info')">Abrir alerta informativa</app-button>
       </div>
     </section>
@@ -34,7 +32,7 @@
 
   <section>
     <h3 class="text-sm font-medium text-gray-700 mb-2">Anidado</h3>
-    <div class="bg-white rounded p-4">
+    <div class="bg-white rounded">
       <app-button variant="primary" (click)="openNested()"
         >Abrir modal padre (puede abrir hijo)</app-button
       >

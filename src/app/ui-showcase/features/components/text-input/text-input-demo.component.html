@@ -1,62 +1,52 @@
-<div class="p-6">
-  <h2 class="text-lg font-semibold mb-4">Text Input — Demo</h2>
+<div class="p-6 space-y-6">
+  <h2 class="text-xl font-semibold mb-4">Text Input — Demo</h2>
 
-  <app-text-input
-    label="Nombre"
-    placeholder="Ingrese un nombre"
-    [value]="value"
-    (valueChange)="value = $event"
-    [error]="error"
-  ></app-text-input>
-  <div class="mt-4 text-sm text-gray-600">
-    Valor actual: {{ value === null ? '(vacío)' : value }}
-  </div>
+  <section>
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Ejemplo básico</h3>
+    <app-text-input
+      label="Nombre"
+      placeholder="Ingrese un nombre"
+      [value]="value"
+      (valueChange)="value = $event"
+      [error]="error"
+    ></app-text-input>
+    <div class="mt-4 text-sm text-gray-600">
+      Valor actual: {{ value === null ? '(vacío)' : value }}
+    </div>
+  </section>
 
-  <div class="mt-6 space-y-4">
-    <div>
-      <p class="text-sm font-medium">Variantes</p>
-      <div class="grid grid-cols-3 gap-3 mt-2">
-        <div>
-          <app-text-input label="Default" [value]="'Hola'"> </app-text-input>
-        </div>
+  <section class="bg-white rounded mt-6">
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Variantes</h3>
+    <div class="grid grid-cols-3 gap-3 mt-2">
+      <div>
+        <app-text-input label="Default" [value]="'Hola'"> </app-text-input>
+      </div>
 
-        <div>
-          <app-text-input label="Con placeholder" placeholder="Escribe aquí..." [value]="null">
-          </app-text-input>
-        </div>
+      <div>
+        <app-text-input label="Con placeholder" placeholder="Escribe aquí..." [value]="null">
+        </app-text-input>
+      </div>
 
-        <div>
-          <app-text-input
-            label="Disabled"
-            [value]="'No editable'"
-            [disabled]="true"
-          ></app-text-input>
-        </div>
+      <div>
+        <app-text-input label="Disabled" [value]="'No editable'" [disabled]="true"></app-text-input>
+      </div>
 
-        <div>
-          <app-text-input
-            label="Con error"
-            [value]="'Valor inválido'"
-            [error]="'Formato no válido'"
-          ></app-text-input>
-        </div>
+      <div>
+        <app-text-input
+          label="Con error"
+          [value]="'Valor inválido'"
+          [error]="'Formato no válido'"
+        ></app-text-input>
+      </div>
 
-        <div>
-          <app-text-input
-            label="Largo"
-            [value]="'Texto muy largo de ejemplo para probar el layout'"
-          >
-          </app-text-input>
-        </div>
+      <div>
+        <app-text-input label="Largo" [value]="'Texto muy largo de ejemplo para probar el layout'">
+        </app-text-input>
+      </div>
 
-        <div>
-          <app-text-input
-            label="Vacío (null)"
-            [value]="null"
-            placeholder="(vacío)"
-          ></app-text-input>
-        </div>
+      <div>
+        <app-text-input label="Vacío (null)" [value]="null" placeholder="(vacío)"></app-text-input>
       </div>
     </div>
-  </div>
+  </section>
 </div>

@@ -1,64 +1,61 @@
-<div class="p-6">
-  <h2 class="text-lg font-semibold mb-4">Number Input — Demo</h2>
+<div class="p-6 space-y-6">
+  <h2 class="text-xl font-semibold mb-4">Number Input — Demo</h2>
 
-  <app-number-input
-    label="Cantidad"
-    placeholder="Ingrese un número"
-    [value]="value"
-    (valueChange)="value = $event"
-    [error]="error"
-  ></app-number-input>
-  <div class="mt-4 text-sm text-gray-600">
-    Valor actual: {{ value === null ? '(vacío)' : value }}
-  </div>
+  <section>
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Ejemplo básico</h3>
+    <app-number-input
+      label="Cantidad"
+      placeholder="Ingrese un número"
+      [value]="value"
+      (valueChange)="value = $event"
+      [error]="error"
+    ></app-number-input>
+    <div class="mt-4 text-sm text-gray-600">
+      Valor actual: {{ value === null ? '(vacío)' : value }}
+    </div>
+  </section>
 
-  <div class="mt-6 space-y-4">
-    <div>
-      <p class="text-sm font-medium">Variantes</p>
-      <div class="grid grid-cols-3 gap-3 mt-2">
-        <div>
-          <app-number-input label="Default" [value]="'1234'"></app-number-input>
-        </div>
+  <section class="bg-white rounded mt-6">
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Variantes</h3>
+    <div class="grid grid-cols-3 gap-3 mt-2">
+      <div>
+        <app-number-input label="Default" [value]="'1234'"></app-number-input>
+      </div>
 
-        <div>
-          <app-number-input
-            label="Con pre/sufijo"
-            [value]="'2500'"
-            previewPrefix="$"
-            previewSuffix=" USD"
-          >
-          </app-number-input>
-        </div>
+      <div>
+        <app-number-input
+          label="Con pre/sufijo"
+          [value]="'2500'"
+          previewPrefix="$"
+          previewSuffix=" USD"
+        >
+        </app-number-input>
+      </div>
 
-        <div>
-          <app-number-input
-            label="Separadores (es)"
-            [value]="'12345,67'"
-            thousandSeparator="."
-            decimalSeparator=","
-          ></app-number-input>
-        </div>
+      <div>
+        <app-number-input
+          label="Separadores (es)"
+          [value]="'12345,67'"
+          thousandSeparator="."
+          decimalSeparator=","
+        ></app-number-input>
+      </div>
 
-        <div>
-          <app-number-input
-            label="MaxLength=5"
-            [value]="'12345'"
-            [maxLength]="5"
-          ></app-number-input>
-        </div>
+      <div>
+        <app-number-input label="MaxLength=5" [value]="'12345'" [maxLength]="5"></app-number-input>
+      </div>
 
-        <div>
-          <app-number-input label="Disabled" [value]="'42'" [disabled]="true"></app-number-input>
-        </div>
+      <div>
+        <app-number-input label="Disabled" [value]="'42'" [disabled]="true"></app-number-input>
+      </div>
 
-        <div>
-          <app-number-input
-            label="Con error"
-            [value]="'abc'"
-            [error]="'No es un número válido'"
-          ></app-number-input>
-        </div>
+      <div>
+        <app-number-input
+          label="Con error"
+          [value]="'abc'"
+          [error]="'No es un número válido'"
+        ></app-number-input>
       </div>
     </div>
-  </div>
+  </section>
 </div>

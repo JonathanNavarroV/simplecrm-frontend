@@ -1,9 +1,9 @@
-<div class="p-6">
-  <h2 class="text-lg font-semibold mb-4">Badge — Demo</h2>
+<div class="p-6 space-y-6">
+  <h2 class="text-xl font-semibold mb-4">Badge — Demo</h2>
 
   <div class="grid grid-cols-2 gap-4">
-    <div>
-      <p class="text-sm font-medium mb-2">Variantes</p>
+    <section>
+      <h3 class="text-sm font-medium mb-2">Variantes</h3>
       <div class="flex gap-2 items-center flex-wrap">
         <app-badge label="Default"></app-badge>
         <app-badge label="Primary" variant="primary"></app-badge>
@@ -11,38 +11,38 @@
         <app-badge label="Danger" variant="danger"></app-badge>
         <app-badge label="Warning" variant="warning"></app-badge>
       </div>
-    </div>
+    </section>
 
-    <div>
-      <p class="text-sm font-medium mb-2">Tamaños / Pill</p>
+    <section class="bg-white rounded">
+      <h3 class="text-sm font-medium mb-2">Tamaños / Pill</h3>
       <div class="flex gap-2 items-center flex-wrap">
         <app-badge label="Sm" size="sm"></app-badge>
         <app-badge label="Md" size="md"></app-badge>
         <app-badge label="Pill" [pill]="true"></app-badge>
         <app-badge label="Pill Primary" [pill]="true" variant="primary"></app-badge>
       </div>
-    </div>
+    </section>
 
-    <div class="col-span-2 mt-4">
-      <p class="text-sm font-medium mb-2">Con icono</p>
+    <section class="col-span-2 bg-white rounded mt-4">
+      <h3 class="text-sm font-medium mb-2">Con icono</h3>
       <div class="flex gap-2 items-center flex-wrap">
         <app-badge label="Check" iconName="check" variant="success"></app-badge>
         <app-badge label="Close" iconName="close" variant="danger" [pill]="true"></app-badge>
       </div>
-    </div>
+    </section>
 
-    <div class="col-span-2 mt-4">
-      <p class="text-sm font-medium mb-2">Con punto (dot)</p>
+    <section class="col-span-2 bg-white rounded mt-4">
+      <h3 class="text-sm font-medium mb-2">Con punto (dot)</h3>
       <div class="flex gap-2 items-center flex-wrap">
         <app-badge label="Online" variant="success" [dot]="true"></app-badge>
         <app-badge label="Offline" variant="danger" [dot]="true"></app-badge>
         <app-badge label="Advertencia" variant="warning" [dot]="true"></app-badge>
         <app-badge label="Sin texto" [dot]="true" variant="primary" [pill]="true"></app-badge>
       </div>
-    </div>
+    </section>
 
-    <div class="col-span-2 mt-4">
-      <p class="text-sm font-medium mb-2">Removibles (variantes visuales)</p>
+    <section class="col-span-2 bg-white rounded mt-4">
+      <h3 class="text-sm font-medium mb-2">Removibles (variantes visuales)</h3>
       <div class="flex gap-2 items-center flex-wrap">
         <ng-container *ngFor="let t of tags">
           <app-badge
@@ -58,6 +58,6 @@
           ></app-badge>
         </ng-container>
       </div>
-    </div>
+    </section>
   </div>
 </div>

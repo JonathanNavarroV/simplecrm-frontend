@@ -1,64 +1,65 @@
-<div class="p-6">
-  <h2 class="text-lg font-semibold mb-4">Tabla — Demo</h2>
+<div class="p-6 space-y-6">
+  <h2 class="text-xl font-semibold mb-4">Tabla — Demo</h2>
 
-  <div class="bg-white rounded p-4">
-      <ng-template #statusTpl let-row>
-        <app-badge
-          [label]="row.active ? 'Activo' : 'Inactivo'"
-          [variant]="row.active ? 'success' : 'default'"
-          size="sm"
-          [pill]="true"
-        ></app-badge>
-      </ng-template>
+  <!-- Sección: Tabla normal -->
+  <section>
+    <ng-template #statusTpl let-row>
+      <app-badge
+        [label]="row.active ? 'Activo' : 'Inactivo'"
+        [variant]="row.active ? 'success' : 'default'"
+        size="sm"
+        [pill]="true"
+      ></app-badge>
+    </ng-template>
 
-      <ng-template #actionsTpl let-row>
-        <div class="flex items-center justify-center gap-2">
-          <app-tooltip text="Ver" position="top">
-            <app-button
-              size="sm"
-              variant="secondary"
-              icon="eye"
-              iconPosition="center"
-              ariaLabel="Ver"
-              (click)="onView(row)"
-            ></app-button>
-          </app-tooltip>
-          <app-tooltip text="Editar" position="top">
-            <app-button
-              size="sm"
-              variant="primary"
-              icon="edit"
-              iconPosition="center"
-              ariaLabel="Editar"
-              (click)="onEdit(row)"
-            ></app-button>
-          </app-tooltip>
-          <app-tooltip text="Eliminar" position="top">
-            <app-button
-              size="sm"
-              variant="danger"
-              icon="trash"
-              iconPosition="center"
-              ariaLabel="Eliminar"
-              (click)="onDelete(row)"
-            ></app-button>
-          </app-tooltip>
-        </div>
-      </ng-template>
-
-      <div class="mb-6">
-        <h3 class="font-medium mb-2">Tabla normal</h3>
-        <app-table [columns]="columns" [rows]="rows"></app-table>
+    <ng-template #actionsTpl let-row>
+      <div class="flex items-center justify-center gap-2">
+        <app-tooltip text="Ver" position="top">
+          <app-button
+            size="sm"
+            variant="secondary"
+            icon="eye"
+            iconPosition="center"
+            ariaLabel="Ver"
+            (click)="onView(row)"
+          ></app-button>
+        </app-tooltip>
+        <app-tooltip text="Editar" position="top">
+          <app-button
+            size="sm"
+            variant="primary"
+            icon="edit"
+            iconPosition="center"
+            ariaLabel="Editar"
+            (click)="onEdit(row)"
+          ></app-button>
+        </app-tooltip>
+        <app-tooltip text="Eliminar" position="top">
+          <app-button
+            size="sm"
+            variant="danger"
+            icon="trash"
+            iconPosition="center"
+            ariaLabel="Eliminar"
+            (click)="onDelete(row)"
+          ></app-button>
+        </app-tooltip>
       </div>
+    </ng-template>
 
-      <div class="mb-6">
-        <h3 class="font-medium mb-2">Tabla con badges</h3>
-        <app-table [columns]="columnsBadges" [rows]="rowsShort"></app-table>
-      </div>
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Tabla normal</h3>
+    <app-table [columns]="columns" [rows]="rows"></app-table>
+  </section>
 
-      <div>
-        <h3 class="font-medium mb-2">Tabla con botones de acciones</h3>
-        <app-table [columns]="columnsActions" [rows]="rowsActions"></app-table>
-      </div>
-  </div>
+  <!-- Sección: Tabla con badges -->
+  <section class="bg-white rounded">
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Tabla con badges</h3>
+    <app-table [columns]="columnsBadges" [rows]="rowsShort"></app-table>
+  </section>
+
+  <!-- Sección: Tabla con acciones -->
+  <section class="bg-white rounded">
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Tabla con botones de acciones</h3>
+    <app-table [columns]="columnsActions" [rows]="rowsActions"></app-table>
+  </section>
 </div>
