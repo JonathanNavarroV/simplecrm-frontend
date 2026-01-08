@@ -26,6 +26,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   styleUrls: ['./select.component.css'],
 })
 export class SelectComponent implements ControlValueAccessor {
+  @Input() visibleCount?: number;
+  readonly ITEM_HEIGHT_PX = 40;
   @Input() label?: string;
   // Se aceptan arrays arbitrarios; normalizamos internamente a { value, label }
   // También soportamos grupos: { label: string, options: [...] }
@@ -125,6 +127,13 @@ export class SelectComponent implements ControlValueAccessor {
   onTouched: () => void = () => {};
 
   constructor(private cdr: ChangeDetectorRef) {}
+
+  get computedMaxHeight(): string {
+    if (this.visibleCount && this.visibleCount > 0) {
+      return `${this.visibleCount * this.ITEM_HEIGHT_PX}px`;
+    }
+    return '15rem';
+  }
 
   get value(): string | string[] | null {
     return this._value;

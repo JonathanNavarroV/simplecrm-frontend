@@ -41,7 +41,8 @@
 
       <div
         *ngIf="isOpen"
-        class="absolute z-10 mt-1 w-full bg-white border rounded border-gray-300 shadow max-h-60 overflow-auto"
+        class="absolute z-10 mt-1 w-full bg-white border rounded border-gray-300 shadow overflow-auto"
+        [ngStyle]="{ 'max-height': computedMaxHeight }"
       >
         <div *ngIf="searchable" class="p-2">
           <input
@@ -154,7 +155,8 @@
 
       <div
         *ngIf="isOpen"
-        class="absolute z-10 mt-1 w-full bg-white border rounded border-gray-300 max-h-60 overflow-auto"
+        class="absolute z-10 mt-1 w-full bg-white border rounded border-gray-300 overflow-auto"
+        [ngStyle]="{ 'max-height': computedMaxHeight }"
       >
         <div *ngIf="searchable" class="p-2">
           <input

@@ -28,6 +28,12 @@ export class SelectDemoComponent {
     { value: '3', label: 'Opción 3' },
   ];
 
+  // Demo con 10 elementos
+  options10 = Array.from({ length: 10 }).map((_, i) => ({
+    value: String(i + 1),
+    label: `Elemento ${i + 1}`,
+  }));
+
   // Ejemplo con claves `id` / `name`
   optionsIdName = [
     { id: 'a', name: 'Alpha' },
@@ -54,4 +60,8 @@ export class SelectDemoComponent {
   ];
 
   groupedMultipleValue: string | string[] | null = null;
+
+  // valores para demo de 10 elementos
+  valueTenDefault: string | string[] | null = null;
+  valueTenSmall: string | string[] | null = null;
 }
