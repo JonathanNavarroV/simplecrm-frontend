@@ -26,6 +26,17 @@ export class ModalDemoComponent {
     { label: 'Confirmar', action: 'confirm', variant: 'primary', size: 'sm' },
   ];
 
+  // Ejemplo: Confirmación de eliminación (acción custom 'delete')
+  deleteButtons: ModalButton[] = [
+    { label: 'Cancelar', action: 'close', variant: 'secondary', size: 'sm' },
+    { label: 'Eliminar', action: 'custom', event: 'delete', variant: 'danger', size: 'sm' },
+  ];
+
+  // Ejemplo: Alerta informativa con un solo botón
+  infoButtons: ModalButton[] = [
+    { label: 'Aceptar', action: 'custom', event: 'info-ok', variant: 'primary', size: 'sm' },
+  ];
+
   open(type: string) {
     this.isOpen.set(type);
   }
@@ -36,11 +47,26 @@ export class ModalDemoComponent {
 
   onConfirm() {
     this.lastConfirmed = true;
+    // Registramos en consola en lugar de guardar en una propiedad para mostrar en plantilla
+    console.log('Modal confirmado');
     this.close();
   }
 
   onAction(ev: string) {
-    // ejemplo: registrar o mapear acciones custom
-    console.log('Modal action:', ev);
+    // manejar acciones custom del modal y registrar en consola
+    if (ev === 'delete') {
+      console.log('Modal acción: eliminado');
+      this.close();
+      return;
+    }
+
+    if (ev === 'info-ok') {
+      console.log('Modal acción: informativo reconocido');
+      this.close();
+      return;
+    }
+
+    // fallback
+    console.log('Modal acción:', ev);
   }
 }
