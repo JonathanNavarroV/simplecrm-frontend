@@ -6,7 +6,7 @@ import {
 } from '../../../../shared/components/ui/modal/modal.component';
 import { ButtonComponent } from '../../../../shared/components/ui/button/button.component';
 import { ModalHostComponent } from '../../../../shared/components/ui/modal/modal-host.component';
-import { ModalStackService } from '../../../../shared/components/ui/modal/modal-stack.service';
+import { ModalStackService } from '../../../../core/services/modal-stack.service';
 
 @Component({
   selector: 'app-modal-demo',
