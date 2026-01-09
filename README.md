@@ -1,17 +1,19 @@
 # SimpleCRM Frontend
 
-**SimpleCRM Frontend** es la **aplicación web** del ecosistema **SimpleCRM**, construida con **Angular 20** y **Tailwind CSS 4**, que consume los microservicios a través del **SimpleCRM Gateway**.
+**SimpleCRM Frontend** es la aplicación web del ecosistema SimpleCRM: una SPA moderna (Angular 20, standalone y signals-ready) con Tailwind CSS v4, preparada para Docker y diseñada para consumir microservicios a través del SimpleCRM Gateway (autenticación mediante Microsoft Entra ID).
 
 ---
 
 ## 🚀 Funcionalidades principales
 
 - UI SPA con **Angular 20** (standalone, signals-ready).
-- Estilos con **Tailwind CSS v4** (sin PostCSS manual).
-- Gestión de clientes, contactos, oportunidades (módulos CRM).
-- Integración con **Microsoft Entra ID** (via Gateway).
-- Configuración por **ambientes** (`environment.ts` / variables).
-- Preparado para **Docker** y despliegues en contenedor.
+- Estilos con **Tailwind CSS v4** (gestión automática).
+- Gestión de clientes, contactos y oportunidades (módulos CRM, pensados para lazy-loading).
+- Integración con **Microsoft Entra ID** (vía Gateway; tokens gestionados por interceptor).
+- Configuración por **ambientes** y overrides en tiempo de ejecución (`environment.ts` y variables Docker `NG_ENV_*`).
+- Preparado para **Docker** y despliegues en contenedor (imagen estática + entrypoint para configuración).
+- Interceptores HTTP centrales para auth, manejo de errores y logging.
+- Preparado para accesibilidad e internacionalización (i18n-ready).
 
 ---
 
@@ -19,19 +21,28 @@
 
 ```text
 simplecrm-frontend/
+├─ public/                # archivos estáticos y index.html (producción)
 ├─ src/
+│  ├─ main.ts
+│  ├─ index.html
+│  ├─ styles.css          # punto de entrada Tailwind
 │  ├─ app/
 │  │  ├─ features/        # páginas/modulos (CRM, etc.)
 │  │  ├─ shared/          # componentes/servicios compartidos
-│  │  └─ core/            # http, interceptores, auth guards
+│  │  ├─ core/            # http, interceptores, auth guards
+│  │  └─ ui-showcase/     # ejemplos y componentes de demostración
 │  ├─ assets/
 │  ├─ environments/
 │  │  ├─ environment.ts
-│  │  └─ environment.development.ts
-│  └─ styles.css          # punto de entrada Tailwind
+│  │  └─ environment.prod.ts
 ├─ angular.json
 ├─ package.json
+├─ tsconfig.json
+├─ tsconfig.app.json
+├─ tsconfig.spec.json
+├─ tailwind.config.ts     # (opcional) configuración de Tailwind
 ├─ Dockerfile
+├─ .github/               # (opcional) workflows CI/CD
 └─ README.md
 ```
 
@@ -39,10 +50,14 @@ simplecrm-frontend/
 
 ## ⚙️ Requisitos previos
 
-- Node.js 20+ (recomendado LTS)
-- npm 10+
-- Angular CLI global: npm i -g @angular/cli
-- Backend accesible vía SimpleCRM Gateway (URLs en variables de entorno)
+- Node.js 20+ (recomendado LTS).
+- npm 10+ (normalmente incluido con Node 20).
+- Angular CLI: opcional globalmente; el proyecto incluye `@angular/cli` en `devDependencies` y se puede usar vía `npm run` o `npx ng`.
+- Docker (opcional): necesario solo si vas a usar la imagen o ejecutar en contenedor.
+- Git (para clonar y trabajar con el repositorio).
+- Navegador Chromium/Chrome (recomendado) para ejecutar tests con Karma.
+- Variables de entorno: tener disponible la URL del SimpleCRM Gateway para configurar `src/environments/*` o inyectar `NG_ENV_*` en Docker.
+- (Opcional) Credenciales de Microsoft Entra ID si vas a probar flujos de autenticación MSAL.
 
 ---
 
@@ -63,10 +78,10 @@ npm install
 
 ### 3. Configura los ambientes
 
-Edita `src/environments/environment.development.ts` y `src/environments/environment.ts`:
+Edita `src/environments/environment.ts` y `src/environments/environment.prod.ts`:
 
 ```ts
-// src/environments/environment.development.ts
+// src/environments/environment.ts
 export const environment = {
   production: false,
   gatewayBaseUrl: 'http://localhost:5000', // URL del SimpleCRM Gateway (dev)
@@ -78,7 +93,7 @@ export const environment = {
 ```
 
 ```ts
-// src/environments/environment.ts
+// src/environments/environment.prod.ts
 export const environment = {
   production: true,
   gatewayBaseUrl: 'https://<tu-dominio-gateway>', // URL en prod
@@ -102,7 +117,7 @@ La app quedará disponible (por defecto) en http://localhost:4200/.
 
 ## 🎨 Tailwind CSS 4
 
-El proyecto usa Tailwind 4 (gestión automática). El punto de entrada está en src/styles.css:
+El proyecto integra Tailwind CSS v4 mediante PostCSS. La configuración actual utiliza el plugin `@tailwindcss/postcss` definido en `.postcssrc.json`, y el punto de entrada es `src/styles.css`:
 
 ```css
 @import 'tailwindcss';
@@ -110,35 +125,43 @@ El proyecto usa Tailwind 4 (gestión automática). El punto de entrada está en 
 
 Clases utilitarias disponibles en componentes y templates HTML.
 
-> Si el diseño no aparece, verifica que styles.css esté referenciado en angular.json y que no existan configuraciones previas de PostCSS que interfieran.
+Nota: en el repositorio no existe actualmente un archivo `tailwind.config.*`. Si necesitas personalizar el tema, rutas de contenido o plugins, crea `tailwind.config.ts` o `tailwind.config.cjs` en la raíz (por ejemplo con `npx tailwindcss init`).
+
+Si el diseño no aparece, verifica que `src/styles.css` esté referenciado en `angular.json` y que no existan configuraciones previas de PostCSS que interfieran.
 
 ---
 
 ## 🔐 Autenticación (Entra ID via Gateway)
 
-La validación de tokens se realiza en el Gateway. Este frontend:
+La validación de tokens se realiza en el Gateway; este frontend se encarga de obtener/adjuntar tokens y de proteger llamadas HTTP.
 
-- Adjunta credenciales (por ejemplo, `Authorization: Bearer ...`) cuando corresponda.
-- Consume APIs a través de `gatewayBaseUrl + crmApiBase` / `authApiBase`.
+- MSAL integrado: la configuración y proveedores están en `src/app/app.config.ts` (se registran `MSAL_INSTANCE`, `MSAL_INTERCEPTOR_CONFIG`, `MsalService`, `MsalGuard`, `MsalBroadcastService` y `MsalInterceptor`).
+- Interceptor: `MsalInterceptor` añade automáticamente el header `Authorization: Bearer <token>` para las URLs definidas en `environment.azure.api.baseUrl` (ver `MSALInterceptorConfigFactory` en `app.config.ts`).
+- Variables a rellenar: completa en `src/environments/environment.ts` / `environment.prod.ts` las claves `azure.spaClientId`, `azure.authority`, `azure.postLogoutRedirectUri`, y en `azure.api` `baseUrl` y `scopes`.
+- Uso desde la UI: revisa `src/app/core/services/auth.service.ts` para ejemplos de `login()` y `logout()`.
+- Validación final: el Gateway debe verificar la validez del token y aplicar autorización/roles en backend.
 
-  > Implementación concreta (MSAL/interceptor) depende de tu flujo; se documentará en una sección propia cuando lo integremos.
+Notas:
+- Si despliegas con Docker, asegúrate de inyectar las variables necesarias (`NG_ENV_*`) o construir `environment.prod.ts` apropiadamente.
+- Para deshabilitar MSAL temporalmente en entornos locales, ajusta `environment.uiShowcase` o la configuración en `app.config.ts`.
 
 ---
 
 ## 🐳 Ejecución con Docker
 
-Construir y ejecutar la imagen
+Estado: stand by — se planea añadir `docker-compose.dev.yml` y `docker-compose.qa.yml` próximamente; por ahora no se automatiza el entorno contenedorizado.
+
+Comandos de referencia (usar exclusivamente `docker compose` cuando existan los archivos de composición):
 
 ```bash
-docker build -t simplecrm-frontend .
-docker run -p 4200:80 \
-  -e NG_ENV_GATEWAY_BASE_URL=http://host.docker.internal:5000 \
-  -e NG_ENV_CRM_API_BASE=/crm \
-  -e NG_ENV_AUTH_API_BASE=/auth \
-  simplecrm-frontend
+# Desarrollo (cuando exista docker-compose.dev.yml)
+docker compose -f docker-compose.dev.yml up --build
+
+# QA (cuando exista docker-compose.qa.yml)
+docker compose -f docker-compose.qa.yml up --build
 ```
 
-> El Dockerfile está preparado para un build de producción y un Nginx minimal. Las variables `NG_ENV_*` pueden inyectarse en tiempo de arranque (entrypoint sobrescribe `environment.*` o expone un `config.json`). Ajustaremos esto según tu preferencia (config JSON vs. variables).
+Nota: El `Dockerfile` está preparado para un build de producción y un Nginx minimal. Las variables `NG_ENV_*` pueden inyectarse en tiempo de arranque (el entrypoint puede sobrescribir `environment.*` o exponer un `config.json`).
 
 ---
 
@@ -155,8 +178,6 @@ docker run -p 4200:80 \
 ```bash
 npm run start       # ng serve
 npm run build       # build producción
-npm run lint        # lint
-npm run test        # unit tests
 ```
 
 > Ver `package.json` para el listado completo.
