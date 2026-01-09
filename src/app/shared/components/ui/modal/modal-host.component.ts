@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, TemplateRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ModalComponent } from './modal.component';
+import { CloseOnInteractDirective } from '../../../directives/close-on-interact.directive';
 import { ModalStackService, ModalStackItem } from '../../../../core/services/modal-stack.service';
 
 @Component({
   selector: 'app-modal-host',
   standalone: true,
-  imports: [CommonModule, ModalComponent],
+  imports: [CommonModule, ModalComponent, CloseOnInteractDirective],
   templateUrl: './modal-host.component.html',
 })
 export class ModalHostComponent {
