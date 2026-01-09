@@ -67,7 +67,13 @@
   <!-- Host global que renderiza el modal superior del stack -->
   <app-modal-host></app-modal-host>
 
-  <ng-container *ngIf="isOpen() as modalType">
+  <div
+    [appCloseOnInteract]="true"
+    [closeOnOutsideClick]="true"
+    [closeOnEscape]="true"
+    (requestClose)="close()"
+    *ngIf="isOpen() as modalType"
+  >
     <app-modal
       [title]="
         modalType === 'confirm'
@@ -108,5 +114,5 @@
         <p>Contenido de ejemplo dentro del modal simple. Añade lo que quieras aquí.</p>
       </ng-container>
     </app-modal>
-  </ng-container>
+  </div>
 </div>

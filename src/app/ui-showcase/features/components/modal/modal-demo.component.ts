@@ -6,12 +6,19 @@ import {
 } from '../../../../shared/components/ui/modal/modal.component';
 import { ButtonComponent } from '../../../../shared/components/ui/button/button.component';
 import { ModalHostComponent } from '../../../../shared/components/ui/modal/modal-host.component';
+import { CloseOnInteractDirective } from '../../../../shared/directives/close-on-interact.directive';
 import { ModalStackService } from '../../../../core/services/modal-stack.service';
 
 @Component({
   selector: 'app-modal-demo',
   standalone: true,
-  imports: [CommonModule, ModalComponent, ButtonComponent, ModalHostComponent],
+  imports: [
+    CommonModule,
+    ModalComponent,
+    ButtonComponent,
+    ModalHostComponent,
+    CloseOnInteractDirective,
+  ],
   templateUrl: './modal-demo.component.html',
   styleUrls: ['./modal-demo.component.css'],
 })
