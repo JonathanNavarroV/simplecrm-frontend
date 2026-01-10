@@ -11,4 +11,5 @@ import { ButtonComponent } from '../../../../shared/components/ui/button/button.
 })
 export class ButtonsDemoComponent {
   // Demo puro: sin acciones.
+  loading = false;
 }

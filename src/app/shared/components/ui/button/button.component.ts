@@ -18,6 +18,8 @@ export class ButtonComponent {
   @Input() iconClass = 'h-4 w-4';
   @Input() ariaLabel?: string;
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
+  // Indica si el botón está en estado de carga (muestra spinner y deshabilita)
+  @Input() isLoading: boolean = false;
 
   get classes(): string {
     const dir = this.iconPosition === 'right' ? 'flex-row-reverse' : 'flex-row';
@@ -28,9 +30,10 @@ export class ButtonComponent {
         ? ''
         : spacingBase + (dir === 'flex-row-reverse' ? ' space-x-reverse' : '');
     const sizeCls = this.size === 'sm' ? 'px-2.5 py-1.5 text-sm' : 'px-4 py-2 text-sm';
-    const disabledCls = this.disabled
-      ? 'opacity-60 cursor-not-allowed pointer-events-none'
-      : 'cursor-pointer';
+    const disabledCls =
+      this.disabled || this.isLoading
+        ? 'opacity-60 cursor-not-allowed pointer-events-none'
+        : 'cursor-pointer';
 
     switch (this.variant) {
       case 'secondary':

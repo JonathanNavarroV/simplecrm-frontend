@@ -28,6 +28,14 @@
     </section>
 
     <section class="bg-white rounded">
+      <h3 class="text-sm font-medium text-gray-700 mb-2">Con loading</h3>
+      <div class="flex items-center gap-3">
+        <app-button variant="primary" [isLoading]="true">Cargando...</app-button>
+        <app-button variant="secondary" [isLoading]="true">Procesando</app-button>
+      </div>
+    </section>
+
+    <section class="bg-white rounded">
       <h3 class="text-sm font-medium text-gray-700 mb-2">Con iconos</h3>
       <p class="text-sm text-gray-600 mb-2">Botones con icono (muestra):</p>
       <div class="flex items-center gap-3">
