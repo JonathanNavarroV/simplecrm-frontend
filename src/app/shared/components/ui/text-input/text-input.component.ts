@@ -29,6 +29,10 @@ export class TextInputComponent implements ControlValueAccessor, AfterViewInit {
   @Input() label?: string;
   @Input() placeholder?: string = '';
   @Input() error?: string;
+  // Indica si el control está en estado de carga (muestra un spinner)
+  @Input() isLoading: boolean = false;
+  // Indica si mostrar un skeleton shimmer en lugar del input (para carga inicial)
+  @Input() isSkeleton: boolean = false;
 
   public ngControl: NgControl | null = null;
 

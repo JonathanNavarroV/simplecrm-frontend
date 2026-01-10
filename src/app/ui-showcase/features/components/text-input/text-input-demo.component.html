@@ -47,6 +47,16 @@
       <div>
         <app-text-input label="Vacío (null)" [value]="null" placeholder="(vacío)"></app-text-input>
       </div>
+      <div>
+        <app-text-input
+          label="Con loading"
+          [value]="'Cargando...'"
+          [isLoading]="true"
+        ></app-text-input>
+      </div>
+      <div>
+        <app-text-input label="Skeleton loading" [isSkeleton]="true"></app-text-input>
+      </div>
     </div>
   </section>
 </div>

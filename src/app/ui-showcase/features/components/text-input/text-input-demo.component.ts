@@ -12,6 +12,7 @@ import { TextInputComponent } from '../../../../shared/components/ui/text-input/
 export class TextInputDemoComponent {
   value: string | null = null;
   error?: string;
+  loading = false;
 
   showError() {
     this.error = 'Este es un error personalizado.';
@@ -20,5 +21,13 @@ export class TextInputDemoComponent {
   clear() {
     this.value = null;
     this.error = undefined;
+  }
+
+  toggleLoading() {
+    this.loading = !this.loading;
+    if (this.loading) {
+      // simulación: auto-stop after 2s
+      setTimeout(() => (this.loading = false), 2000);
+    }
   }
 }
