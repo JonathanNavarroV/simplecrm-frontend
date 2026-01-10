@@ -36,6 +36,45 @@
     </section>
 
     <section class="bg-white rounded">
+      <h3 class="text-sm font-medium text-gray-700 mb-2">Skeletons</h3>
+      <div class="flex items-center gap-3">
+        <div class="flex flex-col items-center">
+          <app-button variant="primary" [isSkeleton]="true"></app-button>
+          <div class="text-xs text-gray-500 mt-1">Normal</div>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <app-button variant="primary" size="sm" [isSkeleton]="true"></app-button>
+          <div class="text-xs text-gray-500 mt-1">Small</div>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <app-button
+            variant="primary"
+            size="md"
+            icon="floppy-disk"
+            iconPosition="center"
+            [isSkeleton]="true"
+            ariaLabel="Guardar"
+          ></app-button>
+          <div class="text-xs text-gray-500 mt-1">Icon-only</div>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <app-button
+            variant="primary"
+            size="sm"
+            icon="floppy-disk"
+            iconPosition="center"
+            [isSkeleton]="true"
+            ariaLabel="Guardar"
+          ></app-button>
+          <div class="text-xs text-gray-500 mt-1">Icon small</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white rounded">
       <h3 class="text-sm font-medium text-gray-700 mb-2">Con iconos</h3>
       <p class="text-sm text-gray-600 mb-2">Botones con icono (muestra):</p>
       <div class="flex items-center gap-3">

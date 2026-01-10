@@ -1,24 +1,30 @@
-<button
-  [attr.type]="type"
-  [disabled]="disabled || isLoading"
-  [class]="classes"
-  [attr.aria-label]="ariaLabel"
-  [attr.aria-busy]="isLoading"
->
-  <ng-container *ngIf="icon && iconPosition !== 'center'">
-    <app-icon [name]="icon" [class]="iconClass"></app-icon>
-  </ng-container>
+<ng-container *ngIf="!isSkeleton">
+  <button
+    [attr.type]="type"
+    [disabled]="disabled || isLoading"
+    [class]="classes"
+    [attr.aria-label]="ariaLabel"
+    [attr.aria-busy]="isLoading"
+  >
+    <ng-container *ngIf="icon && iconPosition !== 'center'">
+      <app-icon [name]="icon" [class]="iconClass"></app-icon>
+    </ng-container>
 
-  <ng-container *ngIf="icon && iconPosition === 'center'">
-    <app-icon [name]="icon" [class]="iconClass"></app-icon>
-    <span *ngIf="ariaLabel" class="sr-only">{{ ariaLabel }}</span>
-  </ng-container>
+    <ng-container *ngIf="icon && iconPosition === 'center'">
+      <app-icon [name]="icon" [class]="iconClass"></app-icon>
+      <span *ngIf="ariaLabel" class="sr-only">{{ ariaLabel }}</span>
+    </ng-container>
 
-  <span *ngIf="iconPosition !== 'center'" class="inline"><ng-content></ng-content></span>
+    <span *ngIf="iconPosition !== 'center'" class="inline"><ng-content></ng-content></span>
 
-  <span
-    *ngIf="isLoading"
-    class="ml-2 w-4 h-4 border-2 border-t-transparent border-current rounded-full animate-spin"
-    aria-hidden="true"
-  ></span>
-</button>
+    <span
+      *ngIf="isLoading"
+      class="ml-2 w-4 h-4 border-2 border-t-transparent border-current rounded-full animate-spin"
+      aria-hidden="true"
+    ></span>
+  </button>
+</ng-container>
+
+<ng-container *ngIf="isSkeleton">
+  <div [class]="skeletonClasses" aria-hidden="true"></div>
+</ng-container>

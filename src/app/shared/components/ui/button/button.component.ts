@@ -20,6 +20,8 @@ export class ButtonComponent {
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
   // Indica si el botón está en estado de carga (muestra spinner y deshabilita)
   @Input() isLoading: boolean = false;
+  // Indica si se debe renderizar un skeleton placeholder en lugar del botón
+  @Input() isSkeleton: boolean = false;
 
   get classes(): string {
     const dir = this.iconPosition === 'right' ? 'flex-row-reverse' : 'flex-row';
@@ -45,5 +47,31 @@ export class ButtonComponent {
       default:
         return `${base} ${dir} ${spacing} ${sizeCls} ${disabledCls} rounded border-transparent bg-indigo-600 text-white hover:bg-indigo-800`;
     }
+  }
+
+  // Clases para el placeholder skeleton según tamaño y tipo (icon-only)
+  get skeletonClasses(): string {
+    // Usar clases que reproduzcan el box model del botón (border, padding)
+    const base =
+      'inline-flex items-center justify-center align-middle bg-gray-200 animate-pulse border rounded';
+    const sizeCls = this.size === 'sm' ? 'px-2.5 py-1.5 text-sm' : 'px-4 py-2 text-sm';
+    const borderCls = 'border-gray-300';
+
+    if (this.iconPosition === 'center' && !this.hasContent()) {
+      // icon-only style: círculo con mismo tamaño que botón icon-only
+      const dims = this.size === 'sm' ? 'h-8 w-9.5' : 'h-9 w-13';
+      return `${base} ${sizeCls} ${dims} ${borderCls}`;
+    }
+
+    // placeholder rectangular que imita la anchura típica del botón
+    const w = this.size === 'sm' ? 'w-18' : 'w-24';
+    const h = this.size === 'sm' ? 'h-8.5' : 'h-9.5';
+    return `${base} ${sizeCls} ${h} ${w} ${borderCls}`;
+  }
+
+  private hasContent(): boolean {
+    // No reliable way to inspect content projection here; assume center icon without text
+    // Consumer can use iconPosition='center' to indicate icon-only buttons.
+    return this.iconPosition !== 'center';
   }
 }

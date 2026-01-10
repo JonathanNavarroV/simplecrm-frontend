@@ -6,7 +6,6 @@
       *ngIf="!isSkeleton"
       class="relative w-full rounded border border-gray-300 flex items-stretch focus-within:ring-1 focus-within:ring-indigo-200 focus-within:border-indigo-500"
       [class.border-red-500]="!!displayError"
-      [class.bg-white]="!disabled"
       [class.bg-gray-200]="disabled || isLoading"
     >
       <input
@@ -44,7 +43,7 @@
 
     <div *ngIf="isSkeleton" class="relative w-full animate-pulse">
       <div
-        class="h-10 rounded border border-gray-300 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-shimmer"
+        class="h-9.5 rounded border border-gray-300 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-shimmer"
       ></div>
     </div>
   </div>
