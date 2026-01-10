@@ -29,6 +29,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class SelectComponent implements ControlValueAccessor {
   @Input() visibleCount?: number;
+  @Input() isLoading: boolean = false;
+  @Input() isSkeleton: boolean = false;
   readonly ITEM_HEIGHT_PX = 40;
 
   @ViewChild('buttonRef', { static: false }) buttonRef!: ElementRef;
@@ -113,7 +115,7 @@ export class SelectComponent implements ControlValueAccessor {
   clearSelection(e: Event) {
     e.stopPropagation();
     e.preventDefault();
-    if (this.disabled) return;
+    if (this.disabled || this.isLoading) return;
     if (this.multiple) {
       this._value = null;
       this.onChange(null);
@@ -187,7 +189,7 @@ export class SelectComponent implements ControlValueAccessor {
   isOpen = false;
 
   toggleOpen() {
-    if (this.disabled) return;
+    if (this.disabled || this.isLoading) return;
     this.isOpen = !this.isOpen;
     if (this.isOpen) {
       // Calcular dirección: arriba o abajo
