@@ -19,6 +19,9 @@ type SidebarMode = 'hidden' | 'slim' | 'overlay' | 'expanded';
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+  // Clave usada para persistir la preferencia del usuario en breakpoint md
+  private readonly SESSION_KEY_MD_MODE = 'sidebar-md-mode';
+
   // Estado local: modo del sidebar (hidden/slim/overlay/expanded)
   currentMode: SidebarMode = 'slim';
 
@@ -52,7 +55,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }
 
         if (bp === 'md') {
-          this.currentMode = newExpanded;
+          // Si tenemos una preferencia guardada para md, úsala; si no, usar el valor por defecto
+          const persisted = this.readPersistedMdMode();
+          this.currentMode = persisted ?? newExpanded;
           return;
         }
 
@@ -81,9 +86,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Detectar breakpoint inicial
     this.currentBreakpoint = this.getBreakpoint(window.innerWidth);
-    // Inicializar modo acorde al breakpoint: por defecto collapsado en xs/sm, expandido en md
+    // Inicializar modo acorde al breakpoint
     if (this.currentBreakpoint === 'md') {
-      this.currentMode = this.getExpandedModeForBreakpoint(this.currentBreakpoint);
+      // Priorizar preferencia persistida en sessionStorage si existe
+      const persisted = this.readPersistedMdMode();
+      if (persisted) {
+        this.currentMode = persisted;
+      } else {
+        this.currentMode = this.getExpandedModeForBreakpoint(this.currentBreakpoint);
+      }
     } else {
       this.currentMode = this.getCollapsedModeForBreakpoint(this.currentBreakpoint);
     }
@@ -113,6 +124,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.currentMode = expanded;
     } else {
       this.currentMode = collapsed;
+    }
+    // Si estamos en md, persistir la preferencia del usuario
+    if (this.currentBreakpoint === 'md') {
+      this.persistMdMode();
     }
   }
 
@@ -169,4 +184,30 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   // Estructura: lista de módulos, cada uno con su lista de items.
   sidebarItems = SIDEBAR_ITEMS;
+
+  // Lee la preferencia guardada para md desde sessionStorage. Si no existe
+  // devuelve null.
+  private readPersistedMdMode(): SidebarMode | null {
+    try {
+      const v = sessionStorage.getItem(this.SESSION_KEY_MD_MODE);
+      if (v === 'expanded' || v === 'slim') return v as SidebarMode;
+      return null;
+    } catch {
+      return null;
+    }
+  }
+
+  // Persiste la preferencia actual (solo tiene sentido en md)
+  private persistMdMode() {
+    try {
+      if (this.currentBreakpoint === 'md') {
+        // Solo persistimos modos 'expanded' o 'slim'
+        if (this.currentMode === 'expanded' || this.currentMode === 'slim') {
+          sessionStorage.setItem(this.SESSION_KEY_MD_MODE, this.currentMode);
+        }
+      }
+    } catch {
+      // ignorar errores de storage
+    }
+  }
 }
