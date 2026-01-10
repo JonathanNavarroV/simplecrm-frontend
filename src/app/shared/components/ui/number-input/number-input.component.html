@@ -3,23 +3,33 @@
 
   <div class="flex items-center gap-2">
     <div
-      class="w-full rounded border border-gray-300 flex items-stretch focus-within:ring-1 focus-within:ring-indigo-200 focus-within:border-indigo-500"
+      *ngIf="!isSkeleton"
+      class="relative w-full rounded border border-gray-300 flex items-stretch focus-within:ring-1 focus-within:ring-indigo-200 focus-within:border-indigo-500"
       [class.border-red-500]="!!displayError"
       [class.bg-white]="!disabled"
-      [class.bg-gray-200]="disabled"
+      [class.bg-gray-200]="disabled || isLoading"
     >
       <input
         type="text"
-        [attr.aria-disabled]="disabled"
+        [attr.aria-disabled]="disabled || isLoading"
+        [attr.aria-busy]="isLoading"
         class="flex-1 min-w-0 border-0 px-3 py-2 text-sm bg-transparent placeholder-gray-400 focus:outline-none"
-        [class.text-gray-400]="disabled"
+        [class.text-gray-400]="disabled || isLoading"
+        [class.pr-10]="isLoading"
         [placeholder]="placeholder"
         [value]="value"
-        [disabled]="disabled"
+        [disabled]="disabled || isLoading"
         (input)="onInput($event)"
         (blur)="onTouched()"
         [attr.aria-invalid]="!!displayError"
       />
+
+      <div *ngIf="isLoading" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+        <span
+          class="w-4 h-4 border-2 border-t-transparent border-gray-500 rounded-full animate-spin"
+          aria-hidden="true"
+        ></span>
+      </div>
 
       <div
         *ngIf="formattedPreview !== null"
@@ -30,6 +40,12 @@
         <span>{{ formattedPreview }}</span>
         <span class="text-gray-500 ml-1" *ngIf="previewSuffix">{{ previewSuffix }}</span>
       </div>
+    </div>
+
+    <div *ngIf="isSkeleton" class="relative w-full animate-pulse">
+      <div
+        class="h-10 rounded border border-gray-300 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-shimmer"
+      ></div>
     </div>
   </div>
 

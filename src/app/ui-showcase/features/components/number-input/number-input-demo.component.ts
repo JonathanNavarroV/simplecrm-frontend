@@ -12,6 +12,8 @@ import { NumberInputComponent } from '../../../../shared/components/ui/number-in
 export class NumberInputDemoComponent {
   value: number | null | string = null;
   error?: string;
+  loading = false;
+  skeleton = false;
 
   showError() {
     this.error = 'Este es un error personalizado.';

@@ -70,7 +70,10 @@ export class NumberInputComponent implements ControlValueAccessor, AfterViewInit
   @Input() previewPrefix: string = '';
   /** Texto a mostrar después del número en la previsualización (ej. unidad) */
   @Input() previewSuffix: string = '';
-  // Nota: no usamos `decimalPlaces`; mostramos tantos decimales como quepan dentro de `maxLength`.
+  // Indica si el control está en estado de carga (muestra un spinner)
+  @Input() isLoading: boolean = false;
+  // Indica si mostrar un skeleton shimmer en lugar del input (para carga inicial)
+  @Input() isSkeleton: boolean = false;
 
   // Manejo simple: aceptar cualquier entrada y emitir la cadena tal cual.
   onInput(e: Event) {
