@@ -13,6 +13,8 @@ type Closer = {
 export class CloseOnInteractService {
   private stack: Closer[] = []; // Pila de elementos registrados
   private listening = false; // Indica si hay listeners globales activos
+  // Último target donde ocurrió pointerdown (puede ser usado para distinguir "click-up" fuera)
+  private lastPointerDownTarget: Node | null = null;
 
   /**
    * Registra un elemento en la pila.
@@ -44,7 +46,9 @@ export class CloseOnInteractService {
   private ensureListeners() {
     if (this.listening) return;
     this.listening = true;
-    // Escuchar `click` a nivel de documento (sin captura)
+    // Escuchar pointerdown en captura para registrar dónde inició la interacción
+    document.addEventListener('pointerdown', this.handleDocPointerDown, true);
+    // Escuchar `click` a nivel de documento (sin captura) para decidir cierres fuera
     document.addEventListener('click', this.handleDocClick, false);
     document.addEventListener('keydown', this.handleKeyDown, true);
   }
@@ -53,9 +57,17 @@ export class CloseOnInteractService {
   private teardownListeners() {
     if (!this.listening) return;
     this.listening = false;
+    document.removeEventListener('pointerdown', this.handleDocPointerDown, true);
     document.removeEventListener('click', this.handleDocClick, false);
     document.removeEventListener('keydown', this.handleKeyDown, true);
   }
+
+  // Registrar dónde inició el pointerdown para poder distinguir clicks que comienzan
+  // dentro del elemento y terminan fuera (pointer-up fuera). En tal caso no queremos
+  // tratarlo como un click externo que cierre el elemento.
+  private handleDocPointerDown = (ev: PointerEvent) => {
+    this.lastPointerDownTarget = ev.target as Node | null;
+  };
 
   /**
    * Maneja clicks en el documento.
@@ -74,12 +86,21 @@ export class CloseOnInteractService {
 
       const target = ev.target as Node | null;
 
+      // Si el pointerdown inicial ocurrió dentro del elemento, ignoramos el cierre
+      // aunque el click finalice fuera (evita "click-up" cerrando el dropdown).
+      if (this.lastPointerDownTarget && htmlElement.contains(this.lastPointerDownTarget)) {
+        continue;
+      }
+
       // Si existe un target y NO está dentro del elemento registrado significa que el click fue fuera y debe cerrarse
       if (target && !htmlElement.contains(target)) {
         onClose(); // Dispara el cierre
         break; // Cierra solo el más reciente
       }
     }
+
+    // Limpiar marca del pointerdown tras manejar el click
+    this.lastPointerDownTarget = null;
   };
 
   /**
