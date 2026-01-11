@@ -14,6 +14,16 @@
     </section>
 
     <section class="bg-white rounded">
+      <h3 class="text-sm font-medium mb-2">Skeletons</h3>
+      <div class="flex gap-2 items-center flex-wrap">
+        <app-badge [isSkeleton]="true"></app-badge>
+        <app-badge [pill]="true" [isSkeleton]="true"></app-badge>
+        <app-badge size="sm" [isSkeleton]="true"></app-badge>
+        <app-badge size="sm" [pill]="true" [isSkeleton]="true"></app-badge>
+      </div>
+    </section>
+
+    <section class="bg-white rounded">
       <h3 class="text-sm font-medium mb-2">Tamaños / Pill</h3>
       <div class="flex gap-2 items-center flex-wrap">
         <app-badge label="Sm" size="sm"></app-badge>

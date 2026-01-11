@@ -11,6 +11,8 @@ import { IconComponent } from '../icon/icon.component';
 })
 export class BadgeComponent {
   @Input() label?: string;
+  // Muestra un placeholder skeleton en lugar del badge
+  @Input() isSkeleton: boolean = false;
   @Input() variant: 'default' | 'primary' | 'success' | 'danger' | 'warning' = 'default';
   @Input() size: 'sm' | 'md' = 'md';
   @Input() pill = false;
@@ -49,6 +51,17 @@ export class BadgeComponent {
       warning: 'bg-yellow-500',
     };
     return map[this.variant] ?? 'bg-gray-400';
+  }
+
+  // Clases para el placeholder skeleton según tamaño y pill
+  get skeletonClasses(): string {
+    const base = 'inline-block align-middle bg-gray-200 animate-pulse border border-gray-300';
+    if (this.pill) {
+      return this.size === 'sm'
+        ? `${base} h-5.5 w-12 rounded-full`
+        : `${base} h-7.5 w-18 rounded-full`;
+    }
+    return this.size === 'sm' ? `${base} h-5.5 w-12 rounded` : `${base} h-7.5 w-18 rounded`;
   }
 
   onRemoveClick(e: Event) {
