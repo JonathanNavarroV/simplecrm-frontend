@@ -44,8 +44,8 @@ export class CloseOnInteractService {
   private ensureListeners() {
     if (this.listening) return;
     this.listening = true;
-    // Usar pointerdown para detectar interacciones incluso sobre elementos disabled
-    document.addEventListener('pointerdown', this.handleDocClick, true);
+    // Escuchar `click` a nivel de documento (sin captura)
+    document.addEventListener('click', this.handleDocClick, false);
     document.addEventListener('keydown', this.handleKeyDown, true);
   }
 
@@ -53,7 +53,7 @@ export class CloseOnInteractService {
   private teardownListeners() {
     if (!this.listening) return;
     this.listening = false;
-    document.removeEventListener('pointerdown', this.handleDocClick, true);
+    document.removeEventListener('click', this.handleDocClick, false);
     document.removeEventListener('keydown', this.handleKeyDown, true);
   }
 

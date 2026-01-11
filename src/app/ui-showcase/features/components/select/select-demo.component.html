@@ -158,6 +158,29 @@
           (valueChange)="valueSearchMultiple = $event"
         ></app-select>
       </div>
+
+      <div>
+        <app-select
+          label="Searchable con grupos (single)"
+          [options]="groupedOptions"
+          [searchable]="true"
+          placeholder="Buscar en grupos"
+          [value]="valueSearchGroupSingle"
+          (valueChange)="valueSearchGroupSingle = $event"
+        ></app-select>
+      </div>
+
+      <div>
+        <app-select
+          label="Searchable con grupos (multiple)"
+          [options]="groupedOptions"
+          [searchable]="true"
+          [multiple]="true"
+          placeholder="Buscar en grupos"
+          [value]="valueSearchGroupMultiple"
+          (valueChange)="valueSearchGroupMultiple = $event"
+        ></app-select>
+      </div>
     </div>
   </section>
 

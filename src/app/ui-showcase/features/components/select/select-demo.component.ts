@@ -18,6 +18,10 @@ export class SelectDemoComponent {
   valueSearchSingle: string | string[] | null = null;
   // Estado para el select searchable (multiple)
   valueSearchMultiple: string | string[] | null = null;
+  // Estado para el select searchable con grupos (single)
+  valueSearchGroupSingle: string | string[] | null = null;
+  // Estado para el select searchable con grupos (multiple)
+  valueSearchGroupMultiple: string | string[] | null = null;
   // Estado para el select de grupos (single)
   valueMainGroups: string | string[] | null = null;
   error?: string;
