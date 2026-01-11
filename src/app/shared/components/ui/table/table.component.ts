@@ -23,6 +23,9 @@ export class TableComponent<T = any> {
   @Input() striped = true;
   @Input() hover = true;
   @Input() compact = false;
+  // Indica si la tabla está en estado de carga. Cuando es true, se muestra
+  // una fila central con spinner y texto de carga.
+  @Input() isLoading: boolean = false;
 
   trackByIndex(index: number) {
     return index;
