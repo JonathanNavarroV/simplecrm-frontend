@@ -45,7 +45,7 @@
         >
           <app-icon name="close" class="h-4 w-4 text-gray-500"></app-icon>
         </button>
-        <div class="flex items-center justify-center">
+        <div class="flex items-center justify-center" (click)="toggleOpen()">
           <ng-container *ngIf="!isLoading; else spinnerTpl">
             <app-icon name="chevron-down" class="h-4 w-4 text-gray-500"></app-icon>
           </ng-container>
@@ -78,11 +78,13 @@
           <ng-container *ngFor="let entry of filteredOptions">
             <!-- Si es un grupo, renderizar cabecera + opciones -->
             <li *ngIf="entry && entry.options">
-              <div class="px-3 py-2 text-xs font-medium text-gray-600">{{ entry.label }}</div>
+              <div class="px-3 py-2 text-xs font-medium text-gray-600 select-none">
+                {{ entry.label }}
+              </div>
               <ul class="divide-y divide-gray-200">
                 <li *ngFor="let o of entry.options">
                   <label
-                    class="flex items-center w-full px-3 py-2 hover:bg-gray-300 cursor-pointer"
+                    class="flex items-center w-full px-3 py-2 hover:bg-gray-300 cursor-pointer select-none"
                     role="option"
                     [attr.tabindex]="disabled ? -1 : 0"
                     (click)="disabled ? null : toggleOption(o.value)"
@@ -108,7 +110,7 @@
             <!-- Si es opción simple -->
             <li *ngIf="entry && !entry.options">
               <label
-                class="flex items-center w-full px-3 py-2 hover:bg-gray-300 cursor-pointer"
+                class="flex items-center w-full px-3 py-2 hover:bg-gray-300 cursor-pointer select-none"
                 role="option"
                 [attr.tabindex]="disabled ? -1 : 0"
                 (click)="disabled ? null : toggleOption(entry.value)"
@@ -130,6 +132,11 @@
             </li>
           </ng-container>
         </ul>
+        <ng-container *ngIf="filteredOptions?.length === 0">
+          <div class="px-3 py-3 text-sm text-gray-500 select-none">
+            No hay elementos para mostrar
+          </div>
+        </ng-container>
       </div>
     </div>
 
@@ -186,7 +193,7 @@
         >
           <app-icon name="close" class="h-4 w-4 text-gray-500"></app-icon>
         </button>
-        <div class="flex items-center justify-center">
+        <div class="flex items-center justify-center" (click)="toggleOpen()">
           <ng-container *ngIf="!isLoading; else spinnerTpl2">
             <app-icon name="chevron-down" class="h-4 w-4 text-gray-500"></app-icon>
           </ng-container>
@@ -218,11 +225,13 @@
         <ul class="divide-y divide-gray-300">
           <ng-container *ngFor="let entry of filteredOptions">
             <li *ngIf="entry && entry.options">
-              <div class="px-3 py-2 text-xs font-medium text-gray-600">{{ entry.label }}</div>
+              <div class="px-3 py-2 text-xs font-medium text-gray-600 select-none">
+                {{ entry.label }}
+              </div>
               <ul class="divide-y divide-gray-200">
                 <li *ngFor="let o of entry.options">
                   <label
-                    class="flex items-center px-3 py-2 hover:bg-gray-300 cursor-pointer"
+                    class="flex items-center px-3 py-2 hover:bg-gray-300 cursor-pointer select-none"
                     [attr.aria-disabled]="disabled"
                   >
                     <input
@@ -240,7 +249,7 @@
 
             <li *ngIf="entry && !entry.options">
               <label
-                class="flex items-center px-3 py-2 hover:bg-gray-300 cursor-pointer"
+                class="flex items-center px-3 py-2 hover:bg-gray-300 cursor-pointer select-none"
                 [attr.aria-disabled]="disabled"
               >
                 <input
@@ -255,6 +264,11 @@
             </li>
           </ng-container>
         </ul>
+        <ng-container *ngIf="filteredOptions?.length === 0">
+          <div class="px-3 py-3 text-sm text-gray-500 select-none">
+            No hay elementos para mostrar
+          </div>
+        </ng-container>
       </div>
     </div>
 
