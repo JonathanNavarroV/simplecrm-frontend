@@ -1,16 +1,16 @@
 <div class="datepicker-root w-72 p-3">
-  <div class="flex items-center justify-between mb-2">
-    <button type="button" class="px-2" (click)="prevMonth()">‹</button>
-    <div class="text-sm font-medium">{{ monthLabel() }}</div>
-    <button type="button" class="px-2" (click)="nextMonth()">›</button>
+  <div class="flex items-center mb-2">
+    <button type="button" class="w-8 text-center" (click)="prevMonth()">‹</button>
+    <div class="flex-1 text-center text-sm font-medium">{{ monthLabel() }}</div>
+    <button type="button" class="w-8 text-center" (click)="nextMonth()">›</button>
   </div>
 
-  <table class="w-full text-sm">
+  <table class="w-full text-sm table-fixed">
     <thead>
       <tr>
         <th
           *ngFor="let d of ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']"
-          class="text-xs text-gray-500 py-1"
+          class="text-xs text-gray-500 py-1 text-center"
         >
           {{ d }}
         </th>
