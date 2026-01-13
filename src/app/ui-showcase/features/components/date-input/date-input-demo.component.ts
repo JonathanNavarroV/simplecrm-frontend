@@ -8,6 +8,7 @@ import { DateInputComponent } from '../../../../shared/components/ui/date-input/
   standalone: true,
   imports: [CommonModule, FormsModule, DateInputComponent],
   templateUrl: './date-input-demo.component.html',
+  styleUrls: ['./date-input-demo.component.css'],
 })
 export class DateInputDemoComponent {
   model: string | null = null;

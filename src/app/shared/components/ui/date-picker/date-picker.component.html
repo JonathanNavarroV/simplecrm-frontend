@@ -8,12 +8,7 @@
   <table class="w-full text-sm table-fixed">
     <thead>
       <tr>
-        <th
-          *ngFor="let d of ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']"
-          class="text-xs text-gray-500 py-1 text-center"
-        >
-          {{ d }}
-        </th>
+        <th *ngFor="let d of weekdays" class="text-xs text-gray-500 py-1 text-center">{{ d }}</th>
       </tr>
     </thead>
     <tbody>

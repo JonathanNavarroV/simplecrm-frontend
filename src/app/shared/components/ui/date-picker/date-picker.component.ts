@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { getMonthMatrix, isSameDate, toDateOnly, formatDate } from '../../../utils/date-utils';
+import { es } from 'date-fns/locale/es';
 
 @Component({
   selector: 'app-date-picker',
@@ -11,7 +12,7 @@ import { getMonthMatrix, isSameDate, toDateOnly, formatDate } from '../../../uti
 })
 export class DatePickerComponent {
   @Input() selected: Date | null = null;
-  @Input() weekStartsOn: 0 | 1 | 2 | 3 | 4 | 5 | 6 = 0;
+  @Input() weekStartsOn: 0 | 1 | 2 | 3 | 4 | 5 | 6 = 1;
   @Input() month?: Date | string;
   @Output() select = new EventEmitter<Date>();
 
@@ -24,6 +25,14 @@ export class DatePickerComponent {
 
   get weeks() {
     return getMonthMatrix(this.currentMonth, this.weekStartsOn);
+  }
+
+  // Array de nombres de días en español (abreviados). Se rota según `weekStartsOn`.
+  get weekdays() {
+    const base = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
+    // weekStartsOn puede ser 0..6
+    const start = this.weekStartsOn ?? 0;
+    return base.slice(start).concat(base.slice(0, start));
   }
 
   prevMonth() {
@@ -52,6 +61,6 @@ export class DatePickerComponent {
   }
 
   monthLabel() {
-    return formatDate(this.currentMonth, 'MMMM yyyy');
+    return formatDate(this.currentMonth, 'MMMM yyyy', { locale: es });
   }
 }

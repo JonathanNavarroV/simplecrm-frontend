@@ -52,7 +52,7 @@ export function isInRange(day: Date | null, start: Date | null, end: Date | null
   return isWithinInterval(day, { start, end });
 }
 
-export function formatDate(d: Date | null, fmt = 'yyyy-MM-dd'): string {
+export function formatDate(d: Date | null, fmt = 'yyyy-MM-dd', opts?: any): string {
   if (!d) return '';
-  return dfFormat(d, fmt);
+  return dfFormat(d, fmt, opts);
 }
