@@ -15,7 +15,7 @@
             : 'text-gray-500 hover:text-gray-800 hover:border-b-2 hover:border-gray-400 hover:-mb-px'
         "
       >
-        <app-icon *ngIf="t.icon" [name]="t.icon" [class]="'h-4 w-4 mr-2'"></app-icon>
+        <app-icon *ngIf="t.icon" [name]="t.icon" [iconClass]="'h-4 w-4 mr-2'"></app-icon>
         <span>{{ t.label }}</span>
         <app-badge
           *ngIf="t.badge !== undefined"
@@ -33,7 +33,7 @@
       aria-label="Scroll left"
       class="absolute left-0 top-0 z-20 flex items-center h-full px-1 bg-gradient-to-r from-white/80 to-white/40 hover:from-white/90 cursor-pointer"
     >
-      <app-icon name="chevron-left" class="h-5 w-5 text-gray-600"></app-icon>
+      <app-icon name="chevron-left" iconClass="h-5 w-5 text-gray-600"></app-icon>
     </button>
 
     <button
@@ -42,7 +42,7 @@
       aria-label="Scroll right"
       class="absolute right-0 top-0 z-20 flex items-center h-full px-1 bg-gradient-to-l from-white/80 to-white/40 hover:from-white/90 cursor-pointer"
     >
-      <app-icon name="chevron-right" class="h-5 w-5 text-gray-600"></app-icon>
+      <app-icon name="chevron-right" iconClass="h-5 w-5 text-gray-600"></app-icon>
     </button>
   </div>
 

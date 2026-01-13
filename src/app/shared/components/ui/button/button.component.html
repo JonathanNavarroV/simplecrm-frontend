@@ -7,11 +7,11 @@
     [attr.aria-busy]="isLoading"
   >
     <ng-container *ngIf="icon && iconPosition !== 'center'">
-      <app-icon [name]="icon" [class]="iconClass"></app-icon>
+      <app-icon [name]="icon" [iconClass]="iconClass"></app-icon>
     </ng-container>
 
     <ng-container *ngIf="icon && iconPosition === 'center'">
-      <app-icon [name]="icon" [class]="iconClass"></app-icon>
+      <app-icon [name]="icon" [iconClass]="iconClass"></app-icon>
       <span *ngIf="ariaLabel" class="sr-only">{{ ariaLabel }}</span>
     </ng-container>
 

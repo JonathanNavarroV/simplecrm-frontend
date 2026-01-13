@@ -9,5 +9,5 @@ import { CommonModule } from '@angular/common';
 })
 export class IconComponent {
   @Input() name = '';
-  @Input() class = '';
+  @Input() iconClass = '';
 }

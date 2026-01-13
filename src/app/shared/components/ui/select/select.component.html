@@ -43,11 +43,11 @@
           aria-label="Limpiar"
           (click)="clearSelection($event)"
         >
-          <app-icon name="close" class="h-4 w-4 text-gray-500"></app-icon>
+          <app-icon name="close" iconClass="h-4 w-4 text-gray-500"></app-icon>
         </button>
         <div class="flex items-center justify-center" (click)="toggleOpen()">
           <ng-container *ngIf="!isLoading; else spinnerTpl">
-            <app-icon name="chevron-down" class="h-4 w-4 text-gray-500"></app-icon>
+            <app-icon name="chevron-down" iconClass="h-4 w-4 text-gray-500"></app-icon>
           </ng-container>
           <ng-template #spinnerTpl>
             <span
@@ -99,7 +99,7 @@
                     <app-icon
                       *ngIf="isSelected(o.value)"
                       name="check"
-                      class="h-4 w-4 text-gray-500"
+                      iconClass="h-4 w-4 text-gray-500"
                       aria-hidden="true"
                     ></app-icon>
                   </label>
@@ -125,7 +125,7 @@
                 <app-icon
                   *ngIf="isSelected(entry.value)"
                   name="check"
-                  class="h-4 w-4 text-gray-500"
+                  iconClass="h-4 w-4 text-gray-500"
                   aria-hidden="true"
                 ></app-icon>
               </label>
@@ -191,11 +191,11 @@
           aria-label="Limpiar"
           (click)="clearSelection($event)"
         >
-          <app-icon name="close" class="h-4 w-4 text-gray-500"></app-icon>
+          <app-icon name="close" iconClass="h-4 w-4 text-gray-500"></app-icon>
         </button>
         <div class="flex items-center justify-center" (click)="toggleOpen()">
           <ng-container *ngIf="!isLoading; else spinnerTpl2">
-            <app-icon name="chevron-down" class="h-4 w-4 text-gray-500"></app-icon>
+            <app-icon name="chevron-down" iconClass="h-4 w-4 text-gray-500"></app-icon>
           </ng-container>
           <ng-template #spinnerTpl2>
             <span

@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { getMonthMatrix, isSameDate, toDateOnly, formatDate } from '../../../utils/date-utils';
 import { es } from 'date-fns/locale/es';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'app-date-picker',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.css'],
 })

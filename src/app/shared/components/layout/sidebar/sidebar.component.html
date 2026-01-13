@@ -69,7 +69,7 @@
                     [class.justify-center]="true"
                     (click)="onNavItemClick()"
                   >
-                    <app-icon [name]="item.icon" [class]="'size-6'"></app-icon>
+                    <app-icon [name]="item.icon" [iconClass]="'size-6'"></app-icon>
                     <span class="sr-only">{{ item.label }}</span>
                   </a>
                 </app-tooltip>
@@ -86,7 +86,7 @@
                   [class.justify-start]="true"
                   (click)="onNavItemClick()"
                 >
-                  <app-icon [name]="item.icon" [class]="'size-6'"></app-icon>
+                  <app-icon [name]="item.icon" [iconClass]="'size-6'"></app-icon>
                   <span class="ml-3">{{ item.label }}</span>
                 </a>
               </ng-template>
@@ -115,7 +115,7 @@
             class="inline-flex items-center justify-center h-8 w-8 rounded-md text-gray-500 hover:bg-gray-200 cursor-pointer"
             aria-label="Mostrar/Ocultar sidebar"
           >
-            <app-icon name="chevron-double-left" class="size-5"></app-icon>
+            <app-icon name="chevron-double-left" iconClass="size-5"></app-icon>
           </button>
         </div>
       </div>
@@ -132,7 +132,7 @@
         class="inline-flex items-center justify-center h-8 w-8 rounded-md text-gray-500 hover:bg-gray-200 cursor-pointer"
         aria-label="Ocultar sidebar"
       >
-        <app-icon name="chevron-double-right" class="size-5"></app-icon>
+        <app-icon name="chevron-double-right" iconClass="size-5"></app-icon>
       </button>
     </div>
   </div>

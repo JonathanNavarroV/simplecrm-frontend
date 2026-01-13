@@ -34,7 +34,7 @@
         (click)="clear()"
         aria-label="Limpiar fecha"
       >
-        <app-icon name="close" class="h-4 w-4 text-gray-500"></app-icon>
+        <app-icon name="close" iconClass="h-4 w-4 text-gray-500"></app-icon>
       </button>
 
       <div
@@ -44,7 +44,7 @@
         aria-hidden="true"
       >
         <ng-container *ngIf="!isLoading; else spinnerTpl">
-          <app-icon name="calendar-month" class="h-4 w-4 text-gray-500"></app-icon>
+          <app-icon name="calendar-month" iconClass="h-4 w-4 text-gray-500"></app-icon>
         </ng-container>
         <ng-template #spinnerTpl>
           <span
