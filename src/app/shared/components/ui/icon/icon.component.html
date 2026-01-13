@@ -4,7 +4,7 @@
   stroke-width="2"
   stroke="currentColor"
   viewBox="0 0 24 24"
-  [class]="iconClass"
+  [class]="'inline-block align-middle ' + (iconClass || '')"
   [ngSwitch]="name"
 >
   <!--
