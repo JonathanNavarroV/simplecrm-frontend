@@ -71,4 +71,10 @@ export class DatePickerComponent {
     const cm = this.currentMonth;
     return day.getMonth() !== cm.getMonth() || day.getFullYear() !== cm.getFullYear();
   }
+
+  // Indica si la celda `day` corresponde al día de hoy.
+  isToday(day: Date | null) {
+    if (!day) return false;
+    return isSameDate(day, toDateOnly(new Date()));
+  }
 }
