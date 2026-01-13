@@ -13,9 +13,16 @@
 
   <section class="bg-white rounded">
     <h3 class="text-sm font-medium text-gray-700 mb-2">Con loading y skeleton</h3>
-    <div class="flex items-center gap-3">
-      <app-date-input label="Skeleton" [isSkeleton]="true"></app-date-input>
-      <app-date-input label="Loading" [isLoading]="true"></app-date-input>
+    <div class="grid grid-cols-3 gap-3 mt-2">
+      <div>
+        <app-date-input label="Skeleton" [isSkeleton]="true"></app-date-input>
+      </div>
+
+      <div>
+        <app-date-input label="Loading" [isLoading]="true"></app-date-input>
+      </div>
+
+      <div></div>
     </div>
   </section>
 </div>
