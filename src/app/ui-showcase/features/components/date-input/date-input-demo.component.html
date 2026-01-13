@@ -1,0 +1,21 @@
+<div class="p-6 space-y-6">
+  <h2 class="text-xl font-semibold mb-4">Date Input — Demo</h2>
+
+  <section class="bg-white rounded">
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Normal</h3>
+    <app-date-input
+      label="Fecha"
+      placeholder="Selecciona una fecha"
+      [(ngModel)]="model"
+    ></app-date-input>
+    <div class="mt-2 text-sm text-gray-600">Valor: {{ model || '(vacío)' }}</div>
+  </section>
+
+  <section class="bg-white rounded">
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Con loading y skeleton</h3>
+    <div class="flex items-center gap-3">
+      <app-date-input label="Skeleton" [isSkeleton]="true"></app-date-input>
+      <app-date-input label="Loading" [isLoading]="true"></app-date-input>
+    </div>
+  </section>
+</div>

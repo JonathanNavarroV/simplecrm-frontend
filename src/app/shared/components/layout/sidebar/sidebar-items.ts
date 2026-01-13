@@ -21,6 +21,12 @@ export const SIDEBAR_ITEMS = [
               route: '/ui-showcase/components/number-input',
             },
             {
+              id: 'ui-date-input',
+              label: 'Date Input',
+              icon: 'calendar',
+              route: '/ui-showcase/components/date-input',
+            },
+            {
               id: 'ui-buttons',
               label: 'Buttons',
               icon: 'grid',

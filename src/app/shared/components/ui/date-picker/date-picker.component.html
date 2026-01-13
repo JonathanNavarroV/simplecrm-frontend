@@ -1,0 +1,36 @@
+<div class="datepicker-root w-72 p-3">
+  <div class="flex items-center justify-between mb-2">
+    <button type="button" class="px-2" (click)="prevMonth()">‹</button>
+    <div class="text-sm font-medium">{{ monthLabel() }}</div>
+    <button type="button" class="px-2" (click)="nextMonth()">›</button>
+  </div>
+
+  <table class="w-full text-sm">
+    <thead>
+      <tr>
+        <th
+          *ngFor="let d of ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']"
+          class="text-xs text-gray-500 py-1"
+        >
+          {{ d }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let week of weeks">
+        <td *ngFor="let day of week" class="p-1 text-center">
+          <button
+            type="button"
+            (click)="onSelect(day)"
+            [class.text-gray-300]="!day"
+            [class.bg-indigo-600]="isSelected(day)"
+            [class.text-white]="isSelected(day)"
+            class="w-8 h-8 rounded"
+          >
+            {{ day ? day.getDate() : '' }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

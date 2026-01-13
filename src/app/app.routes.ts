@@ -45,6 +45,14 @@ export const routes: Routes = [
                         ),
                     },
                     {
+                      path: 'date-input',
+                      data: { breadcrumb: 'date-input' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/components/date-input/date-input-demo.component').then(
+                          (m) => m.DateInputDemoComponent,
+                        ),
+                    },
+                    {
                       path: 'buttons',
                       data: { breadcrumb: 'buttons' },
                       loadComponent: () =>

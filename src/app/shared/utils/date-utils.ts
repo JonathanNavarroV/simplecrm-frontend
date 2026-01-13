@@ -10,6 +10,7 @@ import {
   parseISO,
   isValid,
 } from 'date-fns';
+import type { Day } from 'date-fns';
 
 export type DateCell = Date | null;
 
@@ -20,7 +21,7 @@ export function toDateOnly(d: Date | string | null): Date | null {
   return new Date(dt.getFullYear(), dt.getMonth(), dt.getDate());
 }
 
-export function getMonthMatrix(monthRef: Date | string, weekStartsOn = 0): DateCell[][] {
+export function getMonthMatrix(monthRef: Date | string, weekStartsOn: Day = 0): DateCell[][] {
   const ref = toDateOnly(
     typeof monthRef === 'string' ? parseISO(monthRef) : (monthRef as Date),
   ) as Date;
