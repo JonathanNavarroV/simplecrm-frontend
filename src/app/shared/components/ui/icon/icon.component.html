@@ -4,7 +4,10 @@
   stroke-width="2"
   stroke="currentColor"
   viewBox="0 0 24 24"
-  [class]="'inline-block align-middle ' + (iconClass || '')"
+  preserveAspectRatio="xMidYMid meet"
+  focusable="false"
+  aria-hidden="true"
+  [attr.class]="'block ' + (iconClass || '')"
   [ngSwitch]="name"
 >
   <!--

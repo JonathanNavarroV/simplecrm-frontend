@@ -2,20 +2,20 @@
   <div class="flex items-center mb-2">
     <button
       type="button"
-      class="w-8 text-center rounded hover:bg-gray-400 hover:text-gray-700 cursor-pointer transition-colors"
+      class="inline-flex items-center justify-center h-8 w-8 rounded p-1 hover:bg-gray-200 hover:text-gray-700 cursor-pointer transition-colors"
       (click)="prevMonth()"
       aria-label="Mes anterior"
     >
-      <app-icon name="chevron-left" iconClass="h-5 w-5"></app-icon>
+      <app-icon name="chevron-left" iconClass="h-5 w-5 text-gray-600"></app-icon>
     </button>
     <div class="flex-1 text-center text-sm font-medium">{{ monthLabel() }}</div>
     <button
       type="button"
-      class="w-8 text-center rounded hover:bg-gray-400 hover:text-gray-700 cursor-pointer transition-colors"
+      class="inline-flex items-center justify-center h-8 w-8 rounded p-1 hover:bg-gray-200 hover:text-gray-700 cursor-pointer transition-colors"
       (click)="nextMonth()"
       aria-label="Mes siguiente"
     >
-      <app-icon name="chevron-right" iconClass="h-5 w-5"></app-icon>
+      <app-icon name="chevron-right" iconClass="h-5 w-5 text-gray-600"></app-icon>
     </button>
   </div>
 
