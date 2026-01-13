@@ -23,7 +23,7 @@ export const SIDEBAR_ITEMS = [
             {
               id: 'ui-date-input',
               label: 'Date Input',
-              icon: 'calendar',
+              icon: 'calendar-month',
               route: '/ui-showcase/components/date-input',
             },
             {
