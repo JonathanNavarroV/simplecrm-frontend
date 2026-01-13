@@ -64,4 +64,11 @@ export class DatePickerComponent {
   monthLabel() {
     return formatDate(this.currentMonth, 'MMMM yyyy', { locale: es });
   }
+
+  // Indica si la celda `day` corresponde a un día fuera del mes actual mostrado.
+  isOtherMonth(day: Date | null) {
+    if (!day) return true;
+    const cm = this.currentMonth;
+    return day.getMonth() !== cm.getMonth() || day.getFullYear() !== cm.getFullYear();
+  }
 }

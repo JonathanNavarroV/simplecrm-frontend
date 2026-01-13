@@ -31,9 +31,9 @@
           <button
             type="button"
             (click)="onSelect(day)"
-            [class.text-gray-300]="!day"
             [class.bg-indigo-600]="isSelected(day)"
             [class.text-white]="isSelected(day)"
+            [class.text-gray-400]="day && isOtherMonth(day) && !isSelected(day)"
             class="w-8 h-8 rounded"
           >
             {{ day ? day.getDate() : '' }}
