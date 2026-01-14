@@ -48,8 +48,12 @@ export class CloseOnInteractService {
     this.listening = true;
     // Escuchar pointerdown en captura para registrar dónde inició la interacción
     document.addEventListener('pointerdown', this.handleDocPointerDown, true);
-    // Escuchar `click` a nivel de documento (sin captura) para decidir cierres fuera
-    document.addEventListener('click', this.handleDocClick, false);
+    // Escuchar `pointerup` a nivel de documento (sin captura) para decidir cierres fuera
+    // Usar `pointerup` en lugar de `click` evita condiciones donde el `pointerdown`
+    // ocurrió fuera y el componente se abrió en `focus` antes del `click`, provocando
+    // un cierre inmediato al `click` (race). `pointerup` ofrece una semántica más
+    // robusta para detectar la intención del usuario.
+    document.addEventListener('pointerup', this.handleDocClick, false);
     document.addEventListener('keydown', this.handleKeyDown, true);
   }
 
@@ -58,7 +62,7 @@ export class CloseOnInteractService {
     if (!this.listening) return;
     this.listening = false;
     document.removeEventListener('pointerdown', this.handleDocPointerDown, true);
-    document.removeEventListener('click', this.handleDocClick, false);
+    document.removeEventListener('pointerup', this.handleDocClick, false);
     document.removeEventListener('keydown', this.handleKeyDown, true);
   }
 
