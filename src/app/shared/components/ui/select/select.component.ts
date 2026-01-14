@@ -7,6 +7,8 @@ import {
   EventEmitter,
   ViewChild,
   ElementRef,
+  AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
@@ -27,7 +29,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.css'],
 })
-export class SelectComponent implements ControlValueAccessor {
+export class SelectComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
   @Input() visibleCount?: number;
   @Input() isLoading: boolean = false;
   @Input() isSkeleton: boolean = false;
@@ -36,6 +38,8 @@ export class SelectComponent implements ControlValueAccessor {
   @ViewChild('buttonRef', { static: false }) buttonRef!: ElementRef;
 
   @ViewChild('searchInput', { static: false }) searchInput!: ElementRef;
+
+  private pointerupHandler?: (event: PointerEvent) => void;
 
   isOpenUp = false;
   @Input() label?: string;
@@ -137,6 +141,59 @@ export class SelectComponent implements ControlValueAccessor {
   onTouched: () => void = () => {};
 
   constructor(private cdr: ChangeDetectorRef) {}
+
+  ngAfterViewInit() {
+    // Registrar listener en capture phase para interceptar clicks en labels/checkboxes
+    // antes de que la directiva appCloseOnInteract los cierre
+    this.pointerupHandler = (event: PointerEvent) => {
+      if (!this.isOpen) return;
+
+      const target = event.target as HTMLElement;
+      let label = target;
+
+      // Subir por el árbol del DOM hasta encontrar la etiqueta LABEL
+      while (label && label.tagName !== 'LABEL') {
+        label = label.parentElement!;
+      }
+
+      if (label && label.tagName === 'LABEL') {
+        let value: string | null = null;
+
+        // Caso 1: Multiple con checkbox
+        const checkbox = label.querySelector('input[type="checkbox"]') as any;
+        if (checkbox) {
+          value = checkbox.getAttribute('data-value');
+          if (!value) {
+            const parentLi = label.closest('li');
+            if (parentLi) {
+              const allInputs = parentLi.querySelectorAll('input[type="checkbox"]');
+              const index = Array.from(allInputs).indexOf(checkbox);
+              value = index.toString();
+            }
+          }
+        }
+
+        // Caso 2: Single sin checkbox - usar data-value del label o buscar en padres
+        if (!value) {
+          value = label.getAttribute('data-value');
+        }
+
+        if (value || value === '0') {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+          this.toggleOption(value);
+        }
+      }
+    };
+
+    document.addEventListener('pointerup', this.pointerupHandler, true);
+  }
+
+  ngOnDestroy() {
+    if (this.pointerupHandler) {
+      document.removeEventListener('pointerup', this.pointerupHandler, true);
+    }
+  }
 
   get computedMaxHeight(): string {
     if (this.visibleCount && this.visibleCount > 0) {

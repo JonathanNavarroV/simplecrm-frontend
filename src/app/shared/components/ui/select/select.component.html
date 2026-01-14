@@ -87,7 +87,7 @@
                     class="flex items-center w-full px-3 py-2 hover:bg-gray-300 cursor-pointer select-none"
                     role="option"
                     [attr.tabindex]="disabled ? -1 : 0"
-                    (click)="disabled ? null : toggleOption(o.value)"
+                    [attr.data-value]="o.value"
                     (keydown.enter)="disabled ? null : toggleOption(o.value)"
                     (keydown.space)="
                       $event.preventDefault(); disabled ? null : toggleOption(o.value)
@@ -113,7 +113,7 @@
                 class="flex items-center w-full px-3 py-2 hover:bg-gray-300 cursor-pointer select-none"
                 role="option"
                 [attr.tabindex]="disabled ? -1 : 0"
-                (click)="disabled ? null : toggleOption(entry.value)"
+                [attr.data-value]="entry.value"
                 (keydown.enter)="disabled ? null : toggleOption(entry.value)"
                 (keydown.space)="
                   $event.preventDefault(); disabled ? null : toggleOption(entry.value)
@@ -238,8 +238,8 @@
                       type="checkbox"
                       class="mr-3"
                       [checked]="isSelected(o.value)"
-                      (change)="toggleOption(o.value)"
                       [disabled]="disabled"
+                      [attr.data-value]="o.value"
                     />
                     <span class="flex-1">{{ o.label }}</span>
                   </label>
@@ -256,8 +256,8 @@
                   type="checkbox"
                   class="mr-3"
                   [checked]="isSelected(entry.value)"
-                  (change)="toggleOption(entry.value)"
                   [disabled]="disabled"
+                  [attr.data-value]="entry.value"
                 />
                 <span class="flex-1">{{ entry.label }}</span>
               </label>

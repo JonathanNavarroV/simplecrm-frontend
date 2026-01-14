@@ -135,6 +135,12 @@ export class DateInputComponent implements ControlValueAccessor {
     }
   }
 
+  onInputPointer(e: PointerEvent) {
+    // Prevenir comportamiento por defecto del pointerdown en input readonly
+    e.preventDefault();
+    this.toggleOpen();
+  }
+
   onInputClick(e: MouseEvent) {
     if (this.ignoreNextClick) {
       this.ignoreNextClick = false;
