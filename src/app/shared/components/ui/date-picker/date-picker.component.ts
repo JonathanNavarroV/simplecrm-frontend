@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { getMonthMatrix, isSameDate, toDateOnly, formatDate } from '../../../utils/date-utils';
 import { es } from 'date-fns/locale/es';
 import { IconComponent } from '../icon/icon.component';
@@ -54,7 +54,11 @@ export class DatePickerComponent {
 
   onSelect(day: Date | null) {
     if (!day) return;
-    this.select.emit(day);
+    // Normalizar a fecha sin hora y guardar localmente para que la UI
+    // refleje la selección inmediatamente, independientemente del padre.
+    const normalized = toDateOnly(day);
+    this.selected = normalized;
+    this.select.emit(normalized as Date);
   }
 
   isSelected(day: Date | null) {
