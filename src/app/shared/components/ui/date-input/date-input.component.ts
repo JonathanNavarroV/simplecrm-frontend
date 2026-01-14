@@ -36,6 +36,7 @@ export class DateInputComponent implements ControlValueAccessor {
   @Input() disabled: boolean = false;
   @Input() isLoading: boolean = false;
   @Input() isSkeleton: boolean = false;
+  @Input() clearable: boolean = true;
 
   @Output() valueChange = new EventEmitter<string | null>();
 
@@ -143,5 +144,8 @@ export class DateInputComponent implements ControlValueAccessor {
     this.value = null;
     this.onChange(null);
     this.valueChange.emit(null);
+    // También limpiar el valor interno en tipo Date para que el DatePicker
+    // no muestre ningún día como seleccionado después de limpiar.
+    this._dateValue = null;
   }
 }
