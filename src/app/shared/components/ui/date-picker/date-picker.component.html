@@ -2,7 +2,7 @@
   <div class="flex items-center mb-2">
     <button
       type="button"
-      class="inline-flex items-center justify-center h-8 w-8 rounded p-1 hover:bg-gray-200 hover:text-gray-700 cursor-pointer transition-colors"
+      class="inline-flex items-center justify-center h-8 w-8 rounded p-1 hover:bg-gray-200 text-gray-700 cursor-pointer"
       (click)="prevMonth()"
       aria-label="Mes anterior"
     >
@@ -11,7 +11,7 @@
     <div class="flex-1 text-center text-sm font-medium">{{ monthLabel() }}</div>
     <button
       type="button"
-      class="inline-flex items-center justify-center h-8 w-8 rounded p-1 hover:bg-gray-200 hover:text-gray-700 cursor-pointer transition-colors"
+      class="inline-flex items-center justify-center h-8 w-8 rounded p-1 hover:bg-gray-200 text-gray-700 cursor-pointer"
       (click)="nextMonth()"
       aria-label="Mes siguiente"
     >
@@ -34,7 +34,7 @@
             [class.bg-indigo-600]="isSelected(day) || isToday(day)"
             [class.text-white]="isSelected(day) || isToday(day)"
             [class.text-gray-400]="day && isOtherMonth(day) && !isSelected(day) && !isToday(day)"
-            class="w-8 h-8 rounded"
+            class="w-8 h-8 rounded border border-transparent hover:border-2 hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100 cursor-pointer"
           >
             {{ day ? day.getDate() : '' }}
           </button>

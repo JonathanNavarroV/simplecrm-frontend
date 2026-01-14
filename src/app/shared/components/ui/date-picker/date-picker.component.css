@@ -9,10 +9,6 @@
   position: relative;
 }
 
-.datepicker-root button {
-  border: none;
-}
-
 .datepicker-root thead th {
   color: #6b7280;
 }
