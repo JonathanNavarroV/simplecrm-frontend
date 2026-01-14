@@ -56,6 +56,13 @@ export class DateInputComponent implements ControlValueAccessor {
   onTouched = () => {};
   onChange: (v: string | null) => void = () => {};
 
+  onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.toggleOpen();
+    }
+  }
+
   writeValue(obj: any): void {
     this.value = obj ?? null;
   }

@@ -20,7 +20,7 @@
       [value]="isLoading ? 'Cargando...' : value || ''"
       [disabled]="disabled || isLoading"
       (input)="onInput($event)"
-      (focus)="!open && toggleOpen()"
+      (keydown)="onKeydown($event)"
       (click)="onInputClick($event)"
       (blur)="onTouched()"
       [attr.aria-busy]="isLoading"
@@ -28,7 +28,7 @@
 
     <div class="absolute inset-y-0 right-2 flex items-center space-x-2">
       <button
-        *ngIf="value && !disabled && !isLoading"
+        *ngIf="clearable && value && !disabled && !isLoading"
         type="button"
         class="inline-flex items-center justify-center rounded-full p-1 hover:bg-gray-100 cursor-pointer"
         (click)="clear()"
