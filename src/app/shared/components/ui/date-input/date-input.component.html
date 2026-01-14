@@ -16,6 +16,7 @@
       readonly
       class="w-full px-3 py-2 text-sm bg-transparent placeholder-gray-400 focus:outline-none cursor-default select-none"
       (mousedown)="$event.preventDefault()"
+      (pointerdown)="onInputPointer($event)"
       [class.text-gray-400]="disabled || isLoading"
       [class.pr-10]="isLoading"
       [placeholder]="placeholder"
@@ -41,9 +42,9 @@
 
       <div
         class="flex items-center justify-center"
-        (click)="toggleOpen()"
+        (click)="!isLoading && toggleOpen()"
         role="button"
-        aria-hidden="true"
+        [attr.aria-hidden]="isLoading ? 'true' : 'false'"
       >
         <ng-container *ngIf="!isLoading; else spinnerTpl">
           <app-icon name="calendar-month" iconClass="h-4 w-4 text-gray-500"></app-icon>
