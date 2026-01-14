@@ -20,7 +20,7 @@
       [value]="isLoading ? 'Cargando...' : value || ''"
       [disabled]="disabled || isLoading"
       (input)="onInput($event)"
-      (focus)="toggleOpen()"
+      (focus)="!open && toggleOpen()"
       (click)="onInputClick($event)"
       (blur)="onTouched()"
       [attr.aria-busy]="isLoading"
