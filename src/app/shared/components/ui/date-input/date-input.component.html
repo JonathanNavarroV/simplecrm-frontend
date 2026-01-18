@@ -19,7 +19,7 @@
       [class.text-gray-400]="disabled || isLoading"
       [class.pr-10]="isLoading"
       [placeholder]="placeholder"
-      [value]="isLoading ? 'Cargando...' : value || ''"
+      [value]="isLoading ? 'Cargando...' : displayValue || ''"
       [disabled]="disabled || isLoading"
       (input)="onInput($event)"
       (keydown)="onKeydown($event)"
@@ -58,7 +58,17 @@
     </div>
 
     <div #pickerRef *ngIf="open" class="absolute z-50 mt-2" [ngStyle]="pickerStyles">
-      <app-date-picker [selected]="_dateValue" (select)="onDateSelected($event)"></app-date-picker>
+      <app-date-picker
+        [selected]="rangeMode ? null : _dateValue"
+        [startDate]="rangeMode ? _startDate : null"
+        [endDate]="rangeMode ? _endDate : null"
+        [anchoredDate]="anchoredDate"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        [rangeMode]="rangeMode"
+        (select)="onDateSelected($event)"
+        (rangeSelect)="onRangeSelected($event)"
+      ></app-date-picker>
     </div>
   </div>
 </div>

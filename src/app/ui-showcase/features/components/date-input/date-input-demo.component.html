@@ -12,17 +12,42 @@
   </section>
 
   <section class="bg-white rounded">
-    <h3 class="text-sm font-medium text-gray-700 mb-2">Con loading y skeleton</h3>
-    <div class="grid grid-cols-3 gap-3 mt-2">
-      <div>
-        <app-date-input label="Skeleton" [isSkeleton]="true"></app-date-input>
-      </div>
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Rango en un solo input</h3>
+    <app-date-input
+      label="Rango de fechas"
+      placeholder="Selecciona un rango de fechas"
+      [rangeMode]="true"
+      [(ngModel)]="rangeModel"
+    ></app-date-input>
+    <div class="mt-2 text-sm text-gray-600">
+      Valor: {{ rangeModel ? rangeModel.start + ' - ' + rangeModel.end : '(vacío)' }}
+    </div>
+  </section>
 
+  <section class="bg-white rounded">
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Rango con dos inputs separados</h3>
+    <div class="grid grid-cols-2 gap-3">
       <div>
-        <app-date-input label="Loading" [isLoading]="true"></app-date-input>
+        <app-date-input
+          label="Fecha desde"
+          placeholder="Fecha inicial"
+          [anchoredDate]="getStartAnchoredDate()"
+          [maxDate]="getStartAnchoredDate()"
+          [(ngModel)]="startModel"
+        ></app-date-input>
       </div>
-
-      <div></div>
+      <div>
+        <app-date-input
+          label="Fecha hasta"
+          placeholder="Fecha final"
+          [anchoredDate]="getEndAnchoredDate()"
+          [minDate]="getEndAnchoredDate()"
+          [(ngModel)]="endModel"
+        ></app-date-input>
+      </div>
+    </div>
+    <div class="mt-2 text-sm text-gray-600">
+      Desde: {{ startModel || '(vacío)' }} - Hasta: {{ endModel || '(vacío)' }}
     </div>
   </section>
 </div>

@@ -13,11 +13,19 @@ import { IconComponent } from '../icon/icon.component';
 })
 export class DatePickerComponent {
   @Input() selected: Date | null = null;
+  @Input() startDate: Date | null = null;
+  @Input() endDate: Date | null = null;
+  @Input() anchoredDate: Date | null = null;
+  @Input() minDate: Date | null = null;
+  @Input() maxDate: Date | null = null;
+  @Input() rangeMode: boolean = false;
   @Input() weekStartsOn: 0 | 1 | 2 | 3 | 4 | 5 | 6 = 1;
   @Input() month?: Date | string;
   @Output() select = new EventEmitter<Date>();
+  @Output() rangeSelect = new EventEmitter<{ start: Date; end: Date }>();
 
   currentMonth: Date = new Date();
+  private selectingStart = true;
 
   ngOnInit(): void {
     const m = toDateOnly(this.month as any);
@@ -53,16 +61,58 @@ export class DatePickerComponent {
   }
 
   onSelect(day: Date | null) {
-    if (!day) return;
-    // Normalizar a fecha sin hora y guardar localmente para que la UI
-    // refleje la selección inmediatamente, independientemente del padre.
+    if (!day || this.isDisabled(day)) return;
     const normalized = toDateOnly(day);
-    this.selected = normalized;
-    this.select.emit(normalized as Date);
+
+    if (this.rangeMode) {
+      if (this.selectingStart || !this.startDate) {
+        // Seleccionar fecha de inicio
+        this.startDate = normalized;
+        this.endDate = null;
+        this.selectingStart = false;
+      } else {
+        // Seleccionar fecha de fin
+        if (normalized && this.startDate && normalized < this.startDate) {
+          // Si la fecha seleccionada es anterior a la de inicio, intercambiar
+          this.endDate = this.startDate;
+          this.startDate = normalized;
+        } else {
+          this.endDate = normalized;
+        }
+        this.selectingStart = true;
+        // Emitir el rango completo
+        if (this.startDate && this.endDate) {
+          this.rangeSelect.emit({ start: this.startDate, end: this.endDate });
+        }
+      }
+    } else {
+      // Modo normal
+      this.selected = normalized;
+      this.select.emit(normalized as Date);
+    }
   }
 
   isSelected(day: Date | null) {
+    if (this.rangeMode) {
+      return isSameDate(day, this.startDate ?? null) || isSameDate(day, this.endDate ?? null);
+    }
     return isSameDate(day, this.selected ?? null);
+  }
+
+  isInRange(day: Date | null) {
+    if (!this.rangeMode || !this.startDate || !this.endDate || !day) return false;
+    return day >= this.startDate && day <= this.endDate;
+  }
+
+  isAnchored(day: Date | null) {
+    return isSameDate(day, this.anchoredDate ?? null);
+  }
+
+  isDisabled(day: Date | null) {
+    if (!day) return true;
+    if (this.minDate && day < this.minDate) return true;
+    if (this.maxDate && day > this.maxDate) return true;
+    return false;
   }
 
   monthLabel() {
