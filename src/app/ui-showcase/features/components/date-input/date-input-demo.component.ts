@@ -12,20 +12,22 @@ import { DateInputComponent } from '../../../../shared/components/ui/date-input/
 })
 export class DateInputDemoComponent {
   model: string | null = null;
-  rangeModel: { start: string; end: string } | null = null;
   startModel: string | null = null;
   endModel: string | null = null;
   skeleton = false;
 
-  getStartAnchoredDate(): Date | null {
-    if (!this.endModel) return null;
-    const [year, month, day] = this.endModel.split('-').map(Number);
+  private parseDate(value: string | null): Date | null {
+    if (!value) return null;
+    const [year, month, day] = value.split('-').map(Number);
+    if (!year || !month || !day) return null;
     return new Date(year, month - 1, day);
   }
 
-  getEndAnchoredDate(): Date | null {
-    if (!this.startModel) return null;
-    const [year, month, day] = this.startModel.split('-').map(Number);
-    return new Date(year, month - 1, day);
+  getParsedStart(): Date | null {
+    return this.parseDate(this.startModel);
+  }
+
+  getParsedEnd(): Date | null {
+    return this.parseDate(this.endModel);
   }
 }

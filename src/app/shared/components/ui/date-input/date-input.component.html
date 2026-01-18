@@ -59,15 +59,14 @@
 
     <div #pickerRef *ngIf="open" class="absolute z-50 mt-2" [ngStyle]="pickerStyles">
       <app-date-picker
-        [selected]="rangeMode ? null : _dateValue"
-        [startDate]="rangeMode ? _startDate : null"
-        [endDate]="rangeMode ? _endDate : null"
+        [selected]="_dateValue"
+        [startDate]="anchoredRangeStart || null"
+        [endDate]="anchoredRangeEnd || null"
         [anchoredDate]="anchoredDate"
         [minDate]="minDate"
         [maxDate]="maxDate"
-        [rangeMode]="rangeMode"
+        [rangeMode]="false"
         (select)="onDateSelected($event)"
-        (rangeSelect)="onRangeSelected($event)"
       ></app-date-picker>
     </div>
   </div>

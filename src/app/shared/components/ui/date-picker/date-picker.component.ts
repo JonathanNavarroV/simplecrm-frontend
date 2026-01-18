@@ -96,12 +96,24 @@ export class DatePickerComponent {
     if (this.rangeMode) {
       return isSameDate(day, this.startDate ?? null) || isSameDate(day, this.endDate ?? null);
     }
+    // En modo no-rango, si recibimos startDate/endDate (anclado externo),
+    // también resaltamos esos extremos.
+    if (this.startDate || this.endDate) {
+      if (isSameDate(day, this.startDate ?? null) || isSameDate(day, this.endDate ?? null)) {
+        return true;
+      }
+    }
     return isSameDate(day, this.selected ?? null);
   }
 
   isInRange(day: Date | null) {
-    if (!this.rangeMode || !this.startDate || !this.endDate || !day) return false;
-    return day >= this.startDate && day <= this.endDate;
+    if (!day) return false;
+    // En modo rango usamos start/end internos; en modo normal usamos
+    // startDate/endDate anclados si existen, para sombrear el rango externo.
+    if (this.startDate && this.endDate) {
+      return day >= this.startDate && day <= this.endDate;
+    }
+    return false;
   }
 
   isAnchored(day: Date | null) {
@@ -130,5 +142,61 @@ export class DatePickerComponent {
   isToday(day: Date | null) {
     if (!day) return false;
     return isSameDate(day, toDateOnly(new Date()));
+  }
+
+  // Define las clases de estilo para cada celda según su estado visual.
+  dayClasses(day: Date | null): string[] {
+    const classes = [
+      'w-9 h-9 rounded-lg border border-transparent',
+      'focus:outline-none focus:ring-2 focus:ring-indigo-100',
+      'transition-colors duration-50',
+    ];
+
+    const selected = this.isSelected(day);
+    const inRange = this.isInRange(day);
+    const today = this.isToday(day);
+    const anchored = this.isAnchored(day) && !selected && !today;
+    const disabled = this.isDisabled(day);
+    const otherMonth = day ? this.isOtherMonth(day) : false;
+
+    if (disabled) {
+      classes.push('text-gray-300', 'cursor-not-allowed', 'bg-gray-100', 'border-gray-200');
+      return classes;
+    }
+
+    classes.push('cursor-pointer');
+    // Hover sutil para celdas interactuables que no sean seleccionadas ni "hoy"
+    if (!selected && !today) {
+      classes.push('hover:bg-indigo-50', 'hover:border-indigo-200');
+    }
+
+    if (selected) {
+      classes.push('bg-indigo-600', 'text-white');
+    } else if (today) {
+      classes.push(
+        'bg-white',
+        'ring-2',
+        'ring-indigo-500',
+        'ring-offset-1',
+        'text-indigo-700',
+        'font-semibold',
+      );
+    } else if (inRange) {
+      // Días intermedios del rango: aumentar visibilidad sin eclipsar los extremos
+      classes.push('bg-indigo-200', 'text-indigo-900', 'font-medium', 'border-transparent');
+    } else {
+      classes.push('bg-white', 'text-gray-800');
+    }
+
+    if (anchored) {
+      classes.push('ring-2', 'ring-indigo-300', 'ring-offset-1');
+    }
+
+    if (otherMonth && !selected && !inRange && !today) {
+      // Días fuera del mes: apagados pero con hover sutil al pasar el ratón.
+      classes.push('text-gray-400', 'bg-transparent', 'opacity-70', 'font-normal');
+    }
+
+    return classes;
   }
 }

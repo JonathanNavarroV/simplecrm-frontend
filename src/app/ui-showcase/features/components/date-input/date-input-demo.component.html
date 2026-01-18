@@ -7,22 +7,29 @@
       label="Fecha"
       placeholder="Selecciona una fecha"
       [(ngModel)]="model"
+      [isLoading]="skeleton"
+      [isSkeleton]="skeleton"
     ></app-date-input>
     <div class="mt-2 text-sm text-gray-600">Valor: {{ model || '(vacío)' }}</div>
   </section>
 
   <section class="bg-white rounded">
-    <h3 class="text-sm font-medium text-gray-700 mb-2">Rango en un solo input</h3>
-    <app-date-input
-      label="Rango de fechas"
-      placeholder="Selecciona un rango de fechas"
-      [rangeMode]="true"
-      [(ngModel)]="rangeModel"
-    ></app-date-input>
-    <div class="mt-2 text-sm text-gray-600">
-      Valor: {{ rangeModel ? rangeModel.start + ' - ' + rangeModel.end : '(vacío)' }}
+    <h3 class="text-sm font-medium text-gray-700 mb-2">Con loading y skeleton</h3>
+    <div class="grid grid-cols-3 gap-3 mt-2">
+      <div>
+        <app-date-input label="Skeleton" [isSkeleton]="true"></app-date-input>
+      </div>
+
+      <div>
+        <app-date-input label="Loading" [isLoading]="true"></app-date-input>
+      </div>
+
+      <div></div>
     </div>
   </section>
+
+  <!-- Se removió el demo de rango en un solo input. El rango ahora se prueba
+       usando dos inputs separados en la sección siguiente. -->
 
   <section class="bg-white rounded">
     <h3 class="text-sm font-medium text-gray-700 mb-2">Rango con dos inputs separados</h3>
@@ -31,8 +38,10 @@
         <app-date-input
           label="Fecha desde"
           placeholder="Fecha inicial"
-          [anchoredDate]="getStartAnchoredDate()"
-          [maxDate]="getStartAnchoredDate()"
+          [anchoredDate]="getParsedEnd()"
+          [maxDate]="getParsedEnd()"
+          [anchoredRangeStart]="getParsedStart()"
+          [anchoredRangeEnd]="getParsedEnd()"
           [(ngModel)]="startModel"
         ></app-date-input>
       </div>
@@ -40,8 +49,10 @@
         <app-date-input
           label="Fecha hasta"
           placeholder="Fecha final"
-          [anchoredDate]="getEndAnchoredDate()"
-          [minDate]="getEndAnchoredDate()"
+          [anchoredDate]="getParsedStart()"
+          [minDate]="getParsedStart()"
+          [anchoredRangeStart]="getParsedStart()"
+          [anchoredRangeEnd]="getParsedEnd()"
           [(ngModel)]="endModel"
         ></app-date-input>
       </div>

@@ -37,20 +37,24 @@ export class DateInputComponent implements ControlValueAccessor {
   @Input() isLoading: boolean = false;
   @Input() isSkeleton: boolean = false;
   @Input() clearable: boolean = true;
-  @Input() rangeMode: boolean = false;
+  // Nota: el modo rango en un solo input ha sido eliminado. Los rangos
+  // se manejan únicamente con dos inputs separados en el demo.
   @Input() anchoredDate: Date | null = null;
   @Input() minDate: Date | null = null;
   @Input() maxDate: Date | null = null;
+  // Rango anclado externo: se usa cuando este componente forma parte de
+  // un par de inputs (desde / hasta) para mostrar visualmente el rango
+  // seleccionado en el otro input.
+  @Input() anchoredRangeStart: Date | null = null;
+  @Input() anchoredRangeEnd: Date | null = null;
 
   @Output() valueChange = new EventEmitter<string | null | { start: string; end: string }>();
 
   value: string | null = null;
-  rangeValue: { start: string | null; end: string | null } | null = null;
   open = false;
   // valor interno en tipo Date para la interacción con el date-picker
   _dateValue: Date | null = null;
-  _startDate: Date | null = null;
-  _endDate: Date | null = null;
+  // _startDate/_endDate eliminados; el componente solo maneja una fecha.
   @ViewChild('pickerRef', { static: false }) pickerRef?: ElementRef<HTMLElement>;
   @ViewChild('inputRef', { static: false }) inputRef?: ElementRef<HTMLInputElement>;
   pickerStyles: { [k: string]: any } = {};
@@ -71,20 +75,8 @@ export class DateInputComponent implements ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    if (this.rangeMode) {
-      if (obj && typeof obj === 'object' && obj.start && obj.end) {
-        this.rangeValue = { start: obj.start, end: obj.end };
-        this._startDate = obj.start ? new Date(obj.start) : null;
-        this._endDate = obj.end ? new Date(obj.end) : null;
-      } else {
-        this.rangeValue = null;
-        this._startDate = null;
-        this._endDate = null;
-      }
-    } else {
-      this.value = obj ?? null;
-      this._dateValue = obj ? new Date(obj) : null;
-    }
+    this.value = obj ?? null;
+    this._dateValue = obj ? new Date(obj) : null;
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -105,31 +97,15 @@ export class DateInputComponent implements ControlValueAccessor {
 
   // Handler cuando el date-picker emite una selección
   onDateSelected(d: Date) {
-    if (!this.rangeMode) {
-      const dt = toDateOnly(d);
-      this._dateValue = dt;
-      this.value = formatDate(dt, 'yyyy-MM-dd');
-      this.onChange(this.value);
-      this.valueChange.emit(this.value);
-      this.open = false;
-    }
+    const dt = toDateOnly(d);
+    this._dateValue = dt;
+    this.value = formatDate(dt, 'yyyy-MM-dd');
+    this.onChange(this.value);
+    this.valueChange.emit(this.value);
+    this.open = false;
   }
 
-  // Handler cuando el date-picker emite una selección de rango
-  onRangeSelected(range: { start: Date; end: Date }) {
-    if (this.rangeMode) {
-      this._startDate = range.start;
-      this._endDate = range.end;
-      const rangeObj = {
-        start: formatDate(range.start, 'yyyy-MM-dd'),
-        end: formatDate(range.end, 'yyyy-MM-dd'),
-      };
-      this.rangeValue = rangeObj;
-      this.onChange(rangeObj);
-      this.valueChange.emit(rangeObj);
-      this.open = false;
-    }
-  }
+  // onRangeSelected ya no se maneja aquí (rango se gestiona con dos inputs separados)
 
   ngAfterViewInit(): void {
     // noop
@@ -193,40 +169,19 @@ export class DateInputComponent implements ControlValueAccessor {
   }
 
   clear() {
-    if (this.rangeMode) {
-      this.rangeValue = null;
-      this._startDate = null;
-      this._endDate = null;
-      this.onChange(null);
-      this.valueChange.emit(null);
-    } else {
-      this.value = null;
-      this.onChange(null);
-      this.valueChange.emit(null);
-      // También limpiar el valor interno en tipo Date para que el DatePicker
-      // no muestre ningún día como seleccionado después de limpiar.
-      this._dateValue = null;
-    }
+    this.value = null;
+    this.onChange(null);
+    this.valueChange.emit(null);
+    // También limpiar el valor interno en tipo Date para que el DatePicker
+    // no muestre ningún día como seleccionado después de limpiar.
+    this._dateValue = null;
   }
 
   get hasValue(): boolean {
-    if (this.rangeMode) {
-      return !!(this.rangeValue?.start || this.rangeValue?.end);
-    }
     return !!this.value;
   }
 
   get displayValue(): string {
-    if (this.rangeMode) {
-      if (this.rangeValue?.start && this.rangeValue?.end) {
-        return `${this.rangeValue.start} - ${this.rangeValue.end}`;
-      } else if (this.rangeValue?.start) {
-        return `${this.rangeValue.start} - ...`;
-      } else if (this.rangeValue?.end) {
-        return `... - ${this.rangeValue.end}`;
-      }
-      return '';
-    }
     return this.value || '';
   }
 }
