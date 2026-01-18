@@ -135,13 +135,9 @@ export class DateInputComponent implements ControlValueAccessor {
     }
   }
 
-  onInputPointer(e: PointerEvent) {
-    // Prevenir comportamiento por defecto del pointerdown en input readonly
-    e.preventDefault();
-    this.toggleOpen();
-  }
-
   onInputClick(e: MouseEvent) {
+    if (this.isLoading) return;
+    e.preventDefault();
     if (this.ignoreNextClick) {
       this.ignoreNextClick = false;
       if (this.ignoreClickTimer) {
@@ -150,7 +146,12 @@ export class DateInputComponent implements ControlValueAccessor {
       }
       return;
     }
-    this.toggleOpen();
+    // Si está abierto, cerrar; si está cerrado, abrir
+    if (this.open) {
+      this.open = false;
+    } else {
+      this.toggleOpen();
+    }
   }
 
   clear() {

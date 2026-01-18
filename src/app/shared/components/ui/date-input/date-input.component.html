@@ -16,7 +16,6 @@
       readonly
       class="w-full px-3 py-2 text-sm bg-transparent placeholder-gray-400 focus:outline-none cursor-default select-none"
       (mousedown)="$event.preventDefault()"
-      (pointerdown)="onInputPointer($event)"
       [class.text-gray-400]="disabled || isLoading"
       [class.pr-10]="isLoading"
       [placeholder]="placeholder"
