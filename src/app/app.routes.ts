@@ -69,6 +69,14 @@ export const routes: Routes = [
                         ),
                     },
                     {
+                      path: 'info-card',
+                      data: { breadcrumb: 'info-card' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/components/info-card/info-card-demo.component').then(
+                          (m) => m.InfoCardDemoComponent,
+                        ),
+                    },
+                    {
                       path: 'badge',
                       data: { breadcrumb: 'badge' },
                       loadComponent: () =>

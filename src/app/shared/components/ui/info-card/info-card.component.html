@@ -1,0 +1,24 @@
+<div
+  class="p-4 rounded-lg shadow-sm bg-white border border-gray-100 flex items-center justify-between"
+>
+  <div class="min-w-0">
+    <div class="text-xs text-gray-500 truncate">{{ title }}</div>
+    <div class="mt-1 text-2xl font-semibold text-gray-900 truncate">{{ value }}</div>
+    <div *ngIf="subtitle" class="mt-1 text-sm text-gray-500">{{ subtitle }}</div>
+  </div>
+
+  <div class="ml-4 flex-shrink-0">
+    <div
+      class="h-12 w-12 rounded-lg flex items-center justify-center text-white"
+      [ngClass]="{
+        'bg-indigo-500': color === 'indigo',
+        'bg-green-500': color === 'green',
+        'bg-red-500': color === 'red',
+        'bg-yellow-400': color === 'yellow',
+        'bg-gray-400': color === 'gray',
+      }"
+    >
+      <span class="text-lg font-medium">{{ icon || '★' }}</span>
+    </div>
+  </div>
+</div>

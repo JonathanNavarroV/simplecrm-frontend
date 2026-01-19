@@ -39,6 +39,12 @@ export const SIDEBAR_ITEMS = [
               route: '/ui-showcase/components/select',
             },
             {
+              id: 'ui-info-card',
+              label: 'Info Card',
+              icon: 'tablet',
+              route: '/ui-showcase/components/info-card',
+            },
+            {
               id: 'ui-badge',
               label: 'Badge',
               icon: 'label',
