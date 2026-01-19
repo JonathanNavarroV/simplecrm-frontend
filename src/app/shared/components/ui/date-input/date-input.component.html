@@ -60,6 +60,7 @@
     <div #pickerRef *ngIf="open" class="absolute z-50 mt-2" [ngStyle]="pickerStyles">
       <app-date-picker
         [selected]="_dateValue"
+        [month]="_dateValue || undefined"
         [startDate]="anchoredRangeStart || null"
         [endDate]="anchoredRangeEnd || null"
         [anchoredDate]="anchoredDate"

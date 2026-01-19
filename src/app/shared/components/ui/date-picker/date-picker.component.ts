@@ -172,6 +172,17 @@ export class DatePickerComponent {
 
     if (selected) {
       classes.push('bg-indigo-600', 'text-white');
+    } else if (today && inRange) {
+      // Cuando el día es hoy y además está dentro del rango, combinar ambos estilos:
+      // fondo del rango + aro de "hoy" para destacarlo sin ocultar el contexto del rango.
+      classes.push(
+        'bg-indigo-200',
+        'text-indigo-900',
+        'font-semibold',
+        'ring-2',
+        'ring-indigo-500',
+        'ring-offset-1',
+      );
     } else if (today) {
       classes.push(
         'bg-white',
