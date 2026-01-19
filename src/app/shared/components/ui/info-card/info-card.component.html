@@ -9,16 +9,30 @@
 
   <div class="ml-4 flex-shrink-0">
     <div
-      class="h-12 w-12 rounded-lg flex items-center justify-center text-white"
+      class="h-12 w-12 rounded-lg flex items-center justify-center"
       [ngClass]="{
-        'bg-indigo-500': color === 'indigo',
-        'bg-green-500': color === 'green',
-        'bg-red-500': color === 'red',
-        'bg-yellow-400': color === 'yellow',
-        'bg-gray-400': color === 'gray',
+        'bg-indigo-100': color === 'indigo',
+        'bg-green-100': color === 'green',
+        'bg-red-100': color === 'red',
+        'bg-yellow-100': color === 'yellow',
+        'bg-gray-100': color === 'gray',
       }"
     >
-      <span class="text-lg font-medium">{{ icon || '★' }}</span>
+      <app-icon
+        [name]="icon || 'annotation'"
+        [iconClass]="
+          'h-8 w-8 ' +
+          (color === 'indigo'
+            ? 'text-indigo-600'
+            : color === 'green'
+              ? 'text-green-600'
+              : color === 'red'
+                ? 'text-red-600'
+                : color === 'yellow'
+                  ? 'text-yellow-500'
+                  : 'text-gray-600')
+        "
+      ></app-icon>
     </div>
   </div>
 </div>
