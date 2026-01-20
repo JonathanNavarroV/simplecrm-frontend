@@ -77,6 +77,14 @@ export const routes: Routes = [
                         ),
                     },
                     {
+                      path: 'slider',
+                      data: { breadcrumb: 'slider' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/components/slider/slider-demo.component').then(
+                          (m) => m.SliderDemoComponent,
+                        ),
+                    },
+                    {
                       path: 'badge',
                       data: { breadcrumb: 'badge' },
                       loadComponent: () =>

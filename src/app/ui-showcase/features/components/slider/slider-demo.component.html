@@ -1,0 +1,29 @@
+<div class="p-6 space-y-6">
+  <h2 class="text-xl font-semibold">Slider — Demo</h2>
+
+  <div class="space-y-4">
+    <app-slider label="Simple" [(value)]="v1"></app-slider>
+
+    <app-slider
+      label="Porcentaje"
+      [(value)]="vPercent"
+      [min]="0"
+      [max]="100"
+      suffix="%"
+    ></app-slider>
+
+    <app-slider
+      label="Precio"
+      [(value)]="vCurrency"
+      [min]="0"
+      [max]="10000"
+      [step]="50"
+      prefix="$"
+    ></app-slider>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <app-slider label="Control A" [(value)]="v2"></app-slider>
+      <app-slider label="Control B" [(value)]="v3"></app-slider>
+    </div>
+  </div>
+</div>

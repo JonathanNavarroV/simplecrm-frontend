@@ -1,0 +1,5 @@
+/* Estilos mínimos para el demo */
+.demo-grid {
+  display: grid;
+  gap: 1rem;
+}

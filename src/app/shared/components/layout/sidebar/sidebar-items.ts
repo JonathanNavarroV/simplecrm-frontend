@@ -45,6 +45,12 @@ export const SIDEBAR_ITEMS = [
               route: '/ui-showcase/components/info-card',
             },
             {
+              id: 'ui-slider',
+              label: 'Slider',
+              icon: 'sliders',
+              route: '/ui-showcase/components/slider',
+            },
+            {
               id: 'ui-badge',
               label: 'Badge',
               icon: 'label',
