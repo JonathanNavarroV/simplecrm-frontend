@@ -50,6 +50,7 @@ export const SIDEBAR_ITEMS = [
               icon: 'sliders',
               route: '/ui-showcase/components/slider',
             },
+
             {
               id: 'ui-badge',
               label: 'Badge',

@@ -84,6 +84,7 @@ export const routes: Routes = [
                           (m) => m.SliderDemoComponent,
                         ),
                     },
+
                     {
                       path: 'badge',
                       data: { breadcrumb: 'badge' },

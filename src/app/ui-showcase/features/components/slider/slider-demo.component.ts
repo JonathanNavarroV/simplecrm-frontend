@@ -19,6 +19,13 @@ export class SliderDemoComponent {
   vCurrency = 1200;
   vStep5 = 10;
   vStepDecimal = 2.5;
+  // Range examples (se integran en el mismo demo)
+  range1Lower = 10;
+  range1Upper = 70;
+  range2Lower = 2000;
+  range2Upper = 6000;
+  range3Lower = 1.5;
+  range3Upper = 4.5;
 
   // Formateo simple consistente: miles='.' y decimales=','
   private formatNumber(n: number, decimals = 0): string {

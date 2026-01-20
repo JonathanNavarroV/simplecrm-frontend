@@ -10,8 +10,19 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./slider.component.css'],
 })
 export class SliderComponent {
+  // Modo: single (valor único) o range (dos manijas)
+  @Input() range = false;
+
+  // Single value API (compatibilidad previa)
   @Input() value = 0;
   @Output() valueChange = new EventEmitter<number>();
+
+  // Range API
+  @Input() lower = 0;
+  @Input() upper = 100;
+  @Output() lowerChange = new EventEmitter<number>();
+  @Output() upperChange = new EventEmitter<number>();
+  @Output() rangeChange = new EventEmitter<{ lower: number; upper: number }>();
 
   @Input() min = 0;
   @Input() max = 100;
@@ -64,5 +75,58 @@ export class SliderComponent {
 
   get displayMax(): string {
     return this.prefix + this.formatNumber(this.max) + this.suffix;
+  }
+
+  // Range helpers
+  private clamp(value: number): number {
+    return Math.min(this.max, Math.max(this.min, value));
+  }
+
+  get lowerPercent(): string {
+    const pct = ((this.lower - this.min) / (this.max - this.min)) * 100;
+    return `${pct}%`;
+  }
+
+  get rangePercent(): string {
+    const pct = ((this.upper - this.lower) / (this.max - this.min)) * 100;
+    return `${pct}%`;
+  }
+
+  private emitRange(): void {
+    this.lowerChange.emit(this.lower);
+    this.upperChange.emit(this.upper);
+    this.rangeChange.emit({ lower: this.lower, upper: this.upper });
+  }
+
+  onLowerInput(event: Event): void {
+    const raw = Number((event.target as HTMLInputElement).value);
+    const clamped = this.clamp(raw);
+    const wasMerged = this.lower === this.upper;
+    const prevUpper = this.upper;
+
+    if (wasMerged && clamped > this.upper) {
+      this.upper = clamped;
+      this.lower = prevUpper;
+    } else {
+      this.lower = Math.min(clamped, this.upper);
+    }
+
+    this.emitRange();
+  }
+
+  onUpperInput(event: Event): void {
+    const raw = Number((event.target as HTMLInputElement).value);
+    const clamped = this.clamp(raw);
+    const wasMerged = this.lower === this.upper;
+    const prevLower = this.lower;
+
+    if (wasMerged && clamped < this.lower) {
+      this.lower = clamped;
+      this.upper = prevLower;
+    } else {
+      this.upper = Math.max(clamped, this.lower);
+    }
+
+    this.emitRange();
   }
 }

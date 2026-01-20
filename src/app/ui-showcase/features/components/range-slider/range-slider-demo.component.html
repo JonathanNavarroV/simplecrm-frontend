@@ -1,0 +1,45 @@
+<div class="p-6 space-y-6">
+  <h2 class="text-xl font-semibold">Range Slider — Demo</h2>
+
+  <div class="space-y-6">
+    <div class="space-y-2">
+      <app-range-slider
+        label="Rango simple"
+        [min]="0"
+        [max]="100"
+        [step]="1"
+        [(lower)]="rangeA.lower"
+        [(upper)]="rangeA.upper"
+        (rangeChange)="onRangeAChange($event)"
+      ></app-range-slider>
+      <div class="text-sm text-gray-600">Actual: {{ rangeA.lower }} - {{ rangeA.upper }}</div>
+    </div>
+
+    <div class="space-y-2">
+      <app-range-slider
+        label="Rango de montos"
+        prefix="$"
+        [min]="0"
+        [max]="10000"
+        [step]="100"
+        [(lower)]="rangeB.lower"
+        [(upper)]="rangeB.upper"
+        (rangeChange)="onRangeBChange($event)"
+      ></app-range-slider>
+      <div class="text-sm text-gray-600">Actual: {{ rangeB.lower }} - {{ rangeB.upper }}</div>
+    </div>
+
+    <div class="space-y-2">
+      <app-range-slider
+        label="Rango decimal"
+        [min]="0"
+        [max]="10"
+        [step]="0.5"
+        [(lower)]="rangeC.lower"
+        [(upper)]="rangeC.upper"
+        (rangeChange)="onRangeCChange($event)"
+      ></app-range-slider>
+      <div class="text-sm text-gray-600">Actual: {{ rangeC.lower }} - {{ rangeC.upper }}</div>
+    </div>
+  </div>
+</div>

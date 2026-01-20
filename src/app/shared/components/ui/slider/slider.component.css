@@ -6,6 +6,7 @@ input[type='range']::-webkit-slider-thumb {
   background: #4f46e5; /* indigo-600 */
   border-radius: 50%;
   box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+  pointer-events: auto;
 }
 
 input[type='range']::-moz-range-thumb {
@@ -13,4 +14,19 @@ input[type='range']::-moz-range-thumb {
   height: 14px;
   background: #4f46e5;
   border-radius: 50%;
+  pointer-events: auto;
+}
+
+/* Inputs superpuestos en modo range: deshabilitar pointer-events en la pista */
+input[type='range'].range-input {
+  pointer-events: none;
+}
+
+/* Habilitar pointer-events solo en los thumbs */
+input[type='range'].range-input::-webkit-slider-runnable-track {
+  background: transparent;
+}
+
+input[type='range'].range-input::-moz-range-track {
+  background: transparent;
 }
