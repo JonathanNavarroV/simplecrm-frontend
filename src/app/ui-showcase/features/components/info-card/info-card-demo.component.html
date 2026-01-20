@@ -4,31 +4,64 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
     <app-info-card
       title="Usuarios"
-      value="1,254"
+      [value]="1254"
       subtitle="Total activos"
       icon="user"
       color="indigo"
     ></app-info-card>
     <app-info-card
       title="Ventas"
-      value="$12,430"
+      [value]="12430"
       subtitle="Este mes"
       icon="trending_up"
       color="green"
+      prefix="$"
+    ></app-info-card>
+    <app-info-card
+      title="Conversiones"
+      [value]="12.7"
+      subtitle="Tasa de conversión"
+      icon="insights"
+      color="indigo"
+      suffix="%"
     ></app-info-card>
     <app-info-card
       title="Errores"
-      value="23"
+      [value]="23"
       subtitle="Últimas 24h"
       icon="warning"
       color="red"
     ></app-info-card>
     <app-info-card
       title="Tareas"
-      value="8"
+      [value]="8"
       subtitle="Pendientes"
       icon="check"
       color="yellow"
+    ></app-info-card>
+    <app-info-card
+      title="Balance"
+      [value]="-420.5"
+      subtitle="Saldo pendiente"
+      icon="account_balance"
+      color="red"
+      prefix="$"
+    ></app-info-card>
+    <app-info-card
+      title="Ingresos Anuales"
+      [value]="1234567"
+      subtitle="Año actual"
+      icon="attach_money"
+      color="indigo"
+      prefix="$"
+    ></app-info-card>
+    <app-info-card
+      title="Tiempo medio"
+      [value]="3.75"
+      subtitle="Horas por tarea"
+      icon="timer"
+      color="green"
+      suffix="h"
     ></app-info-card>
   </div>
 </div>
