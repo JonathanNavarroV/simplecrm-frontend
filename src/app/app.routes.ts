@@ -86,6 +86,15 @@ export const routes: Routes = [
                     },
 
                     {
+                      path: 'paginator',
+                      data: { breadcrumb: 'paginator' },
+                      loadComponent: () =>
+                        import('./ui-showcase/features/components/paginator/paginator-demo.component').then(
+                          (m) => m.PaginatorDemoComponent,
+                        ),
+                    },
+
+                    {
                       path: 'badge',
                       data: { breadcrumb: 'badge' },
                       loadComponent: () =>

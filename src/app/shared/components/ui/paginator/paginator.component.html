@@ -1,0 +1,52 @@
+<div
+  class="flex items-center justify-between gap-4 p-4 bg-gray-50 border border-gray-200 rounded-lg"
+>
+  <div class="flex items-center gap-2">
+    <button
+      (click)="prev()"
+      [disabled]="page <= 1"
+      title="Página anterior"
+      class="px-3 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+    >
+      ‹
+    </button>
+
+    <div class="flex gap-1">
+      <button
+        *ngFor="let p of pageRange()"
+        (click)="go(p)"
+        [class.active]="p === page"
+        [title]="'Ir a página ' + p"
+        [ngClass]="{
+          'bg-blue-500 text-white border-blue-600': p === page,
+          'bg-white text-gray-700 border-gray-300 hover:bg-gray-100': p !== page,
+        }"
+        class="min-w-[36px] px-3 py-2 border rounded-md text-sm font-medium transition-colors cursor-pointer"
+      >
+        {{ p }}
+      </button>
+    </div>
+
+    <button
+      (click)="next()"
+      [disabled]="page >= totalPages"
+      title="Página siguiente"
+      class="px-3 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+    >
+      ›
+    </button>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <label class="flex items-center gap-2 text-sm text-gray-600">
+      Filas:
+      <select
+        [value]="pageSize"
+        (change)="changePageSize($any($event.target).value)"
+        class="px-2 py-1 border border-gray-300 rounded-md bg-white text-gray-700 text-sm hover:border-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+      >
+        <option *ngFor="let s of pageSizeOptions" [value]="s">{{ s }}</option>
+      </select>
+    </label>
+  </div>
+</div>

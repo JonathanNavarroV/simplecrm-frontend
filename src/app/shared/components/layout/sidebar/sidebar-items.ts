@@ -52,6 +52,13 @@ export const SIDEBAR_ITEMS = [
             },
 
             {
+              id: 'ui-paginator',
+              label: 'Paginator',
+              icon: 'format_list_numbered',
+              route: '/ui-showcase/components/paginator',
+            },
+
+            {
               id: 'ui-badge',
               label: 'Badge',
               icon: 'label',

@@ -1,0 +1,4 @@
+/* Minimal CSS - Tailwind maneja la mayoría del styling */
+.active {
+  @apply bg-blue-500 text-white border-blue-600;
+}

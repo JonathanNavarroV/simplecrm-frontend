@@ -1,0 +1,4 @@
+/* Demo page styling */
+:host {
+  display: block;
+}
