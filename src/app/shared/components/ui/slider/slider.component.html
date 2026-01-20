@@ -10,8 +10,9 @@
       (input)="onInput($event)"
       class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
     />
-    <div *ngIf="showValue" class="w-20 text-right text-sm font-medium">
-      {{ displayValue }}
-    </div>
+  </div>
+  <div class="flex justify-between text-xs text-gray-500 -mt-1">
+    <span>{{ displayMin }}</span>
+    <span>{{ displayMax }}</span>
   </div>
 </div>

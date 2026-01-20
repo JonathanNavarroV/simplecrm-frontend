@@ -57,4 +57,12 @@ export class SliderComponent {
   get displayValue(): string {
     return this.prefix + this.formatNumber(this.value) + this.suffix;
   }
+
+  get displayMin(): string {
+    return this.prefix + this.formatNumber(this.min) + this.suffix;
+  }
+
+  get displayMax(): string {
+    return this.prefix + this.formatNumber(this.max) + this.suffix;
+  }
 }

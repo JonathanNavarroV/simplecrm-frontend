@@ -3,6 +3,7 @@
 
   <div class="space-y-4">
     <app-slider label="Simple" [(value)]="v1"></app-slider>
+    <div class="text-sm text-gray-500">Valor: {{ display(v1, '', '', 1) }}</div>
 
     <app-slider
       label="Porcentaje"
@@ -11,6 +12,7 @@
       [max]="100"
       suffix="%"
     ></app-slider>
+    <div class="text-sm text-gray-500">Valor: {{ display(vPercent, '', '%', 1) }}</div>
 
     <app-slider
       label="Precio"
@@ -20,10 +22,38 @@
       [step]="50"
       prefix="$"
     ></app-slider>
+    <div class="text-sm text-gray-500">Valor: {{ display(vCurrency, '$', '', 50) }}</div>
+
+    <h3 class="text-sm font-medium mt-6">Ejemplos de saltos (step)</h3>
+    <div class="space-y-3">
+      <app-slider
+        label="Saltos de 5"
+        [(value)]="vStep5"
+        [min]="0"
+        [max]="100"
+        [step]="5"
+      ></app-slider>
+      <div class="text-sm text-gray-500">Valor: {{ display(vStep5, '', '', 5) }}</div>
+
+      <app-slider
+        label="Saltos decimales (0.5)"
+        [(value)]="vStepDecimal"
+        [min]="0"
+        [max]="10"
+        [step]="0.5"
+      ></app-slider>
+      <div class="text-sm text-gray-500">Valor: {{ display(vStepDecimal, '', '', 0.5) }}</div>
+    </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <app-slider label="Control A" [(value)]="v2"></app-slider>
-      <app-slider label="Control B" [(value)]="v3"></app-slider>
+      <div>
+        <app-slider label="Control A" [(value)]="v2"></app-slider>
+        <div class="text-sm text-gray-500">Valor inicial (min): {{ display(v2, '', '', 1) }}</div>
+      </div>
+      <div>
+        <app-slider label="Control B" [(value)]="v3"></app-slider>
+        <div class="text-sm text-gray-500">Valor final (max): {{ display(v3, '', '', 1) }}</div>
+      </div>
     </div>
   </div>
 </div>
