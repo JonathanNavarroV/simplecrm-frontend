@@ -1,4 +1,3 @@
 /* Minimal CSS - Tailwind maneja la mayoría del styling */
-.active {
-  @apply bg-blue-500 text-white border-blue-600;
-}
+/* Se evitan directivas @apply aquí para mantener compatibilidad con el pipeline de build.
+   Las clases utilitarias se aplican directamente en las plantillas con bindings estáticos. */
