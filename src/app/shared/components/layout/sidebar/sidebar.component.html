@@ -13,6 +13,7 @@
   [class.left-0]="currentMode === 'overlay'"
   [class.h-screen]="currentMode === 'overlay'"
   [class.h-full]="currentMode !== 'overlay'"
+  [class.z-60]="currentMode === 'overlay'"
   class="flex shrink-0 border-r border-gray-200"
   [ngClass]="{
     'bg-white': currentMode === 'overlay',
@@ -175,6 +176,5 @@
 <div
   *ngIf="currentMode === 'overlay'"
   (click)="closeOverlay()"
-  class="fixed inset-0 bg-black/40"
-  [class.z-50]="true"
+  class="fixed inset-0 bg-black/40 z-50"
 ></div>
