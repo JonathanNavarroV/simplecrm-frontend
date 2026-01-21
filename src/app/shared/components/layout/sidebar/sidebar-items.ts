@@ -9,22 +9,29 @@ export const SIDEBAR_ITEMS = [
           label: 'Componentes',
           items: [
             {
-              id: 'ui-text-input',
-              label: 'Text Input',
+              id: 'ui-inputs',
+              label: 'Inputs',
               icon: 'edit',
-              route: '/ui-showcase/components/text-input',
-            },
-            {
-              id: 'ui-number-input',
-              label: 'Number Input',
-              icon: 'edit',
-              route: '/ui-showcase/components/number-input',
-            },
-            {
-              id: 'ui-date-input',
-              label: 'Date Input',
-              icon: 'calendar-month',
-              route: '/ui-showcase/components/date-input',
+              items: [
+                {
+                  id: 'ui-text-input',
+                  label: 'Text Input',
+                  icon: 'edit',
+                  route: '/ui-showcase/components/text-input',
+                },
+                {
+                  id: 'ui-number-input',
+                  label: 'Number Input',
+                  icon: 'edit',
+                  route: '/ui-showcase/components/number-input',
+                },
+                {
+                  id: 'ui-date-input',
+                  label: 'Date Input',
+                  icon: 'calendar-month',
+                  route: '/ui-showcase/components/date-input',
+                },
+              ],
             },
             {
               id: 'ui-buttons',
@@ -54,7 +61,7 @@ export const SIDEBAR_ITEMS = [
             {
               id: 'ui-paginator',
               label: 'Paginator',
-              icon: 'format_list_numbered',
+              icon: 'column',
               route: '/ui-showcase/components/paginator',
             },
 

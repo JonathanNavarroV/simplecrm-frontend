@@ -185,6 +185,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
   // Estructura: lista de módulos, cada uno con su lista de items.
   sidebarItems = SIDEBAR_ITEMS;
 
+  // Estado local: secciones desplegadas (por id de item)
+  openSections: Record<string, boolean> = {};
+
+  // Alterna la visibilidad de una sección con subitems
+  toggleSection(id: string) {
+    this.openSections[id] = !this.openSections[id];
+  }
+
+  isSectionOpen(id: string) {
+    return !!this.openSections[id];
+  }
+
   // Lee la preferencia guardada para md desde sessionStorage. Si no existe
   // devuelve null.
   private readPersistedMdMode(): SidebarMode | null {

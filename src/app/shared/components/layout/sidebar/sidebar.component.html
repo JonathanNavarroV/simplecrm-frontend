@@ -1,6 +1,4 @@
-<!-- Spacer: mantiene el espacio del slim sidebar cuando abrimos el overlay
-  para que el body no cambie de tamaño (solo necesario si el collapsed
-  mode del breakpoint es `slim`). -->
+<!-- Spacer for slim overlay mode -->
 <div
   *ngIf="currentMode === 'overlay' && collapsedModeForCurrentBreakpoint === 'slim'"
   class="w-16 h-full flex-shrink-0"
@@ -15,17 +13,13 @@
   [class.left-0]="currentMode === 'overlay'"
   [class.h-screen]="currentMode === 'overlay'"
   [class.h-full]="currentMode !== 'overlay'"
-  [class.inset-y-0]="currentMode === 'overlay'"
   class="flex shrink-0 border-r border-gray-200"
   [ngClass]="{
     'bg-white': currentMode === 'overlay',
     'bg-white/80 backdrop-blur-md': currentMode !== 'overlay',
   }"
-  [class.z-50]="currentMode !== 'overlay'"
-  [class.z-60]="currentMode === 'overlay'"
 >
   <div class="flex h-full w-full flex-col">
-    <!-- Header dentro del aside cuando estamos en modo overlay -->
     <div
       *ngIf="currentMode === 'overlay'"
       class="h-16 w-full border-b border-gray-200 bg-white flex items-center px-4"
@@ -35,14 +29,12 @@
         <div class="font-semibold tracking-tight">SimpleCRM</div>
       </div>
     </div>
-    <!-- Nav -->
+
     <nav class="flex-1 overflow-y-auto py-4">
       <ul class="px-3 space-y-1">
         <li *ngFor="let module of sidebarItems; let si = index">
-          <!-- separator visible only on slim and not for the first module -->
           <div *ngIf="si > 0 && currentMode === 'slim'" class="h-px bg-gray-200 my-2 w-full"></div>
 
-          <!-- module label (hidden in slim) -->
           <div
             *ngIf="currentMode !== 'slim'"
             class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
@@ -52,43 +44,87 @@
 
           <ul class="pl-0">
             <li *ngFor="let item of module.items; let i = index">
-              <!-- En modo slim envolvemos el propio <a> con app-tooltip para que
-                   el tooltip se dispare al pasar sobre cualquier parte del botón -->
-              <ng-container
-                *ngIf="currentMode === 'slim'; then slimLink; else expandedLink"
-              ></ng-container>
+              <ng-container *ngIf="$any(item).items && $any(item).items.length; else singleLink">
+                <div *ngIf="currentMode === 'slim'; else expandedGroup">
+                  <app-tooltip [text]="item.label" position="right">
+                    <button
+                      type="button"
+                      class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 justify-center cursor-pointer"
+                      (click)="toggleSection(item.id)"
+                      [attr.aria-expanded]="isSectionOpen(item.id)"
+                    >
+                      <app-icon [name]="item.icon" [iconClass]="'size-6'"></app-icon>
+                    </button>
+                  </app-tooltip>
+                </div>
 
-              <ng-template #slimLink>
-                <app-tooltip [text]="item.label" position="right">
+                <ng-template #expandedGroup>
+                  <div>
+                    <button
+                      type="button"
+                      class="w-full flex items-center justify-between rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 cursor-pointer"
+                      (click)="toggleSection(item.id)"
+                    >
+                      <div class="flex items-center gap-3">
+                        <app-icon [name]="item.icon" [iconClass]="'size-6'"></app-icon>
+                        <span>{{ item.label }}</span>
+                      </div>
+                      <app-icon
+                        [name]="isSectionOpen(item.id) ? 'chevron-up' : 'chevron-down'"
+                        [iconClass]="'size-5'"
+                      ></app-icon>
+                    </button>
+
+                    <ul *ngIf="isSectionOpen(item.id)" class="mt-1 space-y-1 pl-8">
+                      <li *ngFor="let sub of $any(item).items">
+                        <a
+                          [routerLink]="sub.route"
+                          routerLinkActive="bg-gray-200 text-gray-900"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 cursor-pointer"
+                          (click)="onNavItemClick()"
+                        >
+                          <app-icon [name]="sub.icon" [iconClass]="'size-5'"></app-icon>
+                          <span class="ml-3">{{ sub.label }}</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </ng-template>
+              </ng-container>
+
+              <ng-template #singleLink>
+                <ng-container
+                  *ngIf="currentMode === 'slim'; then slimLink; else expandedLink"
+                ></ng-container>
+
+                <ng-template #slimLink>
+                  <app-tooltip [text]="item.label" position="right">
+                    <a
+                      [routerLink]="item.route"
+                      routerLinkActive="bg-gray-200 text-gray-900"
+                      [routerLinkActiveOptions]="{ exact: true }"
+                      class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 justify-center cursor-pointer"
+                      (click)="onNavItemClick()"
+                    >
+                      <app-icon [name]="item.icon" [iconClass]="'size-6'"></app-icon>
+                      <span class="sr-only">{{ item.label }}</span>
+                    </a>
+                  </app-tooltip>
+                </ng-template>
+
+                <ng-template #expandedLink>
                   <a
                     [routerLink]="item.route"
                     routerLinkActive="bg-gray-200 text-gray-900"
                     [routerLinkActiveOptions]="{ exact: true }"
-                    class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2"
-                    [class.gap-0]="true"
-                    [class.justify-center]="true"
+                    class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 cursor-pointer"
                     (click)="onNavItemClick()"
                   >
                     <app-icon [name]="item.icon" [iconClass]="'size-6'"></app-icon>
-                    <span class="sr-only">{{ item.label }}</span>
+                    <span class="ml-3">{{ item.label }}</span>
                   </a>
-                </app-tooltip>
-              </ng-template>
-
-              <ng-template #expandedLink>
-                <a
-                  [routerLink]="item.route"
-                  routerLinkActive="bg-gray-200 text-gray-900"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                  class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2"
-                  [class.gap-0]="false"
-                  [class.gap-3]="true"
-                  [class.justify-start]="true"
-                  (click)="onNavItemClick()"
-                >
-                  <app-icon [name]="item.icon" [iconClass]="'size-6'"></app-icon>
-                  <span class="ml-3">{{ item.label }}</span>
-                </a>
+                </ng-template>
               </ng-template>
             </li>
           </ul>
@@ -96,8 +132,6 @@
       </ul>
     </nav>
 
-    <!-- Usuario -->
-    <!-- Full footer (visible when not slim) -->
     <div *ngIf="currentMode !== 'slim'" class="border-t border-gray-200/70 px-4 py-3">
       <div class="flex items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
@@ -120,7 +154,7 @@
         </div>
       </div>
     </div>
-    <!-- Slim footer: avatar on top, button below -->
+
     <div
       *ngIf="currentMode === 'slim'"
       class="flex flex-col items-center gap-2 border-t border-gray-200/70 px-2 py-3"
@@ -138,7 +172,6 @@
   </div>
 </aside>
 
-<!-- Overlay que cubre la app cuando el modo es overlay; al clic se cierra -->
 <div
   *ngIf="currentMode === 'overlay'"
   (click)="closeOverlay()"
