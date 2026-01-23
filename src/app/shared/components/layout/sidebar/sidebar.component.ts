@@ -77,6 +77,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   };
 
   private _sidebarSub?: Subscription;
+  private documentClickListener?: () => void;
 
   constructor(
     private ngZone: NgZone,
@@ -114,6 +115,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     window.removeEventListener('resize', this.onResize);
     this._sidebarSub?.unsubscribe();
+    if (this.documentClickListener) {
+      document.removeEventListener('click', this.documentClickListener);
+    }
   }
 
   // Alterna entre el modo replegado y desplegado según el breakpoint actual
@@ -188,6 +192,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
   // Estado local: secciones desplegadas (por id de item)
   openSections: Record<string, boolean> = {};
 
+  // Estado para panel flotante en modo slim
+  floatingPanelOpen = false;
+  floatingPanelTop = 0;
+  floatingPanelLeft = 0;
+  floatingPanelItems: any[] = [];
+  floatingPanelLabel?: string;
+  floatingPanelItemId?: string;
+
   // Alterna la visibilidad de una sección con subitems
   toggleSection(id: string) {
     this.openSections[id] = !this.openSections[id];
@@ -195,6 +207,65 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   isSectionOpen(id: string) {
     return !!this.openSections[id];
+  }
+
+  // Maneja click en grupo en modo slim: abre panel flotante calculando posición
+  onSlimGroupClick(id: string, event: Event) {
+    // Detener propagación para evitar que el listener global lo detecte inmediatamente
+    event.stopPropagation();
+
+    // Si el panel ya está abierto para este mismo item, cerrarlo
+    if (this.floatingPanelOpen && this.floatingPanelItemId === id) {
+      this.closeFloatingPanel();
+      return;
+    }
+
+    // Abrir el panel para este item
+    const target = event.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const item = this.findItemById(id);
+    if (item && (item as any).items?.length) {
+      this.openSections[id] = true;
+      this.floatingPanelOpen = true;
+      this.floatingPanelTop = rect.top;
+      this.floatingPanelLeft = rect.right + 8; // margen hacia la derecha
+      this.floatingPanelItems = (item as any).items;
+      this.floatingPanelLabel = (item as any).label ?? '';
+      this.floatingPanelItemId = id;
+
+      // Agregar listener global para cerrar al hacer click fuera (con timeout para evitar cierre inmediato)
+      setTimeout(() => {
+        this.documentClickListener = () => this.closeFloatingPanel();
+        document.addEventListener('click', this.documentClickListener);
+      });
+    }
+  }
+
+  // Busca un item por id recorriendo los módulos del sidebar
+  private findItemById(id: string): any | null {
+    for (const mod of this.sidebarItems) {
+      for (const it of mod.items) {
+        if ((it as any).id === id) return it;
+      }
+    }
+    return null;
+  }
+
+  // Cierra el panel flotante
+  closeFloatingPanel() {
+    this.floatingPanelOpen = false;
+    this.floatingPanelItems = [];
+    this.floatingPanelLabel = undefined;
+    if (this.floatingPanelItemId) {
+      this.openSections[this.floatingPanelItemId] = false;
+      this.floatingPanelItemId = undefined;
+    }
+
+    // Remover listener global
+    if (this.documentClickListener) {
+      document.removeEventListener('click', this.documentClickListener);
+      this.documentClickListener = undefined;
+    }
   }
 
   // Lee la preferencia guardada para md desde sessionStorage. Si no existe

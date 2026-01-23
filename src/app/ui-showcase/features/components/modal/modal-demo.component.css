@@ -1,2 +1,4 @@
-/* Estilos mínimos para el demo de modal */
-:host { display: block; }
+/* Archivo vacío: estilos del demo migrados a utilidades Tailwind en plantilla */
+:host {
+  display: block;
+}

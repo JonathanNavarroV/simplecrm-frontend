@@ -3,7 +3,6 @@
   *ngIf="currentMode === 'overlay' && collapsedModeForCurrentBreakpoint === 'slim'"
   class="w-16 h-full flex-shrink-0"
 ></div>
-
 <aside
   *ngIf="currentMode !== 'hidden'"
   [class.w-16]="currentMode === 'slim'"
@@ -32,7 +31,7 @@
     </div>
 
     <nav class="flex-1 overflow-y-auto py-4">
-      <ul class="px-3 space-y-1">
+      <ul class="px-3">
         <li *ngFor="let module of sidebarItems; let si = index">
           <div *ngIf="si > 0 && currentMode === 'slim'" class="h-px bg-gray-200 my-2 w-full"></div>
 
@@ -44,19 +43,55 @@
           </div>
 
           <ul class="pl-0">
-            <li *ngFor="let item of module.items; let i = index">
+            <li
+              *ngFor="let item of module.items; let i = index"
+              [class.relative]="currentMode === 'slim'"
+              class="mb-1"
+            >
               <ng-container *ngIf="$any(item).items && $any(item).items.length; else singleLink">
                 <div *ngIf="currentMode === 'slim'; else expandedGroup">
                   <app-tooltip [text]="item.label" position="right">
                     <button
                       type="button"
-                      class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 justify-center cursor-pointer"
-                      (click)="toggleSection(item.id)"
+                      class="flex w-12 items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-2 py-2 justify-between cursor-pointer"
+                      (click)="onSlimGroupClick(item.id, $event)"
                       [attr.aria-expanded]="isSectionOpen(item.id)"
                     >
-                      <app-icon [name]="item.icon" [iconClass]="'size-6'"></app-icon>
+                      <app-icon [name]="item.icon" [iconClass]="'size-5'"></app-icon>
+                      <app-icon
+                        name="chevron-right"
+                        [iconClass]="'size-4'"
+                        class="text-gray-500"
+                      ></app-icon>
                     </button>
                   </app-tooltip>
+
+                  <!-- Panel flotante a la derecha para subitems cuando el sidebar está en modo slim -->
+                  <div
+                    *ngIf="false && isSectionOpen(item.id)"
+                    class="absolute left-full top-0 ml-2 z-60 w-56 bg-white border border-gray-200 rounded-md shadow-lg py-1"
+                  >
+                    <div
+                      class="px-3 py-1 text-xs font-semibold text-gray-500 uppercase"
+                      *ngIf="item.label"
+                    >
+                      {{ item.label }}
+                    </div>
+                    <ul class="max-h-[60vh] overflow-y-auto overflow-x-hidden py-1">
+                      <li *ngFor="let sub of $any(item).items" class="px-2">
+                        <a
+                          [routerLink]="sub.route"
+                          routerLinkActive="bg-gray-200 text-gray-900"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 cursor-pointer"
+                          (click)="onNavItemClick()"
+                        >
+                          <app-icon [name]="sub.icon" [iconClass]="'size-5'"></app-icon>
+                          <span class="ml-3">{{ sub.label }}</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
 
                 <ng-template #expandedGroup>
@@ -66,7 +101,7 @@
                       class="w-full flex items-center justify-between rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 cursor-pointer"
                       (click)="toggleSection(item.id)"
                     >
-                      <div class="flex items-center gap-3">
+                      <div class="flex items-center gap-3 text-sm">
                         <app-icon [name]="item.icon" [iconClass]="'size-6'"></app-icon>
                         <span>{{ item.label }}</span>
                       </div>
@@ -82,11 +117,11 @@
                           [routerLink]="sub.route"
                           routerLinkActive="bg-gray-200 text-gray-900"
                           [routerLinkActiveOptions]="{ exact: true }"
-                          class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 cursor-pointer"
+                          class="flex items-center gap-2 rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 text-sm cursor-pointer"
                           (click)="onNavItemClick()"
                         >
                           <app-icon [name]="sub.icon" [iconClass]="'size-5'"></app-icon>
-                          <span class="ml-3">{{ sub.label }}</span>
+                          <span class="ml-2">{{ sub.label }}</span>
                         </a>
                       </li>
                     </ul>
@@ -105,7 +140,7 @@
                       [routerLink]="item.route"
                       routerLinkActive="bg-gray-200 text-gray-900"
                       [routerLinkActiveOptions]="{ exact: true }"
-                      class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 justify-center cursor-pointer"
+                      class="flex h-10 w-10 items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 justify-center cursor-pointer"
                       (click)="onNavItemClick()"
                     >
                       <app-icon [name]="item.icon" [iconClass]="'size-6'"></app-icon>
@@ -119,11 +154,11 @@
                     [routerLink]="item.route"
                     routerLinkActive="bg-gray-200 text-gray-900"
                     [routerLinkActiveOptions]="{ exact: true }"
-                    class="flex items-center rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 cursor-pointer"
+                    class="flex items-center gap-2 rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 text-sm cursor-pointer"
                     (click)="onNavItemClick()"
                   >
                     <app-icon [name]="item.icon" [iconClass]="'size-6'"></app-icon>
-                    <span class="ml-3">{{ item.label }}</span>
+                    <span class="ml-2">{{ item.label }}</span>
                   </a>
                 </ng-template>
               </ng-template>
@@ -172,6 +207,32 @@
     </div>
   </div>
 </aside>
+
+<!-- Panel flotante fijo para grupos en modo slim -->
+<div
+  *ngIf="currentMode === 'slim' && floatingPanelOpen"
+  class="fixed z-60 w-56 bg-white border border-gray-200 rounded-md shadow-lg"
+  [style.top.px]="floatingPanelTop"
+  [style.left.px]="floatingPanelLeft"
+>
+  <div class="px-3 py-1 text-xs font-semibold text-gray-500 uppercase" *ngIf="floatingPanelLabel">
+    {{ floatingPanelLabel }}
+  </div>
+  <ul class="max-h-[60vh] overflow-y-auto overflow-x-hidden py-1 space-y-1 px-2">
+    <li *ngFor="let sub of floatingPanelItems">
+      <a
+        [routerLink]="sub.route"
+        routerLinkActive="bg-gray-200 text-gray-900"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center gap-2 w-full rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 px-2 py-1 text-sm cursor-pointer"
+        (click)="onNavItemClick(); closeFloatingPanel()"
+      >
+        <app-icon [name]="sub.icon" [iconClass]="'size-5'"></app-icon>
+        <span class="ml-2">{{ sub.label }}</span>
+      </a>
+    </li>
+  </ul>
+</div>
 
 <div
   *ngIf="currentMode === 'overlay'"
